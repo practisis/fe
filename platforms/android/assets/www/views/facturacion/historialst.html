@@ -1,0 +1,631 @@
+﻿<script>
+	function obtenerFechaHoy(){
+	var today = new Date();
+		var m = today.getMonth()+1;		// 0-11
+		if(m.toString().length<2)
+			m="0"+m.toString();
+		var y = today.getFullYear();
+		var d = today.getDate();
+		if(d.toString().length<2)
+			d="0"+d.toString();
+		var h = today.getHours();
+		if(h.toString().length<2)
+			h="0"+h.toString();
+		var min = today.getMinutes();
+		if(min.toString().length<2)
+			min="0"+min.toString();
+		var s = today.getSeconds();
+		if(s.toString().length<2)
+			s="0"+s.toString();
+		return y+"-"+m+"-"+d+" "+h+":"+min+":"+s;
+	}
+
+	function saberFecha(fecha){
+	var today = new Date(fecha);
+		var m = today.getMonth()+1; // 0-11
+		if(m.toString().length<2)
+			m="0"+m.toString();
+		var y = today.getFullYear();
+		var d = today.getDate();
+		if(d.toString().length<2)
+			d="0"+d.toString();
+		return y+"-"+m+"-"+d;
+	}
+
+	function convertirTime(strFecha){
+		var myDate=strFecha; // 2015-11-11 var myDate="26-02-2012";
+		myDate=myDate.split("-");
+		var newDate=myDate[0]+"/"+myDate[1]+"/"+myDate[2]+" "+myDate[3]; // var newDate=myDate[1]+"/"+myDate[0]+"/"+myDate[2];
+		console.log(newDate);
+		return (new Date(newDate).getTime());
+	}
+
+	$("#imprimirDetalle").click(function(){
+		//alert("imprimir cierre");
+		var fechaFiltro=parseInt(convertirTime($("#fechadesde").val()+"-00:00:00"));//1447263393685;//"2015-11-11"; ////$("#select").val();
+		var fechaFiltroh=parseInt(convertirTime($("#fechadesde").val()+"-23:59:59"));//1447263393685;//"2015-11-11"; ////$("#select").val();
+
+		fechaRealFiltro=saberFecha(fechaFiltro);
+		fechaNow=obtenerFechaHoy();
+		numeroFactura="75"; //$("#select").val();
+		facturasAnuladas=0;
+		var sumaTotales=0;
+		var sumaSubtotales=0;
+		var sumaIvas=0;
+		var sumaDescuentos=0;
+		var sumaServicios=0;
+		var sumaAnuladas=0;
+		var impuestosdata="";
+		var today = new Date().getTime();
+		var arrayimpuestos=new Object();
+
+		jsonFormaPago=$.parseJSON($("#jsonformaspago").text());
+		console.log('misfiltros:'+fechaFiltro+'/'+fechaFiltroh);
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			db.transaction(function(tx){
+				tx.executeSql('SELECT * FROM FACTURAS WHERE anulada!=1 and fecha>=? and fecha<=?',[fechaFiltro,fechaFiltroh],function(tx,results){
+				strDetalle='';
+				intToday=parseInt(today);
+				
+				var contPasa=0;
+					for (var i=0; i <= results.rows.length-1; i++){
+						var rowa = results.rows.item(i);
+						var fechaFactura = parseInt(rowa.fecha);
+
+						//if(fechaFactura>=fechaFiltro && fechaFactura<=intToday){
+						contPasa++;
+
+						
+						var formaPago = rowa.paymentsUsed.split(',');
+						
+						for(j=0;j<=(jsonFormaPago.FormaPago.length-1);j++){
+							idForma=jsonFormaPago.FormaPago[j].id;
+							nombreForma=jsonFormaPago.FormaPago[j].nombre;
+							var cash=0;
+							if(formaPago.indexOf(idForma)>=0){
+								if(idForma==1){
+									cash=parseFloat(rowa.cash)-parseFloat(rowa.echo);
+								}
+								if(idForma==2){
+									var cadena=rowa.cards.split('@');
+									for(var k in cadena){
+										if(cadena[k]!=''){
+											var datocard=cadena[k].split('|');
+											cash+=parseFloat(datocard[2]);
+										}
+									}
+								}
+								if(idForma==3){
+									var cadena=rowa.cheques.split('@');
+									for(var k in cadena){
+										if(cadena[k]!=''){
+											var datocard=cadena[k].split('|');
+											cash+=parseFloat(datocard[2]);
+										}
+									}
+								}
+								
+								if(idForma==4){
+									cash=parseFloat(rowa.vauleCxC);
+								}
+							}
+							strDetalle+=idForma+'@'+nombreForma+'@'+cash+"|";
+						}
+						
+						
+					
+						/*var Json = rowa.fetchJson;
+						obj=$.parseJSON(Json);*/
+						
+						//2|Iva|0.12|1.104
+						
+						currentTotal=parseFloat(rowa.total);
+						sumaTotales=sumaTotales+currentTotal;
+						currentSubtotal=parseFloat(rowa.subconiva)+parseFloat(rowa.subsiniva);
+						sumaSubtotales=sumaSubtotales+currentSubtotal;
+										/*expImp=(obj.Pagar[0].factura.impuestos).split("/");
+										iva=parseFloat(expImp[1]);*/
+											//sumaIvas = sumaIvas + iva;
+						sumaIvas = sumaIvas + parseFloat(rowa.iva);
+						sumaDescuentos = sumaDescuentos + parseFloat(rowa.descuento);
+						sumaServicios = sumaServicios + parseFloat(rowa.servicio);
+						
+						console.log(rowa.dataimpuestos);
+						
+						var linea=rowa.dataimpuestos;
+						var todosimp=linea.split("@");
+						for(var s=0;s<todosimp.length;s++){
+							var lineaimp=todosimp[s].split('|');
+							var id=lineaimp[0];
+							var nombre=lineaimp[1];
+							var monto=parseFloat(lineaimp[3]);
+							if(nombre in arrayimpuestos){
+								var antes=parseFloat(arrayimpuestos[nombre]);
+								var datosp=antes+monto;
+								arrayimpuestos[nombre]=datosp;
+							}else{
+								arrayimpuestos[nombre]=monto;
+								//arrayimpuestos[id]=["nombre":nombre,"monto":monto];
+							}
+						}
+						console.log(arrayimpuestos);
+						/*}*/
+					}
+					
+					var cadimp="[{";
+					var c=0;
+					for(var k in arrayimpuestos){
+						if(c>0)
+							cadimp+=",";
+						cadimp+='"'+k+'":"'+parseFloat(arrayimpuestos[k]).toFixed(2)+'"';
+						c++;
+					}
+					cadimp+="}]";
+					
+					//console.log("Ana"+cadimp);
+					
+					//console.log(arrayimpuestos.toString());
+					
+					tx.executeSql('SELECT count(*) as c FROM FACTURAS WHERE anulada=1 and fecha>=? and fecha<=?',[fechaFiltro,fechaFiltroh],function(tx,results2){
+						if(results2.rows.length>0){
+							var item=results2.rows.item(0);
+							if(item.c!=null){
+								sumaAnuladas=item.c;
+							
+							if(contPasa){
+								strDetalle=strDetalle.substring(0,strDetalle.length-1);
+								nFacturas=results.rows.length;
+								var respuesta = imprimirDetalle(fechaNow,fechaRealFiltro,nFacturas,sumaSubtotales.toFixed(2),sumaTotales.toFixed(2),sumaIvas.toFixed(2),sumaServicios.toFixed(2),sumaDescuentos.toFixed(2),strDetalle,sumaAnuladas,cadimp);
+								var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+								db.transaction(function(tx){
+										tx.executeSql("SELECT printer FROM CONFIG where id=1",[],function(tx,results){
+										//console.log(results);
+										if(results.rows.length>0){
+											//alert(results.rows.item(0).printer);
+											var idprinter=results.rows.item(0);
+											if(idprinter.printer!=''){
+												var now=new Date().getTime();
+												tx.executeSql("INSERT INTO logactions (time,descripcion,datos) values (?,?,?)",[now,"Envia imprimir Cierre",respuesta]);
+												StarIOAdapter.rawprint(respuesta,idprinter.printer, function() {
+													showalert("Imprimiendo Cierre de Caja");
+													var now=new Date().getTime();
+													tx.executeSql("INSERT INTO logactions (time,descripcion,datos) values (?,?,?)",[now,"Se imprimió el Cierre",""]);
+												});
+											}else{
+												showalert("No se ha configurado una impresora.");
+											}
+										}
+									});
+								},errorCB,successCB);
+								/*window.open('centvia://?udn=Impresion&utt=NubePOS&cru=NubePOS+V2&c_='+respuesta,'_system','location=yes');*/
+							}else{
+								alert("No existen facturas en este rango de fechas");
+							}
+
+						}
+						}
+					});
+				});
+			},errorCB,successCB);
+	});
+
+function SinTildes(word){
+  word=word.replace("á","a");
+  word=word.replace("Á","A");
+  word=word.replace("é","e");
+  word=word.replace("É","E");
+  word=word.replace("í","i");
+  word=word.replace("Í","I");
+  word=word.replace("ó","o");
+  word=word.replace("Ó","O");
+  word=word.replace("ú","u");
+  word=word.replace("Ú","U");
+  word=word.replace("ñ","n");
+  word=word.replace("Ñ","N");
+  return word;
+}
+
+function imprimirDetalle(fechaNow,fechaRealFiltro,nFacturas,subtotales,totales,ivas,servicios,descuentos,strDetalle,anuladas,jsonimpuestos){
+		console.log(fechaNow);
+		console.log(fechaRealFiltro);
+		console.log(subtotales);
+		console.log(totales);
+		console.log(ivas+'/'+servicios+'/'+descuentos);
+		console.log(strDetalle);
+		jsonFormaPago=$.parseJSON($("#jsonformaspago").text());
+		strImprimir = '"formaspago":[{';
+		var cont=0;
+		var BR='%0d%0a';
+									for(k=0;k<=(jsonFormaPago.FormaPago.length-1);k++){
+										idForma=jsonFormaPago.FormaPago[k].id;
+										nombreForma=jsonFormaPago.FormaPago[k].nombre;
+										exp=strDetalle.split("|");
+										sumaCurrent=0;
+										for(h=0;h<=(exp.length-1); h++){
+											cash=0;
+											exp2=exp[h].split("@");
+											cash=parseFloat(exp2[2]);
+											idCurrent=exp2[0];
+
+											if(idCurrent==idForma){
+												sumaCurrent=sumaCurrent+cash;
+											}
+										}
+										cont=cont+40;
+										espacio=340+cont;
+										//strImprimir+="TEXT+7+0+20+"+espacio+"+"+nombreForma+"+$"+parseFloat(sumaCurrent).toFixed(2)+"+"+BR;
+										if(idForma==1)
+											sumaCurrent=sumaCurrent;
+										
+										strImprimir+='"'+nombreForma+'":"'+parseFloat(sumaCurrent).toFixed(2)+'"';
+										if(k<jsonFormaPago.FormaPago.length-1)
+											strImprimir+=",";
+									}
+						strImprimir+="}]";
+						console.log(strImprimir);
+
+numeroFactura=0;
+nombreCliente="josue";
+rucCliente='TEXTO DUMMY JOSUE';
+pagoForm=0;
+subnoiva='0';
+subiva=0;
+iva=0;
+descuen=0;
+total=0;
+valor="0 @0 ";
+
+ var serv = '0.00';
+
+  var nombrelocal = 'DETALLE DE CAJA';
+  var baseu='';
+  var extend=espacio;//430;
+  var f = new Date();
+  var midate= f.getFullYear() + "-" + (f.getMonth() +1) + "-" + f.getDate();
+  var hora=f.getHours();
+  var min=f.getMinutes();
+  var seg=f.getSeconds();
+  finali=extend+100;
+  dosIvas=parseFloat(ivas).toFixed(2);
+  dosServicios=parseFloat(servicios).toFixed(2);
+  dosDescuentos=parseFloat(descuentos).toFixed(2);
+  dosTotal=(parseFloat(totales)).toFixed(2);
+  /*txt_titleHead="TEXT+4+0+20+10+DETALLE+DE+CAJA" + BR;
+  txt_linea1="TEXT+7+0+20+60+Fecha+caja+"+fechaRealFiltro + BR;
+  txt_linea2="TEXT+7+0+20+100+Fecha+de+impresion+"+fechaNow+BR;
+  txt_linea3="TEXT+7+0+20+140+Numero+de+facturas+"+nFacturas+BR;
+  txt_linea4="TEXT+7+0+20+200+Facturas+anuladas+0"+BR;
+  txt_linea5="TEXT+7+0+20+240+SUBTOTAL+$"+subtotales+BR;
+  txt_linea6="TEXT+7+0+20+280+IVA+$"+dosIvas+BR;
+  txt_linea7="TEXT+7+0+20+320+TOTAL+$"+dosTotal+BR;
+  txt_linea8="TEXT+7+0+20+"+finali+"+"+BR;*/
+  var subdesc=(subtotales-dosDescuentos).toFixed(2);
+  txt_linea='{"Cierre": [{"fecha_caja":"'+fechaRealFiltro+'","fecha_imp":"'+fechaNow+'","num_facts":"'+nFacturas+'","fact_anuladas":"'+anuladas+'","subtotal":"'+subtotales+'","iva":"'+dosIvas+'","servicio":"'+dosServicios+'","descuento":"'+dosDescuentos+'","subdesc":"'+subdesc+'","total":"'+dosTotal+'",'+strImprimir+',"impuestos":'+jsonimpuestos+',"lang":"'+localStorage.getItem("idioma")+'"}]}';
+  //extend=extend+100;
+  //baseu+="TEXT+4+0+20+10+"+SinTildes(nombrelocal).replace(" ","+")+"%0d%0aTEXT+7+0+20+60+"+SinTildes(nombreCliente).replace(" ","+")+"-RUC."+rucCliente+"%0d%0aTEXT+7+0+20+110+"+midate+"+"+hora+"%3a"+min+"%3a"+seg+"%0d%0a";
+  //baseu+="%0d%0aTEXT+7+0+20+60+"+SinTildes(nombreCliente).replace(" ","+")+"-RUC."+rucCliente+"%0d%0aTEXT+7+0+20+110+"+midate+"+"+hora+"%3a"+min+"%3a"+seg+"%0d%0a";
+	//baseu+=BR + txt_titleHead + txt_linea1 + txt_linea2 + txt_linea3 + txt_linea4 + txt_linea5 + txt_linea6 + txt_linea7 + strImprimir + txt_linea8 ;
+  //var ins="!+0+200+200+"+extend+"+1%0d%0a"+baseu+"%0d%0aPRINT%0d%0a";
+  //return ins;
+  console.log(txt_linea);
+  return txt_linea;
+}
+
+</script>
+
+<style>
+.fa-edit{
+	color:#23ae89;
+}
+.fa-edit:hover{
+	color:#404041;
+}
+</style>
+<div id="mainDiv" class='row'>
+		<div class='col-lg-12 col-sm-12 col-md-12'>
+		<div class='row sumarow' style='margin-bottom:10px;'>
+			<div class='col-lg-12 col-md-12 col-sm-12'  style='background-color:white;'><h3>Historial de Facturas</h3></div>
+		</div>
+		<div class='row sumarow' style='padding-top:10px; padding-bottom:10px; background-color:white;'>
+			<div class='col-lg-6 col-sm-6 col-md-6' style='padding-left:20px;'>
+				<table align='left' border="0" cellpadding="4px" cellspacing="10px">
+						<tr>
+							<td style='vertical-align:middle;'>
+								<input placeholder='Desde' type="text" class='form-control' id="fechadesde" name="fechadesde" style='margin:5px;' readonly />
+							</td>
+							<td  style='vertical-align:middle;'>
+                                <button type='button' class="btn btn-primary" onclick="page=0; getSearch(); return false;">Filtrar</button>
+							</td>
+
+						</tr>
+				</table>
+			</div>
+			<div class='col-lg-6 col-sm-6 col-md-6'>
+				<table align='right' style="text-align:center; margin-left: 0px; margin-right: auto;" border="0" cellpadding="4px" cellspacing="10px">
+						<tr>
+							<td  style='vertical-align:middle;'>
+								  <button class="btn btn-success" style="margin-right:15px;" id="imprimirDetalle" type="button" >Imprimir Cierre de Caja</button>
+							</td>
+
+							<td  style='vertical-align:middle; padding-right:20px;display: none;'>
+                                <b>TOTAL$</b><br/><span id="totalencabezado"></span>
+							</td>
+						</tr>
+					</table>
+			</div>
+		</div>
+		<div class='row sumarow'>
+			<div class='col-lg-12' style="text-align:left; padding-top:5px;">
+				<label class='label label-default'>Resultados: <span id='cuantos'></span> facturas.</label>
+			</div>
+		</div>
+		<div class='row'>
+		<div class='col-lg-12 col-md-12 col-sm-12' style='margin-top:10px;'>
+		<table align='center' class='table table-hover table-striped' style='margin-bottom:0px;'><tr><th style='width:20%;'>Fecha</th><th  style='width:20%;'>Cliente</th><th  style='width:20%;'>RUC</th><th  style='width:20%;'># Factura</th><th  style='width:5%;'>Anulada</th><th style='text-align:right; width:10%;display:none;'>Total US</th><th style='text-align:right; width:5%;'></th></tr></table>
+		<div id="detailDiv" class='table-responsive'></div>
+		</div>
+		</div>
+		<div class='row'>
+			<div class='col-lg-12 col-md-12'>
+				<ul class="pagination pagination-lg">
+				 </ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+var page=1;
+
+$(document).ready(function(){
+
+//idioma
+		var linklang="es";
+		if(localStorage.getItem("idioma")==2)
+			linklang="en";
+			var xmlidioma=$.get("lang/"+linklang+".html",function(datos){
+			d=JSON.parse(datos);
+			var itemestructura=d.estructura;
+			//console.log(itemestructura);
+			var itemmen=itemestructura.menu;
+			var itemplaceholder=itemestructura.placeholder;
+			var itemtitles=itemestructura.titles;
+			var itembuttons=itemestructura.botones;
+			var itemlabels=itemestructura.labels;
+			var todostitles=itemtitles.item;
+			var todosbuttons=itembuttons.item;
+			var todoslabels=itemlabels.item;
+			var todositems=itemmen.item;
+			var todosplaceholder=itemplaceholder.item;
+
+			for(var k=0;k<todosplaceholder.length;k++){
+				var miitemname=todosplaceholder[k].name;
+				//alert(miitemname);
+				$('.'+miitemname).attr("placeholder",todosplaceholder[k].text);
+			}
+
+			for(var k=0;k<todositems.length;k++){
+					var miitem=todositems[k];
+					$('#lab_menu_'+(k+1)).html(miitem);
+			}
+
+				for(var k=0;k<todostitles.length;k++){
+					var miitemname=todostitles[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todostitles[k].text);
+				}
+
+				for(var k=0;k<todosbuttons.length;k++){
+					var miitemname=todosbuttons[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todosbuttons[k].text);
+				}
+
+				for(var k=0;k<todoslabels.length;k++){
+					//console.log(todoslabels[k].name+"/"+todoslabels[k].name);
+					var miitemname=todoslabels[k].name;
+					$('#'+miitemname).html(todoslabels[k].text);
+				}
+
+		});
+
+//idioma
+
+
+var filas=0;
+$('.sumarow').each(function(){
+	filas+=$(this).outerHeight();
+});
+
+//alert(filas);
+
+//$('#contentdetail').css("height",parseInt($(window).height()-$('.navbar').outerHeight()-filas-40));
+$('#detailDiv').css("height",parseInt($(window).height())*30/100);
+$('#fechahasta,#fechadesde').datepicker({"dateFormat":"yy-mm-dd"});
+
+var fechahoyaux=new Date();
+fechahoyaux=parseInt(fechahoyaux.getTime());
+fechahoyaux=new Date(fechahoyaux);
+var meshoy=parseInt(fechahoyaux.getMonth())+1;
+    if(meshoy.toString().length<2)
+    	meshoy="0"+meshoy.toString();
+var fechahoyformataux=fechahoyaux.getFullYear()+"-"+meshoy+"-"+fechahoyaux.getDate();
+
+//console.log(fechahoy.getTime());
+//var fechamenos=parseInt(fechahoy.getTime())-(7*86400000);
+//console.log(fechamenos);
+/*var fechaanterior=new Date(fechamenos);
+var mesant=parseInt(fechaanterior.getMonth())+1;
+if(mesant.toString().length<2)
+	mesant="0"+mesant.toString();
+var fechaantformat=fechaanterior.getFullYear()+"-"+mesant+"-"+fechaanterior.getDate();*/
+
+//$('#fechadesde').val(fechaantformat);
+$('#fechadesde').val(fechahoyformataux);
+//$('#fechahasta').val(fechahoyformat);
+
+//si no tiene permisos
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+	if(localStorage.getItem("permisos")=="true"){
+		tx.executeSql("SELECT id from permisos where clave like ? and impcierre=?",[localStorage.getItem("claveuser"),"true"],function(tx,results2){
+			if(results2.rows.length>0){
+				if(results2.rows.item(0).id!=null){
+					$('#imprimirDetalle').fadeIn();
+				}else{
+					$('#imprimirDetalle').fadeOut();
+				}
+			}else{
+					$('#imprimirDetalle').fadeOut();
+			}
+		});
+	}else{
+		$('#imprimirDetalle').fadeIn();
+	}
+	});
+//permisos
+
+getSearch();
+});
+
+function getSearch(){
+	//console.log($('#fechadesde').val());
+	var filtrodesde=convertirTime($('#fechadesde').val()+"-00:00:00");
+	var filtrohasta=convertirTime($('#fechadesde').val()+"-23:59:59");
+	var queryextra=' id is not NULL';
+	if(filtrodesde!='')
+		queryextra+=' and fecha >='+filtrodesde+' and fecha <='+filtrohasta+' ';
+
+    if(localStorage.getItem("con_localhost") == 'true'){
+     var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
+     $.post(apiURL,{
+		id_emp : localStorage.getItem("empresa"),
+		action : 'VerHistorial',
+		id_barra : localStorage.getItem("idbarra"),
+		deviceid:$("#deviceid").html(),
+        fecha : $('#fechadesde').val()
+		}).done(function(response){
+			if(response!='block' && response!='Desactivado'){
+				console.log(response);
+                var res = response.split("||");
+				LlenarTablaFacturas(res[0]);
+                $('#totalencabezado').html(res[1]);
+			}else if(response=='Desactivado'){
+			    envia('cloud');
+				setTimeout(function(){
+					$('.navbar').slideUp();
+					$("#demoGratis,#fadeRow,#finalizado,#contentStepSincro,#cuentaactiva").css("display","none");
+					$('#desactivo').fadeIn();
+				},100);
+			}else{
+				envia('cloud');
+				setTimeout(function(){
+					$('#linklogin,#linkloginb').attr("href","https://www.practisis.net/index3.php?rvpas="+localStorage.getItem("userPasswod")+"&rvus="+localStorage.getItem("userRegister"));
+					$('.navbar').slideUp();
+					$("#demoGratis,#fadeRow,#finalizado,#contentStepSincro,#cuentaactiva").css("display","none");
+					$('#bloqueo').fadeIn();
+				},100);
+
+			}
+
+		}).fail(function(){
+			updateOnlineStatus("OFFLINE");
+			setTimeout(function(){SincronizadorNormal()},180000);
+		});
+    }else{
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+
+	tx.executeSql('SELECT count(*) as c FROM FACTURAS WHERE '+queryextra,[],function(tx,result){
+		$('.pagination').html('');
+			var npags=Math.ceil(parseInt(result.rows.item(0).c)/30);
+			$('#totalpags').val(npags);
+			$('.pagination').append("<li onclick='CambiarPagina(-1);'><span class='enabled' id='atras'>&laquo;</span></li>");
+			for(var t=1;t<=npags;t++){
+				var act='';
+				if(page==t)
+					act='active';
+				$('.pagination').append("<li class='"+act+"' onclick='CambiarPagina("+parseInt(t)+");'><span class='enabled'>"+parseInt(t)+"</span></li>");
+			}
+			$('.pagination').append("<li onclick='CambiarPagina(-2);'><span class='enabled' id='adelante'>&raquo;</span></li>");
+	});
+
+	var miquery='SELECT * FROM FACTURAS WHERE '+queryextra+' ORDER BY fecha desc limit 30 offset '+((page-1)*30);
+	tx.executeSql(miquery,[],function(tx,results){
+		var inhtml='';
+		var totalfinal=0;
+		$('#cuantos').html(results.rows.length);
+		for (var i=0; i < results.rows.length; i++){
+			var row = results.rows.item(i);
+			//console.log(row.fecha);
+			var timefecha=new Date(row.fecha);
+			var mes=timefecha.getMonth()+1;
+			if(mes.toString().length<2)
+				mes="0"+mes.toString();
+			var fechaformat=("00" + timefecha.getDate()).slice(-2)+"/"+mes+"/"+timefecha.getFullYear()+" "+("00" + timefecha.getHours()).slice(-2)+":"+("00" + timefecha.getMinutes()).slice(-2)+":"+("00" + timefecha.getSeconds()).slice(-2);
+			//console.log(row);
+			var mifunc="EditarFactura("+row.id+");";
+			/*var datosfact=JSON.parse(row.fetchJson);*/
+			var totalf=(parseFloat(row.total)).toFixed(2);
+			var anulada='No';
+			if(row.anulada==1){
+				anulada='Si';
+				totalf='0.00';
+            }else{
+                totalfinal += parseFloat(totalf);
+            }
+			inhtml+='<tr><td  style="width:20%; text-align:left;">'+fechaformat+'</td><td style="width:20%;  text-align:left;">'+row.clientName+'</td><td style="width:20%;  text-align:left;">'+row.RUC+'</td><td style="width:20%;  text-align:left;">'+row.nofact+'</td><td style="width:5%;">'+anulada+'</td><td style="text-align:right; width:10%;">'+totalf+'</td><td style="width:5%;"><button class="btn btn-default btn-sm" onclick="'+mifunc+'"><span class="glyphicon glyphicon-pencil"></span></button></td></tr>';
+		}
+		LlenarTablaFacturas(inhtml);
+		$('#totalencabezado').html(totalfinal.toFixed(2));
+	});
+
+	},errorCB,successCB);
+
+    }
+}
+
+function LlenarTablaFacturas(datos){
+	$('#detailDiv').html("<table align='center' class='table table-hover table-striped'>"+datos+"</table>");
+}
+function LlenarTablaFacturasp(datosp){
+	$('#detailDiva').html("<div style='background-color: #FFFFFF;'><table align='right' class='table' style='width: 25%;'><tr><th colspan='2' style='text-align:center;'>Formas de Pago</th><th style='text-align:right;width: 50px;'></th></tr>"+datosp+"</table><div>");
+}
+function LlenarTablaFacturasau(datosau){
+
+  console.log(datosau+'**');
+	$('#tablaformapago').append(datosau);
+}
+
+function CambiarPagina(arg){
+	//console.log($('#totalpags').val());
+	if(arg==-1){
+		if((page-1)>=1){
+			page--;
+			getSearch();
+		}
+	}else if(arg==-2){
+		//console.log($('#totalpags').val());
+		if((page)<parseInt($('#totalpags').val())){
+			page++;
+			getSearch();
+		}
+	}else{
+		page=arg;
+		getSearch();
+	}
+
+}
+
+$(document).keyup(function(event){
+	if(event.keyCode === 13){
+		getSearch();
+	}
+});
+
+function EditarFactura(idfactura){
+	$('#main').load("views/facturacion/editarfactura.html",function(){
+		VerDatosFactura(idfactura);
+	});
+}
+</script>

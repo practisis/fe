@@ -1,0 +1,868 @@
+<script src="js/sync.js" ></script>
+<div style='background-color:white;'>
+	<div class="row">
+		<div class="col-xs-12">
+			<div id="yaConectado" style="display:none;width:60%;padding:0px;margin:0px;margin-top:80px;">
+				<div class="modal-header" style="background-image: url(http://www.practipos.com/img/parallax-bg.jpg);padding-top: 35px;
+					padding-bottom: 35px;
+					color: #fff;
+					border-radius: 4px 4px 0 0;
+					background-position: center top;font-size: 40px;    padding: 15px;
+					border-bottom: 1px solid #e5e5e5;
+					min-height: 16.42857143px;">
+			  		NubePOS Conectado <br/> <label class="putEmp"></label>
+			  		<small><br/>Sincronizando...</small>
+			  		<center><button onclick='IraNube(this);' link="" class="btn btn-md btn-primary btn-center" type="button"  value="Abrir punto de venta en la nube"></button></center>
+				</div>
+			</div>
+		</div>
+	</div>
+   <!-- <div class="alert alert-danger" role="alert" style="display: none;"></div>-->
+	  <div class='row'  id="bloqueo" style="display: none;">
+			<div class="col-lg-12">
+				<h1>Licencia Caducada!</h1>
+				<div class='alert alert-danger trans_block' style='margin-top:30px;'>Su cuenta PractiPOS se encuentra bloqueada, ya que se ha terminado la validez de la licencia.</div>
+				<center style='margin-top:20px; margin-bottom:20px;'><button link="" onclick='IraNube(this);'  id="linkloginb" class="btn btn-primary" type="button">Abrir PractiPOS en la nube</button></center>
+			</div>
+	  </div>
+
+      <div class='row'  id="desactivo" style="display: none;">
+			<div class="col-lg-12">
+				<h1>Terminal Desactivado!</h1>
+				<div class='alert alert-danger trans_inactive' style='margin-top:30px;'>Su terminal esta desactivado de PractiPOS.</div>
+			</div>
+	  </div>
+	  
+	  <div class="row" style="display:none; padding:20px;" id="fadeRow" >
+		<div class='col-md-2'></div>
+		<div class="col-md-8">
+		<div class="text-center" id="contentLogin" style="min-height: 263px;">
+			<div class="modal-body" style="min-height: 266px;">
+			 <div id="divdatoslogin" style="overflow:auto;">
+             <h1 style='vertical-align:bottom; font-size:45px;'><img style='margin-top:-40px;' src='img/logoava.png' width='150px;'/></h1>
+			  <h3 style="-webkit-margin-before: 1em; -webkit-margin-after: 1em; 	-webkit-margin-start: 0px;
+		-webkit-margin-end: 0px;" id="trans_label_40">Ingresa a tu sistema y <span style="color:#0893d2;">Empecemos!</span></h3>
+			  <form method="post" class="contact-form form-validate4" id="myloginform" novalidate="novalidate">
+				<div class="form-group">
+				  <input class="form-control input-lg trans_user" type="text" id="user2" name="usuario" placeholder="Usuario" required="" value="" tabindex='1' autocomplete="off" aria-required="true">
+				</div>
+				<div class="form-group">
+				  <input type="password" id="pass2" name="mipass" value="" class="form-control input-lg trans_pass" placeholder="Password" required="" tabindex='2' autocomplete="off" aria-required="true">
+				</div>
+                <div class="form-group">
+					<a id='trans_label_83' data-toggle="modal" onclick="quitarSignIn();" href="">¿No tienes una cuenta en AvaPOS? Créala aquí.</a><br/>
+			    </div>
+			   <button class="btn btn-lg btn-success" tabindex='3'  id="btnvalida2" type="button" onclick="UserLogin();">Login</button>
+			  </form>
+			  </div>
+			  
+			  <div id="varias">
+			  </div>
+			</div>
+		  </div>
+		</div>
+		<div class='col-md-2'></div>
+		
+		
+		<div id="mensaje2"></div>
+		<input id="user" type="hidden" />
+		<input id="pass" type="hidden" />
+	
+		<br><br><br><br><br><br><br><br><br>
+	  </div>
+	    <div class='row' id='cuentaactiva' style='display:none; margin:20px;'>
+		<div id='planes_es' style='display:none;'>
+		<div style='margin-bottom:40px;'>
+			<h1>Guía de precios</h1>
+			<p>AvaPOS es gratis por el tiempo que quieras.  Pásate a un plan pagado cuando lo necesites.</p>
+		</div>
+
+	  <!--<div style='margin-top:10px; margin-bottom:10px;' id='trans_label_15' >Ingresa a tu cuenta PractiPOS en la nube</div>
+			<center><button onclick="VerificarPermiso('nube');" class="btn btn-md btn-primary btn-center trans_cloud" type="button" id="linklogin">Ir a la nube</button></center>
+			<div class='alert alert-success' style='margin-top:20px; margin-bottom:20px;'><span id='trans_label_16'>Su cuenta se encuentra activa por</span><b><span id='dias'>x</span></b> <label id='trans_label_17'>dias</label>.</div>-->
+		<div class='col-lg-4 col-md-4 col-xs-6'>
+		 <div class="jumbotron" id='jumbo0es'>
+				<h2>Gratis</h2>		
+				<p>Para pequeños negocios o evaluación ilimitada</p>
+				<h1>$0.00</h1>		
+				<center><button onclick="VerificarPermiso('nube');" class="btn btn-lg btn-default btn-center" type="button" id="linklogines">Activar</button></center>
+				<div style='text-align:left; margin-top:15px;'>
+				<ul>
+				<li>POS completo para 1 Dispositivo</li>
+				<li>Inteligencia Artificial con Ava</li>
+				<li>Facturas y Productos Ilimitados</li>
+				</ul>
+				</div>
+		 </div>
+		</div>
+		<div class='col-lg-4 col-md-4 col-xs-6'>
+		 <div class="jumbotron jumbo-red" id='jumbo29es'>
+				<h2>Profesional</h2>
+				<p>Pago mensual con beneficios adicionales</p>
+				<h1>$29.00</h1>
+				<center><button onclick="VerificarPermiso('nube');" class="btn btn-lg btn-default btn-center" type="button" id="linklogin29es">Activar</button></center>
+				<div style='text-align:left; margin-top:15px;'>
+				<ul>
+				<li>Todo lo del plan Gratis</li>
+				<li>Múltiples dispositivos por Local</li>
+				<li>Personalización de Impresiones (logo y cupón/mensaje)</li>
+				<li>Respaldo de Información en la nube garantizado</li>
+				<li>Manejo de Permisos y Accesos por Usuario</li>
+				</ul>
+				</div>
+
+		 </div>
+		</div>
+		<div class='col-lg-4 col-md-4 col-xs-6'>
+		 <div class="jumbotron" id='jumbo69es'>
+				<h2>Premium</h2> 
+				<p>Pago mensual, ideal para cadenas de locales</p>
+				<h1>$69.00</h1>		
+				<center><button onclick="VerificarPermiso('nube');" class="btn btn-lg btn-default btn-center" type="button" id="linklogin69es">Activar</button></center>
+				<div style='text-align:left; margin-top:15px; margin-bottom:15px;'>
+				<ul>
+				<li>Todo lo del plan Profesional</li>
+				<li>Manejo de Inventarios Avanzados</li>
+				<li>Manejo de Múltiples Locales por Cuenta</li>
+				<li>Módulo de Manejo de Franquicias: multiprecios, control de ventas y presupuestos</li>
+				</ul>
+				</div>
+		 </div>
+		</div>
+		</div>
+		<div id='planes_en' style='display:none;'>
+		<div style='margin-bottom:40px;'>
+			<h1>Pricing Guide</h1>
+			<p>AvaPOS is free to use for as long as you want.  Upgrade when you like.</p>
+		</div>
+
+	  <!--<div style='margin-top:10px; margin-bottom:10px;' id='trans_label_15' >Ingresa a tu cuenta PractiPOS en la nube</div>
+			<center><button onclick="VerificarPermiso('nube');" class="btn btn-md btn-primary btn-center trans_cloud" type="button" id="linklogin">Ir a la nube</button></center>
+			<div class='alert alert-success' style='margin-top:20px; margin-bottom:20px;'><span id='trans_label_16'>Su cuenta se encuentra activa por</span><b><span id='dias'>x</span></b> <label id='trans_label_17'>dias</label>.</div>-->
+		<div class='col-lg-4 col-md-4 col-xs-6'>
+		 <div class="jumbotron" id='jumbo0en'>
+				<h2>FREE</h2>		
+				<p>For small businesses or unlimited evaluation</p>
+				<h1>$0.00</h1>		
+				<center><button onclick="VerificarPermiso('nube');" class="btn btn-lg btn-default btn-center" type="button" id="linkloginen">Active</button></center>
+				<div style='text-align:left; margin-top:15px;'>
+				<ul>
+				<li>Complete POS for 1 device</li>
+				<li>Artificial Intelligence with Ava</li>
+				<li>Unlimited Products and Invoicing</li>
+				</ul>
+				</div>
+		 </div>
+		</div>
+		<div class='col-lg-4 col-md-4 col-xs-6'>
+		 <div class="jumbotron jumbo-red" id='jumbo29en'>
+				<h2>Professional</h2>
+				<p>Monthly Payments with additional benefits</p>
+				<h1>$29.00</h1>
+				<center><button onclick="VerificarPermiso('nube');" class="btn btn-lg btn-default btn-center" type="button" id="linklogin29en">Upgrade Now</button></center>
+				<div style='text-align:left; margin-top:15px;'>
+				<ul>
+				<li>Everything in Free</li>
+				<li>Unlimited Devices</li>
+				<li>Customized printing (logo and cupons/message)</li>
+				<li>Guaranteed Cloud backUp of all your data.</li>
+				<li>Control over Access and Role Permissions.</li>
+				</ul>
+				</div>
+
+		 </div>
+		</div>
+		<div class='col-lg-4 col-md-4 col-xs-6'>
+		 <div class="jumbotron" id='jumbo69en'>
+				<h2>Premium</h2> 
+				<p>Monthly Payment, idea for store chains</p>
+				<h1>$69.00</h1>		
+				<center><button onclick="VerificarPermiso('nube');" class="btn btn-lg btn-default btn-center" type="button" id="linklogin69en">Upgrade Now</button></center>
+				<div style='text-align:left; margin-top:15px; margin-bottom:15px;'>
+				<ul>
+				<li>Everything in Professional plan</li>
+				<li>Advanced inventory management</li>
+				<li>Manage multiple stores from one account: multipricing, sales control and forecasting</li>
+				</ul>
+				</div>
+		 </div>
+		</div>
+		</div>
+	  </div>
+	  <div class="row" id="contentStepSincro" style="display:none;" >
+		<div class="col-md-3" ></div>
+		<div class="col-md-6" >
+			<div class="bs-example" data-example-id="simple-nav-justified">
+				<br><br>
+				<center> <i><span id='trans_label_18'></span> <span id="txtSincro"></span></i></center>
+				<div class="progress" >
+					<div id="theProgress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0.5%"><span class="sr-only">25% Complete</span></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3" ></div>
+	  </div>
+	  <div class='row'>
+		<div class='col-lg-12' id='finalizado' style='margin-top:10px; margin-bottom:10px;'>
+		<!--<img style='max-width:60%;' src='images/doneSync.png' style='cursor:pointer;' />-->
+		<h2 id='trans_label_14'>Sincronizado con exito! </h2>
+		</div>
+	  </div>
+	  <div class='row'>
+		<div class='col-lg-12' style='font-size:14px; color:#404041; display:none;' id='mensajeperso'>
+			PractiPOS 2016
+		</div>
+	  </div>
+		
+	<!--End row -->
+
+	  <script>
+	  	
+			function mostrarSignIn(){
+				$(".putHeightRows").css("height" , $(window).height() + "px");
+				$("#demoGratis").css("display" , "none");
+                $("#escojeIdioma").css("display" , "none");
+				$("#fadeRow").fadeIn();
+
+			}
+
+            function quitarSignIn(){
+				$(".putHeightRows").css("height" , $(window).height() + "px");
+				$("#demoGratis").css("display" , "block");
+                $("#escojeIdioma").css("display" , "none");
+				$("#fadeRow").fadeOut();
+
+			}
+			
+			function nuevaCuenta(){
+				$(".putHeightRows").css("height" , $(window).height() + "px");
+				$("#fadeRow").css("display" , "none");
+				$("#demoGratis").fadeIn("fast",function(){
+					$("#animaRegister").animate({ top : "50px" });
+				});
+			}
+	  </script>
+      <div class="row" style="display:none; padding:20px; color:#404041;" id="escojeIdioma" >
+      <br>
+      <div class="col-sm-12" style="text-align: center;">
+            <img src="img/logoava.png" width="150" alt="">
+      </div>
+      <br><br><br>
+      <div class="col-sm-12" style="text-align: center;font-weight: bold;font-size: 24px;">
+        Select your language / Seleccione su idioma
+      </div>
+      <br><br><br>
+        <div class="row">
+        <div class="col-xs-1"></div>
+            <div class="col-xs-5">
+              <div id="selIngles" class="thumbnail" style="padding: 20px;" onclick="activaidioma(2);">
+                <img src="img/banderaen.png" alt="...">
+                <div class="caption">
+                  <h3>English</h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-5">
+              <div id="selEspaniol" class="thumbnail" style="padding: 20px;" onclick="activaidioma(1);">
+                <img src="img/banderaes.png" alt="...">
+                <div class="caption">
+                  <h3>Español</h3>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="col-xs-1"></div>
+	  </div>
+	  <!-- Registro -->
+	  <div class="row" style="display:block; padding:20px; color:#404041;" id="demoGratis" >
+		<form>
+		<!--<div class="col-md-3" >
+		</div>-->
+		  <h1 style='vertical-align:bottom; font-size:45px;'><img style='margin-top:-10px;' src='img/logoava.png' width='150px;'/></h1>
+		<div class="col-md-2"></div>
+		<div class="col-md-8" style="position:relative;min-height: 300px;overflow:hidden;">
+			 <div id="divdatoslogin" style="overflow:auto;">
+			  <h4 style="text-align:left; margin-top:40px; margin-bottom:30px;" id='trans_label_38'>Regístrate! Ingresa tus datos y crea tu cuenta AvaPOS.</h4>
+            <div class="form-group">
+              <input onkeydown="isalphanumeric(event);" type="form-control input-lg" name="empresa"  class="form-control input-lg trans_companyname" id="newEmpresa" placeholder="Nombre de tu Negocio" tabindex="1" required="" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <select class="form-control input-lg" id="newPais" name="pais" size="1" required="" placeholder="País">
+                  <option id="trans_label_82" value="0" style="color: #E0DEDE">País</option>
+                  <option value="3">Antigua y Barbuda</option>
+                  <option value="4">Argentina</option>
+                  <option value="5">Bahamas</option>
+                  <option value="6">Barbados</option>
+                  <option value="7">Bélice</option>
+                  <option value="8">Bolivia</option>
+                  <option value="9">Brasil</option>
+                  <option value="10">Canadá</option>
+                  <option value="11">Chile</option>
+                  <option value="12">Colombia</option>
+                  <option value="13">Costa Rica</option>
+                  <option value="14">Cuba</option>
+                  <option value="15">Dominica</option>
+                  <option value="1">Ecuador</option>
+                  <option value="16">El Salvador</option>
+                  <option value="2">Estados Unidos</option>
+                  <option value="17">Granada</option>
+                  <option value="18">Guatemala</option>
+                  <option value="19">Guyana</option>
+                  <option value="20">Haití</option>
+                  <option value="21">Honduras</option>
+                  <option value="22">Jamaica</option>
+                  <option value="23">México</option>
+                  <option value="24">Nicaragua</option>
+                  <option value="25">Panamá</option>
+                  <option value="26">Paraguay</option>
+                  <option value="27">Perú</option>
+                  <option value="28">Puerto Rico</option>
+                  <option value="29">República Dominicana</option>
+                  <option value="30">San Cristóbal y Nevis</option>
+                  <option value="31">San Vicente y las Granadinas</option>
+                  <option value="32">Santa Lucía</option>
+                  <option value="33">Surinam</option>
+                  <option value="34">Trinidad y Tobago</option>
+                  <option value="35">Uruguay</option>
+                  <option value="36">Venezuela</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <input class="form-control input-lg trans_email" type="email" tabindex="2" name="email" id="newEmail" placeholder="E-mail" required="" onkeydown="isalphanumeric(event);" autocomplete="off">
+            </div>
+         <div class="form-group">
+              <input type="password" name="pass" id="newPass" tabindex="3"  class="form-control input-lg trans_pass" placeholder="Ingresa una contraseña" required="" autocomplete="off">
+            </div>
+			 <div class="form-group">
+              <input type="password" name="pass" id="newConfirm"  class="form-control input-lg trans_confpass" placeholder="Confirma tu contraseña" required="" tabindex="4" autocomplete="off">
+            </div>
+
+			<div class="form-group">
+					<a id='trans_label_39' data-toggle="modal" data-target="#recuperarPass" onclick="mostrarSignIn();" href="">¿Ya tienes cuenta AvaPOS haz click aquí?</a><br/>
+			</div>
+
+
+<button class="btn btn-lg btn-success btn-center trans_create" type="button" id="btnNewEmp" onclick="registrarUser();">Crear Cuenta</button>
+			  </div>
+
+			  <div id="varias">
+			  </div>
+		</div>
+		<div class="col-md-2"></div>
+
+
+		<div id="mensaje2"></div>
+		<input id="user" type="hidden" />
+		<input id="pass" type="hidden" />
+        <input id="id_idioma" name="id_idioma" type="hidden" value="2">
+		</form>
+
+	  </div> <!--End row -->
+	  <br/><br/><br/><br/><br/><br/>
+	  <!-- STEP 1 -->
+	  
+	  <!-- STEP 2 --->
+		
+	  <!-- STEP 2 --->
+	 
+	  
+	  
+	  
+	  <!--
+	<div  style="display:none;background: rgba(0,0,0 0.8) none repeat scroll 0% 0%; width: 60%; height: auto; position:; z-index: 20000; text-align: center;margin:0 auto;margin-top:30px;" id='cuentasSinc'>
+		<div class='row' id='popupLogin2' style="padding-top:6%; box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75); background-color: #ffffff; color: #000000; margin-left: auto; margin-right: auto;overflow:auto;height:130px;border:10px solid #2EC1CC;">
+			<div class='col-md-5'>
+				<button type="button" class="btn btn-primary" onclick='nuevaCuenta()'>Crear Nueva Cuenta NubePOS</button>
+			</div>
+			<div class='col-md-2'></div>
+			<div class='col-md-5'>
+				<button type="button" class="btn btn-primary" onclick='usarLogin()'>Usar Cuenta Existente NubePOS</button>
+			</div>
+		</div>
+	</div>
+-->
+	<!--
+	<div id="popupLoginNuevo" style="display:none;width:50%;padding:20px;margin-top: 10px; box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75); background-color: #ffffff; color: #000000; margin-left: auto; margin-right: auto;overflow:auto;height:350px;">
+
+	 
+	
+
+		<div class="encabezadorojo" style='position:relative;height:30px;font-size:20px;padding-left:10px;'>
+
+		LOGIN PRACTISIS<img src='images/xcierre.png' style='position:absolute; top:3px; right:5px; cursor:pointer;' onclick='cerrarLogin2()'/></div>
+		<div style='background-color:#E0DEDE; padding-top:20px; padding-bottom:20px;' id='contieneEmpresasNuevo'>
+			<div class="row" style="padding-top: 10px;padding-bottom: 10px;">
+				<div class="col-md-12"  style="text-align: center;">
+						<div class="panel panel-default">
+								<div  class="panel-heading">
+									<strong><span class="glyphicon glyphicon-th"></span>
+									 Autentificación de Usuario
+								</div>        
+								<div class="panel-body">
+									<div class="input-group">
+										<label class="input-group-addon">User:</label>
+										<input type="text" id="user2" class="form-control" />
+									</div>
+									<div style="height:10px;"></div>
+									<div class="input-group">
+										<label class="input-group-addon">Pass:</label>
+										<input type="password" id="pass2" class="form-control" />
+									</div>
+									<div style="height:10px;"></div>
+									<button class="btn btn-default" id='btnvalida2' type="button" onclick="valida2();">Login</button>
+								</div>
+						</div>
+								<div id="mensaje2"></div>
+					</div>
+			</div>
+		</div>
+	</div>
+	-->
+	<!--
+	<div id="contenedorNuevaCuenta" style='display:none;margin-top:50px;'>
+		<img src='images/xcierre.png' style='position:absolute; top:3px; right:5px; cursor:pointer;' onclick='cerrarLogin3()'/>
+		<iframe src='http://practisis.net/registro/registrate.php' width='100%' height='800px' frameborder='no' ></iframe>
+	</div>
+	<div id='recibeAlertasActualizaciones'></div>
+	<div id="mainDivSinc" style="margin: 0px; padding: 0px; width:100%; height: 800px; background-color: #ffffff; font-size:14px; color:#404041;display:none;">
+		<table style="width:100%;" border="0" cellpadding='10px' class='table table-striped' style='display:none;'>
+			<tr>
+				<td >
+					<h3>Lista de Productos</h3>
+				</td>
+				<td>
+					<div>
+						<i class="fa fa-cloud-upload fa-5x" onclick='subeDatos()' id='sube1'></i>
+							<h1 onclick='subeDatos()' >Sube1.1</h1>
+						<i class="fa fa-cloud-upload fa-5x" id='sube2' style='display:;' onclick='subeFacturas()'></i>
+					</div>
+				</td>
+				<td>
+					<div style='display:none;'>
+						<i class="fa fa-download fa-5x" onclick='subeClientes()' id='sube1'></i>
+						<h1>Sube1.2</h1>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: right; vertical-align:middle; width: 450px;">-->
+					<!--<select id="categoryType" class='selectpicker'>
+						<option value="0">Todas las categorías</option>
+					</select>-->
+					<!-- Single button -->
+					<!--
+					<select id='listacategorias' style='font-size:15px;'>
+						<option value='0'>Todas las categorias</option>
+					</select>
+				</td>
+				<td style="text-align: left; vertical-align:middle; width: 550px;">
+					<table style="margin-left: 0px; margin-right: auto;" border="0" cellpadding="4px" cellspacing="10px">
+						<tr>
+							<td style='vertical-align:middle;'>
+								<input placeholder='busqueda' type="text" class='form-control' id="searchKeyword" name="category"/>
+							</td>
+							<td  style='vertical-align:middle;'>
+								<button type='button' class="btn btn-primary" onclick="page=0; getSearch(); return false;">Buscar</button>-->
+								<!--<input type="image" style="padding: 0px; margin: 0px;" onclick="getSearch(); return false;" alt="Search" src="gfx/search.png"/>-->
+								<!--
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<div id="detailDiv2" style="height:650px; padding-top:20px; margin:0px; font-size:15px;display:none;"></div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" style='text-align:center;'>
+					<ul class="pagination paginacion-lg" id='paginacion' style='display:none;'>
+					</ul>
+					<input id='totalpags' style='display:none;'/>
+				</td>
+			</tr>
+		</table>	
+	</div>
+	-->
+<input type="hidden" id="idcategoria" />
+</div>
+<script>
+$(document).ready(function(){
+	//idioma
+		var linklang="es";
+		if(localStorage.getItem("idioma")==2)
+			linklang="en";
+			var xmlidioma=$.get("lang/"+linklang+".html",function(datos){
+			d=JSON.parse(datos);
+			var itemestructura=d.estructura;
+			//console.log(itemestructura);
+			var itemmen=itemestructura.menu;
+			var itemplaceholder=itemestructura.placeholder;
+			var itemtitles=itemestructura.titles;
+			var itembuttons=itemestructura.botones;
+			var itemlabels=itemestructura.labels;
+			var todostitles=itemtitles.item;
+			var todosbuttons=itembuttons.item;
+			var todoslabels=itemlabels.item;
+			var todositems=itemmen.item;	
+			var todosplaceholder=itemplaceholder.item;
+
+			for(var k=0;k<todosplaceholder.length;k++){
+				var miitemname=todosplaceholder[k].name;
+				//alert(miitemname);
+				$('.'+miitemname).prop("placeholder",todosplaceholder[k].text);
+			}
+
+			for(var k=0;k<todositems.length;k++){
+					var miitem=todositems[k];
+					$('#lab_menu_'+(k+1)).html(miitem);
+			}
+					
+				for(var k=0;k<todostitles.length;k++){
+					var miitemname=todostitles[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todostitles[k].text);
+				}
+				
+				for(var k=0;k<todosbuttons.length;k++){
+					var miitemname=todosbuttons[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todosbuttons[k].text);
+				}
+				
+				for(var k=0;k<todoslabels.length;k++){
+					//console.log(todoslabels[k].name+"/"+todoslabels[k].name);
+					var miitemname=todoslabels[k].name;
+					$('#'+miitemname).html(todoslabels[k].text);
+				}
+
+		});
+	
+	$('#demoGratis').css('height',parseInt($(window).height())*150/100);
+	$('#fadeRow').css('height',parseInt($(window).height())*110/100);
+	
+	/*planes*/
+	
+	$('#linklog29es,#linklogin29en').attr("link","https://www.practisis.net/indexupgrade.php?rvpas="+localStorage.getItem("userPasswod")+"&rvus="+localStorage.getItem("userRegister")+"&plan=avapo29.00");
+	$('#linklog69es,#linklogin69en').attr("link","https://www.practisis.net/indexupgrade.php?rvpas="+localStorage.getItem("userPasswod")+"&rvus="+localStorage.getItem("userRegister")+"&plan=avapo69.00");
+	$('#linklogines,#linloginen').attr("link","https://www.practisis.net/indexupgrade.php?rvpas="+localStorage.getItem("userPasswod")+"&rvus="+localStorage.getItem("userRegister")+"&plan=avapo00.00");
+	
+	var paquete=localStorage.getItem("paquete");
+	if(paquete=="22"){
+		$('#linklogines,#linkloginen').attr("link","https://www.practisis.net/index3.php?rvpas="+localStorage.getItem("userPasswod")+"&rvus="+localStorage.getItem("userRegister"));
+		$('#linklogines').html('<div style="font-size:11px;">Tu plan Actual</div>Ir a la Nube');
+		$('#linkloginen').html('<div style="font-size:11px;">Your current plan</div>Go to Cloud');
+		$('#linklogin29es').html('Activar');
+		$('#linklogin29en').html('Upgrade Now');
+		$('#linklogin69es').html('Activar');
+		$('#linklogin69en').html('Upgrade Now');
+		$('#jumbo0es,#jumbo0en,#jumbo69es,#jumbo69en').attr('class','jumbotron');
+		$('#jumbo29es,#jumbo29en').attr('class','jumbotron jumbo-red');
+	}else if(paquete=="36"){
+		$('#linklogin29es,#linklogin29en').attr("link","https://www.practisis.net/index3.php?rvpas="+localStorage.getItem("userPasswod")+"&rvus="+localStorage.getItem("userRegister"));
+		$('#linklogin29es').html('<div style="font-size:11px;">Tu plan Actual</div> Ir a la Nube');
+		$('#linklogin29en').html('<div style="font-size:11px;">Your current plan</div> Go to Cloud');
+		$('#linklogines').html('Activar');
+		$('#linkloginen').html('Active');
+		$('#linklogin69es').html('Activar');
+		$('#linklogin69en').html('Upgrade Now');
+		$('#jumbo0es,#jumbo0en,#jumbo29es,#jumbo29en').attr('class','jumbotron');
+		$('#jumbo69es,#jumbo69en').attr('class','jumbotron jumbo-blue');
+		
+	}else if(paquete=="37"){
+		$('#linklogin69es,#linklogin69en').attr("link","https://www.practisis.net/index3.php?rvpas="+localStorage.getItem("userPasswod")+"&rvus="+localStorage.getItem("userRegister"));
+		$('#linklogin69es').html('<div style="font-size:11px;">Tu plan Actual</div> Ir a la Nube');
+		$('#linklogin69en').html('<div style="font-size:11px;">Your current plan</div> Go to Cloud');
+		$('#linklogin29es').html('Activar');
+		$('#linklogin29en').html('Active');
+		$('#linklogines').html('Activar');
+		$('#linkloginen').html('Active');
+		$('#jumbo0es,#jumbo0en,#jumbo29es,#jumbo29en').attr('class','jumbotron');
+		$('#jumbo69es,#jumbo69en').attr('class','jumbotron jumbo-blue');
+	}
+	
+	/*fin planes*/
+	
+	
+	$('#linklogin,#linkloginb').attr("link","https://www.practisis.net/index3.php?rvpas="+localStorage.getItem("userPasswod")+"&rvus="+localStorage.getItem("userRegister"));
+	
+	
+	
+	
+	$('#dias').html(localStorage.getItem('dias'));
+	$('#mensajeperso').html(localStorage.getItem('msj'));
+	
+	if(localStorage.getItem("idioma")==1){
+		$('#planes_es').fadeIn();
+	}else{
+		$('#planes_en').fadeIn();
+	}
+	
+	/*Mensajes de alerta*/
+	if(msjcloud>0){
+		if(msjcloud==1){
+			if(localStorage.getItem('idioma')==1)
+				showalertredquiet("<b>Atención:</b> Para poder contar con la opción <b>Imprimir Texto Personalizado en Factura</b> debes tener activado el <b>Plan Profesional o Plan Premium</b>.");
+			else
+				showalertredquiet("<b>Attention:</b> In order to have the <b>Print Custom Text Invoice option</b>, you must activate <b>Professional Plan or Premium Plan</b>.");
+			msjcloud=0;
+		}
+		if(msjcloud==2){
+			if(localStorage.getItem('idioma')==1)
+				showalertredquiet("<b>Atención:</b> Para poder contar con la opción <b>Imprimir Texto Personalizado en Factura</b> debes tener activado el <b>Plan Profesional o Plan Premium</b>.");
+			else
+				showalertredquiet("<b>Attention:</b> In order to have the <b>Print Custom Text Invoice option</b>, you must activate <b>Professional Plan or Premium Plan</b>.");
+			msjcloud=0;
+		}
+		
+		if(msjcloud==3){
+			if(localStorage.getItem('idioma')==1)
+				showalertredquiet("<b>Atención:</b> Para poder contar con la opción <b>Imprimir Logo</b> en Factura debes tener activado el <b>Plan Profesional o Plan Premium</b>.");
+			else
+				showalertredquiet("<b>Attention:</b> In order to have the <b>Print Invoice Logo</b> option, you must activate <b>Professional Plan or Premium Plan</b>.");
+			msjcloud=0;
+		}
+	}
+	/*fin mensajes alerta*/
+	
+	if(procesocount==0){
+		$('#fadeRow,#contentStepSincro,#cuentaactiva,#mensajeperso,#demoGratis,#escojeIdioma').css("display","none");
+		if(localStorage.getItem("idbarra")==null){
+			//$('#demoGratis').fadeIn();
+            $('#escojeIdioma').fadeIn();
+			$('.navbar').slideUp();
+			$('#finalizado,#cuentaactiva,#mensajeperso').css('display','none');
+		}else{
+			$('#finalizado,#cuentaactiva,#mensajeperso').fadeIn();
+			$('#demoGratis').css("display","none");
+            $('#escojeIdioma').css("display","none");
+		}
+	}else{
+		$('#finalizado,#demoGratis,#fadeRow,#escojeIdioma').css("display","none");
+		$('#contentStepSincro,#cuentaactiva,#mensajeperso').fadeIn();
+	}
+	
+	var maxheight=0;
+	$('.jumbotron').each(function(){
+		var mh=parseFloat($(this).css('height'));
+		console.log(mh);
+		if(mh>maxheight){
+			//$('.jumbotron').css('height',mh);
+			maxheight=mh;
+			console.log(maxheight);
+		}
+	});
+	
+	$('.jumbotron').css('height',maxheight);
+});
+
+function IraNube(elem){
+  //alert(elem);
+	var url=$(elem).attr('link');
+	window.open(url);
+}
+		//SyncStart();
+		/*var loopSicnronizador;
+		var yaConectado=false;
+		var empresa = localStorage.getItem('empresa');
+		userRegister = localStorage.getItem('userRegister');
+		userPasswod = localStorage.getItem('userPasswod');
+		globalLocalCategory=0;
+		ContGlobalLocalCategory=0;
+		contGlobalLocalProduct=0;
+		lenGlobalLocalProduct=0;
+		lenGlobalLocalClient=0;
+		GlobalLocalClient=0;
+												
+			if(userRegister){
+				localStorage.setItem("userRegister", '');
+				localStorage.setItem("userPasswod", '');
+				$("#user2").val(userRegister);
+				$("#pass2").val(userPasswod);
+				mostrarSignIn();
+				validateToken();
+				
+			}else{
+		
+				var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+						db.transaction(function(tx){
+					tx.executeSql('SELECT nombreempresa FROM empresa',[],function(tx,results){
+
+								for (var i=0; i <= results.rows.length-1; i++){
+									var row = results.rows.item(i);
+									var nombreempresa = row.nombreempresa;
+								}
+									if(nombreempresa){
+										
+										yaConectado=true;
+										$(".putEmp").html(""+nombreempresa+ "<small>("+empresa+")</small>");
+										$("#yaConectado").fadeIn();
+										$("#contentLogin").css("display" , "none");
+										$("#texto15Dias").css("display" , "none");
+										$("#demoGratis").css("display" , "none");
+										$("#fadeRow").css("display" , "none");
+
+										clearInterval(loopSicnronizador);
+										loopSicnronizador=setTimeout(function(){
+
+											loginEmpresa(empresa,nombreempresa)
+										},3000);
+
+									//loginEmpresa(empresa,nombreempresa);
+									}else{
+										yaConectado=false;
+										nuevaCuenta();
+									}
+
+			},errorCB ,successCB);
+		});
+		}
+		
+		
+		function registrarUser(){
+				newEmpresa=$("#newEmpresa").val();
+				newEmail=$("#newEmail").val();
+				newPass=$("#newPass").val();
+				newConfirm=$("#newConfirm").val();
+                var expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                if(newEmpresa==''){
+                  $('.alert-danger').fadeIn('slow');
+                  $(".alert-danger").html('Debe ingresar el nombre de tu negocio.');
+                  $("#newEmpresa").val('');
+                  setTimeout(function(){ $('.alert-danger').fadeOut('slow'); }, 3000);
+                }else if(newEmail=='' || !expr.test(newEmail)){
+                  $('.alert-danger').fadeIn('slow');
+                  $(".alert-danger").html('Debe ingresar un e-mail valido para tu negocio.');
+                  $("#newEmail").val('');
+                  setTimeout(function(){ $('.alert-danger').fadeOut('slow'); }, 3000);
+                }else{
+    				if(newConfirm == newPass){
+    					nombre='User NubePOS';
+    					celular=0;
+    					email=0;
+    					passw=newPass;
+    					rpassw=newConfirm;
+    					empresa=newEmpresa;
+    					planPrecio=2;
+    					nTerminales=1;
+    					sistema=0;
+    					franquicia=0;
+    					pais=1;
+    					versiones=7;
+    					plan=0;
+    					$("#btnNewEmp").html('<img src="images/loader.gif"  width="50%" />');
+    					$.post("http://practisis.net/registro/registroNubePOS.php", {
+    						nombre : nombre,
+    						celular : celular,
+    						email :newEmail,
+    						pass : newPass,
+    						rpass : newConfirm,
+    						empresa : empresa,
+    						planPrecio : planPrecio,
+    						nTerminales : nTerminales,
+    						sistema : sistema,
+    						pais : pais,
+    						franquicia : franquicia,
+    						versiones : versiones
+
+    					}).done(function(data){
+                          if(data=='existe'){
+                            $('.alert-danger').fadeIn('slow');
+                            $(".alert-danger").html('El correo ingresado ya existe en el sistema, vuelva a ingresar otro correo.');
+                            $("#newEmail").val('');
+                            setTimeout(function(){ $('.alert-danger').fadeOut('slow'); }, 3000);
+    					  }else{
+        						localStorage.setItem("userRegister", newEmail);
+        						localStorage.setItem("userPasswod", newPass);
+
+        						$("#btnNewEmp").html('Enviar');
+        						$("#demoGratis").css("display" , "none");
+        						$("#fadeRow").css("display" , "none");
+        						$("#putHereIframes").html(data);
+        						$("#putHereIframes").prepend("Procesando Petición");
+        						$("#fadeCloud").html("<table width='100%' height='100%' cellpadding='0'  cellspacing='0'><tr>td valign='center' align='center' ><iframe src='views/cloud/timer.html' style='width:60%;height:50%;border:0px;' border='0' ></iframe></td></tr></table>");
+        						$("#fadeCloud").fadeIn();
+                            }
+    					});
+
+    				}else{
+    				  $('.alert-danger').fadeIn('slow');
+                      $(".alert-danger").html('Las contraseñas son distintas.');
+                      $("#newPass").val('');
+    				  $("#newConfirm").val('');
+                      setTimeout(function(){ $('.alert-danger').fadeOut('slow'); }, 3000);
+    				}
+                }
+			}
+			$(".putHeightRows").css("height" , $(window).height() + "px");*/
+function activaidioma(cual){
+  if(cual == 1){
+   document.getElementById('id_idioma').value='1';
+   document.getElementById('selEspaniol').style.backgroundColor="#337AB7";
+   document.getElementById('selIngles').style.backgroundColor="#FFFFFF";
+   localStorage.setItem('idioma',1);
+   idiomaContinuar();
+  }else{
+   document.getElementById('id_idioma').value='2';
+   document.getElementById('selIngles').style.backgroundColor="#337AB7";
+   document.getElementById('selEspaniol').style.backgroundColor="#FFFFFF";
+   localStorage.setItem('idioma',2);
+   idiomaContinuar();
+  }
+}
+function idiomaContinuar(){
+  var linklang="es";
+  if(localStorage.getItem("idioma")==2)
+  	linklang="en";
+  	var xmlidioma=$.get("lang/"+linklang+".html",function(datos){
+  	d=JSON.parse(datos);
+  	var itemestructura=d.estructura;
+  	//console.log(itemestructura);
+  	var itemmen=itemestructura.menu;
+  	var itemplaceholder=itemestructura.placeholder;
+  	var itemtitles=itemestructura.titles;
+  	var itembuttons=itemestructura.botones;
+  	var itemlabels=itemestructura.labels;
+  	var todostitles=itemtitles.item;
+  	var todosbuttons=itembuttons.item;
+  	var todoslabels=itemlabels.item;
+  	var todositems=itemmen.item;
+  	var todosplaceholder=itemplaceholder.item;
+
+  	for(var k=0;k<todosplaceholder.length;k++){
+  		var miitemname=todosplaceholder[k].name;
+  		//alert(miitemname);
+  		$('.'+miitemname).prop("placeholder",todosplaceholder[k].text);
+  	}
+
+  	for(var k=0;k<todositems.length;k++){
+  			var miitem=todositems[k];
+  			$('#lab_menu_'+(k+1)).html(miitem);
+  	}
+
+  		for(var k=0;k<todostitles.length;k++){
+  			var miitemname=todostitles[k].name;
+  			//alert(miitemname);
+  			$('.'+miitemname).html(todostitles[k].text);
+  		}
+
+  		for(var k=0;k<todosbuttons.length;k++){
+  			var miitemname=todosbuttons[k].name;
+  			//alert(miitemname);
+  			$('.'+miitemname).html(todosbuttons[k].text);
+  		}
+
+  		for(var k=0;k<todoslabels.length;k++){
+  			//console.log(todoslabels[k].name+"/"+todoslabels[k].name);
+  			var miitemname=todoslabels[k].name;
+  			$('#'+miitemname).html(todoslabels[k].text);
+  		}
+
+  });
+
+  $('#demoGratis').fadeIn();
+  $('#escojeIdioma').fadeOut();
+}
+</script>

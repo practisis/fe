@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+			<title>NubePOS V2.0</title>
+			<link rel="shortcut icon" href="favicon.ico">
+			<script src="js/jquery-1.11.3.min.js"></script>
+			<script src="js/jquery-ui.min.js"></script>
+			<link rel="stylesheet" href="css/bootstrap.min.css">
+			<script type="text/javascript" src="cordova.js"></script>
+			<script src="js/index.js"></script>
+			<script src="js/raphael-min.js"></script>
+			<script src="js/morris.min.js"></script>
+			<script src="js/bootstrap.min.js"></script>
+			<script src="js/sync.js"></script>
+			<link href="css/fonts.css" rel="stylesheet" type="text/css">
+			<link href="css/formated.css" rel="stylesheet" type="text/css">
+			<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+			<link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.min.css">
+			<link rel="stylesheet" href="css/jquery-ui.css">
+			<link rel="stylesheet" href="css/estilotemp.css">
+			<script type="text/javascript" src="js/jsapi"></script>
+            <script type="text/javascript">
+            function guardaversion(pais){
+			if (typeof pais === 'undefined') { pais = '0'; }
+              $("#cargandoTabs").modal('show');
+              //var version = $('input:radio[name=id_version]:checked').val();
+			  var version='2';
+              if(version === undefined){
+                $("#cargandoTabs").modal('hide');
+                if(localStorage.getItem("idioma")==2){
+                 alert('You must choose a version for your system.');
+                }else{
+                 alert('Debes escojer una version para tu sistema.');
+                }
+              }else{
+                if(version == '1'){
+                  localStorage.setItem("con_shop","true");
+                  localStorage.setItem("con_mesas","false");
+                  var auxshop = "true";
+                  var auxmesas = "false";
+                }else if(version == '2'){
+                  localStorage.setItem("con_shop","false");
+                  localStorage.setItem("con_mesas","false");
+                  var auxshop = "false";
+                  var auxmesas = "false";
+                }else if(version == '3'){
+                  localStorage.setItem("con_shop","false");
+                  localStorage.setItem("con_mesas","true");
+                  var auxshop = "false";
+                  var auxmesas = "true";
+                }else{
+                  localStorage.setItem("con_shop","false");
+                  localStorage.setItem("con_mesas","false");
+                  var auxshop = "false";
+                  var auxmesas = "false";
+                }
+                var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			    db.transaction(function(tx1){
+			      tx1.executeSql("UPDATE CONFIG SET id_version_nube=?,sincronizar='true',con_shop='"+auxshop+"',con_mesas='"+auxmesas+"' where id=1",[version],
+    			  function(tx1,results1){
+    			   $("#cargandoTabs").modal('hide');
+                   $('#version_escoje').css('display','none');
+                   localStorage.setItem("id_version_nube",version);
+                   //document.getElementById('main').style.display='block';
+                   if(localStorage.getItem("telefono_inte") == ''||localStorage.getItem("telefono_inte") == null){
+      			    $('#pide_telefono').fadeIn();
+					//asigna pais.
+					//pais
+					if (pais!=0){
+						var tlfpais=["2", "593", "1", "1", "54", "1", "1", "501", "591", "55", "1", "56", "57", "506", "53", "1", "503", "1", "502", "592", "509", "504", "1", "52", "505", "507", "595", "51", "1", "1", "1", "1", "1", "597", "1", "598", "58"];
+						var tlfselect=tlfpais[pais];
+						$("#paiswhat").val(tlfselect);
+						$("#codigo_pais").val(tlfselect);
+						console.log("telefono asignado:"+tlfselect);
+					}
+                    //document.getElementById('main').style.display='none';
+                   }
+    			  });
+			    },errorCB,successCB);
+              }
+            }
+            function guardatelefono(){
+              $("#cargandoTabs").modal('show');
+              var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+            	db.transaction(
+            	function (tx){
+            		tx.executeSql('SELECT nombre from CONFIG WHERE id=?',[1],function(tx,res1){
+            			var mods= new Array();
+            			if(res1.rows.length>0){
+
+            				for(var m=0;m<res1.rows.length;m++){
+            					var minombre=res1.rows.item(m).nombre;
+            				}
+                        }
+
+              var numeroTelefono=0; //document.getElementById('numero_telefonico');
+              var expresionRegular1=/^([0-9]+){9}$/;
+              var expresionRegular2=/\s/;
+              var codigoPa = 0; //document.getElementById('codigo_pais').value
+              var numtelefono = '';
+              var primernumero = 0;//numeroTelefono.value.charAt(0);
+
+              //if(codigoPa=='' || codigoPa=='0'){
+               // $("#cargandoTabs").modal('hide');
+               // if(localStorage.getItem("idioma")==2){
+                // alert('The country code is mandatory');
+                //}else{
+                 //alert('El código del país es obligatorio');
+                //}
+              //}
+			  /*else if(primernumero == '0' && codigoPa == '593'){
+                $("#cargandoTabs").fadeOut();
+                if(localStorage.getItem("idioma")==2){
+                 alert('Your phone number is not leading 0.');
+                }else{
+                 alert('Su número de teléfono no debe anteponer el 0.');
+                }
+                document.getElementById('numero_telefonico').value = numeroTelefono.value.substr(1);
+                guardatelefono();
+              }*/
+			  /*else if(numeroTelefono.value==''){
+                $("#cargandoTabs").modal('hide');
+                if(localStorage.getItem("idioma")==2){
+                 alert('The phone number is required');
+                }else{
+                 alert('El número de teléfono es obligatorio');
+                }
+              }*/
+			  /*else if(expresionRegular2.test(numeroTelefono.value)){
+                /*$("#cargandoTabs").modal('hide');
+                if(localStorage.getItem("idioma")==2){
+                 alert('Error there Blanks');
+                }else{
+                 alert('Error existen espacios en blanco');
+                }
+              }*/
+			  /*else if(!expresionRegular1.test(numeroTelefono.value)){
+                /*$("#cargandoTabs").modal('hide');
+                if(localStorage.getItem("idioma")==2){
+                 alert('Incorrect phone number');
+                }else{
+                 alert('Número de teléfono incorrecto');
+                }
+              }
+			  */
+			  //else{
+                numtelefono = codigoPa+numeroTelefono.value;
+                //alert(localStorage.getItem("empresa")+'**'+minombre+'**'+'adslindlil123DSPODPSMNDddddDAPO111das'+'**'+numtelefono)
+                var apiURL='http://chatdesk.net/examples/tienetelegram.php';
+                 $.post(apiURL,{
+                    id : "adslindlil123DSPODPSMNDddddDAPO111das",
+                    nombre : minombre,
+            		db : localStorage.getItem("empresa")
+
+            		}).done(function(response){
+            			//alert(response);
+                        if(response == '1'){
+                            var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+            			    db.transaction(function(tx1){
+            			      tx1.executeSql("UPDATE CONFIG SET telefono_inte=?,sincronizar='true',pide_telefono='true' where id=1",[numeroTelefono.value],
+                			  function(tx1,results1){
+                			   $("#cargandoTabs").modal('hide'); 
+                               $('#pide_telefono').fadeOut();
+                               //document.getElementById('main').style.display='block';
+                               localStorage.setItem("telefono_inte",numeroTelefono.value);
+                               localStorage.setItem("pide_telefono",'true');
+								if(localStorage.getItem("id_locales")!=null&&localStorage.getItem("id_locales")!='0'){
+									envia('puntodeventa');
+									LaunchBoarding();
+								}
+								else
+									$('#pide_local').fadeIn();
+                			  });
+            			    },errorCB,successCB);
+                        }else if(response == '2'){
+                          $("#cargandoTabs").modal('hide');
+                            if(localStorage.getItem("idioma")==2){
+                             alert('Inteligence cant start. Please reinstall the app. Error: 201988123.');
+                            }else{
+                             alert('Inteligencia no se puede activar. Por favor resintalar la app. Error:201012132');
+                            }
+                        }else{
+                          $("#cargandoTabs").modal('hide');
+                            if(localStorage.getItem("idioma")==2){
+                             alert('Inteligence cant start. Please reinstall the app. Error: 20198818');
+                            }else{
+                             alert('Inteligencia no se puede activar. Por favor resintalar la app. Error:201012');
+                            }
+                        }
+
+            		}).fail(function(){
+            			updateOnlineStatus("OFFLINE");
+            			setTimeout(function(){SincronizadorNormal()},180000);
+            		});
+             // }
+
+              });
+            	},errorCB,successCB);
+				
+				LaunchBoarding();
+            }
+			
+            function omitirtelefono(){
+              var numeroTelefono = '000000000';
+
+              if(localStorage.getItem("idioma")==2){
+               var r = confirm("Are you sure not to activate intelligence for your business?");
+              }else{
+               var r = confirm("¿Estás seguro de no activar inteligencia para tu negocio?");
+              }
+
+              if (r == true){
+                  var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+    			    db.transaction(function(tx1){
+    			      tx1.executeSql("UPDATE CONFIG SET telefono_inte=?,sincronizar='true' where id=1",[numeroTelefono],
+        			  function(tx1,results1){
+        			   $("#cargandoTabs").modal('hide');
+                       $('#pide_telefono').fadeOut();
+                       //document.getElementById('main').style.display='block';
+                       localStorage.setItem("telefono_inte",numeroTelefono);
+					   if(localStorage.getItem("id_locales")!=null&&localStorage.getItem("id_locales")!='0'){
+							envia('puntodeventa');
+							LaunchBoarding();
+						}
+						else
+							$('#pide_local').fadeIn();
+                      
+					  
+					   //SyncStart();
+        			  });
+    			    },errorCB,successCB);
+              }else{
+					
+              }
+			  
+			 
+            }
+			
+            function ponerCodigoPais(){
+              var codigoPais = document.getElementById('paiswhat').value;
+              document.getElementById('codigo_pais').value = codigoPais;
+              //alert(codigoPais);
+            }
+			
+            function guardaterminos(){
+              var newTerminos = document.getElementById('terminosp').checked;
+
+              if (newTerminos == false){
+                if(localStorage.getItem("idioma")==2){
+                 alert("You must accept the terms and conditions to continue.");
+                }else{
+                 alert("Debes aceptar los términos y condiciones para continuar.");
+                }
+              }else{
+                  var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+    			    db.transaction(function(tx1){
+    			      tx1.executeSql("UPDATE CONFIG SET terminos_condiciones=?,sincronizar='true' where id=1",[newTerminos],
+        			  function(tx1,results1){
+        			    $("#cargandoTabs").modal('hide');
+                       $('#terminos_condiciones').fadeOut('slow');
+                       //document.getElementById('main').style.display='block';
+                       localStorage.setItem("terminos",newTerminos);
+					   if($(window).width()>900)
+							$('.navbar').slideDown();
+					   else
+							$('#barraalternamovil').slideDown();
+					
+                       envia('puntodeventa');
+        			  });
+    			    },errorCB,successCB);
+              }
+
+            }
+			
+            function guardalocal(){
+              var newLocal = document.getElementById('idlocales').value;
+
+              if (newLocal == '0'){
+                if(localStorage.getItem("idioma")==2){
+                 alert("You must select the local to continue.");
+                }else{
+                 alert("Debes seleccionar el local para continuar.");
+                }
+              }else{
+                  var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+    			    db.transaction(function(tx1){
+    			      tx1.executeSql("UPDATE CONFIG SET id_locales=?,sincronizar='true' where id=1",[newLocal],
+        			  function(tx1,results1){
+        			    $("#cargandoTabs").modal('hide');
+                       $('#pide_local').fadeOut('slow');
+                       //document.getElementById('main').style.display='block';
+                       localStorage.setItem("id_locales",newLocal);
+                       //$('.navbar').fadeIn();
+					   if($(window).width()>900){
+							$('.navbar').slideDown();
+						}
+					   else{
+							$('#barraalternamovil').slideDown();
+						}
+                       envia('puntodeventa');
+        			  });
+    			    },errorCB,successCB);
+              }
+
+            }
+            </script>
+		</head>
+<body>
+			<div id="barrarribanav" >
+			<nav class="navbar navbar-inverse" style='z-index:3; border-top-left-radius:0px; border-top-right-radius:0px;'>
+			  <div class="container-fluid" >
+				<div class="navbar-header">
+				  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				  </button>
+				  <a class="navbar-brand" href="#"><img src="img/logo1.png" width='110px'/></a>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav" id='listademenus'>
+					    <li onclick="envia('puntodeventa')"><a id='menu_1'  href="javascript:void(0);"><span style='display:inline;' class='fa fa-shopping-cart'></span>&nbsp;<label id='lab_menu_1'>Facturar</label><span class="sr-only">(current)</span></a></li>
+						<li onclick="VerificarPermiso('historial');" role="presentation"><a id='menu_2' href="javascript:void(0);"><span style='display:inline;' class='fa fa-money'></span>&nbsp;<label id='lab_menu_2'>Historial</label></a></li>
+						<li onclick="VerificarPermiso('productos');" id='productosIndex'><a id='menu_3' href="javascript:void(0);"><span style='display:inline;' class='fa fa-list-alt'></span>&nbsp;<label id='lab_menu_3'>Productos</label></a></li>
+						<li onclick="envia('dashboard')"><a id='menu_4' href="javascript:void(0);"><span style='display:inline;' class='fa fa-line-chart'></span>&nbsp;<label id='lab_menu_4'>Resultados</label></a></li>
+						<li onclick="VerificarPermiso('configuracion');"><a id='menu_5' href="javascript:void(0);"><span style='display:inline;' class='fa fa-cog'></span>&nbsp;<label id='lab_menu_5'>Configuración</label></a></li>
+					</ul>
+					
+				  <ul class="nav navbar-nav navbar-right">
+					<li id='cloudIndex'><a><i class='fa fa-signal' id='signalinternet' style='color:white;'></i></a></li>
+				  </ul>
+				</div>
+			  </div>
+			</nav>
+			</div>
+			
+			<div id="barraalternamovil" style="background-color:#101010;">
+				<div class="row">
+					<div class="col-xs-3 itemsmenuactive" id="menuNew1" onclick="clickMenu(1);">
+					Facturar
+					</div>
+					<div class="col-xs-3 itemsmenu" id="menuNew2" onclick="clickMenu(2);">
+					Historial
+					</div>
+					<div class="col-xs-3 itemsmenu" id="menuNew3" onclick="clickMenu(3);" >
+					Productos
+					</div>
+					<div class="col-xs-1 itemsmenu"  id="menuNew4" onclick="clickMenu(4);">
+					<span style='display:inline;' class='fa fa-line-chart'></span>
+					</div>
+					<div class="col-xs-1 itemsmenu" id="menuNew5" onclick="clickMenu(5);">
+					<span style='display:inline;' class='fa fa-cog'></span>
+					</div>
+					<div class="col-xs-1 itemsmenu">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 itemafacactivo" id="menuSubNew1" onclick="clickSubMenu(1);">
+						Productos
+					</div>
+					<div class="col-xs-6 itemafac" id="menuSubNew2" onclick="clickSubMenu(2);">
+						Total
+					</div>
+				</div>
+			</div>
+			
+		<div id='mybodycontent' class='row'>
+			<div class='container-fluid'>
+				<div id='deviceid' style='display:none;'>a383bc4552bfb701f96a17a4541b5565</div>
+				<div id='devicemodel' style='display:none;'></div>
+				<div class="alert alert-success" role="alert" id='alert' style='display:none;'></div>
+				<div class="alert alert-danger" role="alert" id='alertred' style='display:none;'></div>
+				<div class='row'>
+					<div class='container-fluid'>
+					<div class='col-lg-12 col-md-12 col-sm-12'>
+						<div class="row">
+							<div class="col-lg-12">
+							<!--<div id="main" style="width:100%; text-align:center; overflow-y:auto; overflow-x:hidden; height:100%;"></div>	-->
+							<div id="main" style="width:100%; text-align:center; overflow-x:hidden; height:100%;"></div>
+							</div>
+						</div>
+					</div>
+					</div>
+				</div>
+			<div id="jsonformaspago" style="display: none;">{"FormaPago":[{"id":"1","nombre":"Efectivo","imagen":"Efectivo"},{"id":"2","nombre":"Tarjetas","imagen":"Tarjetas"},{"id":"3","nombre":"Cheques","imagen":"Bancos"},{"id":"4","nombre":"CxC","imagen":"CxC"},{"id":"5","nombre":"ConsumoI","imagen":"ConsumoI"}]}</div>
+			<div id="jsontarjetas" style="display: none;">{"Tarjetas":[{"id":"1","nombre":"Visa","imagen":"Tarjetas"},{"id":"2","nombre":"Mastercard","imagen":"Tarjetas"},{"id":"3","nombre":"Discover","imagen":"Bancos"},{"id":"4","nombre":"Diners","imagen":"CxC"},{"id":"5","nombre":"Amex","imagen":"CxC"},{"id":"7","nombre":"Otra","imagen":"CxC"}]}</div>
+			<div id='idiomaact' style="display: none;"></div>
+		<div id="status" style='display:none;'>
+			<p id="state"></p>
+			<div id='log'><input type='hidden' id='conexion' value=''/></div>
+		</div>
+		<div style='display:none;' id='jsonprint'>{"Pagar": [{ "cliente": {"id_cliente": "1","cedula": "9999999999999","nombre": "Consumidor Final","telefono": "2222222","email": "","direccion": "Av. Test 101","listaDePrecio": ""},"producto": [{"id_producto" : "708331454520391276","timespanproducto" : "708331454520391276","timespanconsumo" : "14593432603987829","nombre_producto" : "PIZZA","cant_prod" : "2","precio_orig" : "8","precio_prod" : "8","impuesto_prod" : "","precio_total" : "16.00","precio_descuento_justificacion" : "","agregados" : "0","detalle_agregados" : ""}],"factura" : {"subtotal_sin_iva" : "16","timespanfactura" : "14593432603962978","idbarrascajas" : "a383bc4552bfb701f96a17a4541b5565","fecha" : "1459343260398","anulada" : "false","subtotal_iva" : "0","impuestos" : "","iva" : "0","servicio" : "0","descuento" : "0","total" : "16","numerofact" : "001-001-000000170","encabezado" : "3","largo" : "18","impuestosdata" : "","ordername" : "null","lang" : "1","propina" : "0"},"empresa":{"nombre":"Test","direccion":"Av. Test"},"pagos":[{"forma":"efectivo","valor":"16.00","tipotarjeta":"","lote":"","numerocheque":"","banco":""}]}]}</div>
+		<div id="JSONproductosLocal" style="color:red;display:none;"></div>
+		<div id="JSONproductosNube"  style="color:blue;display:none;" ></div>
+		<div id="JSONCategoriasLocal"  style="color:green;display:none;"></div>
+		<div id="JSONCategoriasNube"  style="color:gray;display:none;"></div>
+		<div id="JSONEmpresaNube"  style="color:gray;display:none;"></div>
+		<div id="JSONMenuNube"  style="color:gray;display:none;"></div>
+		<div id="JSONCatMenuNube"  style="color:gray;display:none;"></div>
+		<div id="JSONPermisosNube"  style="color:gray;display:none;"></div>
+		<div id="JSONpresupuestoNube"  style="color:gray;display:none;"></div>
+		<div id="JSONfacturas" style="color:red;display:none;"></div>
+		<div id="JSONclientesNube" style="color:red;display:none;"></div>
+	    <div id="JSONclientesLocal" style="color:red;display:none;" ></div>
+		<div id="JSONempresaLocal" style="color:red;display:none;" ></div>
+		<div id="JSONExtraNube" style="color:red;display:none;" ></div>
+		<div id="JSONMesasNube" style="color:red;display:none;" ></div>
+		<div id="JSONTipoMesasNube" style="color:red;display:none;" ></div>
+		<div id="JSONImpuestosNube" style="color:red;display:none;"></div>
+		<div id="JSONModifNube" style="color:red;display:none;"></div>
+		<div id="JSONPropinasNube" style="color:red;display:none;"></div>
+        <div id="JSONLocales" style="color:red;display:none;"></div>
+		<div id="impuestosactivos" style="color:red;display:none;"></div>
+		<div id="impuestosactivosid" style="color:red;display:none;"></div>
+		<div id="taxes" style="display: none;"></div>
+		<div id="idiva" style="display: none;"></div>
+		<div id="idservicio" style="display: none;"></div>
+		
+		
+		
+		
+		<div class="modal fade" id='cargandoTabs' data-backdrop='static'>
+				<table width='100%' height='100%'>
+					<tr>
+						<td valign='middle' align='center'> 
+							<img src='images/loader.gif' style='width:100px;'/>
+						</td>
+					</tr>
+				</table>
+		</div>
+		
+		<div style="overflow:hidden; position:absolute; left:0px; top:0px; width:100%; height:100%; background:rgba(40,40,41,1); display:block; z-index:5;" id="fade">
+			<table width="100%" height="100%" cellpadding="0" cellspacing="0" >
+				<tr>
+					<td valign="center" align="center" >
+						<div id="contentCenterFadeArea">
+							<img src="" id="logo" style="display:none;"><br/>
+							<img src='images/loader.gif' width='30px'/>
+							<br/><label style="color:white;" id="putText">Loading..</label>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<!--modal permiso-->
+		<div class="modal fade" tabindex="-1" role="dialog" id='modalpermiso'>
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Permiso de Usuario</h4>
+			  </div>
+			  <div class="modal-body">
+			  <input style='display:none;' id="accesodonde"/>
+				<div class="input-group">
+				  <span class="input-group-addon" id="basic-addon1">Clave</span>
+				  <input type="text" onclick='this.select();' id='miclave' class="form-control" placeholder="ingrese su clave" aria-describedby="basic-addon1">
+				</div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-primary" onclick="VerificarClave();">Entrar</button>
+			  </div>
+			</div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		<!--fin modal-->
+		
+		
+		<!---<div  id="version_escoje" class='panel-default' style='z-index:6;'>
+    		<div style="padding-top: 25px;">
+    		<div class='row' style="padding-top: 20px;">
+    			<div class="col-sm-12" style="text-align: center;">
+    			    <img src="img/logoava.png" width="150" alt="">
+                </div>
+    		</div>
+            <div class='row' style="padding-top: 15px;">
+    			<div class="col-sm-12" id='trans_label_63' style="text-align: center;font-weight: bold;font-size: 24px;">
+    			    Selecciona el proceso de venta que realizas
+                </div>
+    		</div>
+            <div class='row'>
+    			<div class="col-sm-12" id='trans_label_64' style="text-align: center;">
+    			    Luego puedes cambiar esto en configuración
+                </div>
+    		</div>
+            <br>
+            <div class='row'>
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-1" style="text-align: center;">
+                      <label><input type="radio" onclick='guardaversion();' id="id_version" name="id_version" value="2" style="width: 40px;height: 40px;"></label>
+                </div>
+                <div class="col-xs-7" id='trans_label_66' onclick="activaradio(2);">
+                    <span style="font-size: 18px"><b>Rápida</b></span> (la más popular)<br>
+                    Vende con una pantalla de botones, fácil de usar. Ideal para negocios de comida rápida, cafeterías, tiendas o ventas de servicios.
+                </div>
+                <div class="col-xs-2">
+                </div>
+    		</div>
+            <div class='row' style="padding-top: 20px;">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-1" style="text-align: center;">
+                      <label><input onclick='guardaversion();' type="radio" id="id_version" name="id_version" value="1" style="width: 40px;height: 40px;"></label>
+                </div>
+                <div class="col-xs-7" id='trans_label_65' onclick="activaradio(1);">
+                  <span style="font-size: 18px"><b>Solo Código de Barras</b></span> (requieres una pistola de código de barras)<br>
+                    Opción para negocios que manejan códigos de barras como forma principal de ventas. Interfaz y proceso de ventas basado en lectura o ingreso de códigos de barra.
+                </div>
+                <div class="col-xs-2">
+                </div>
+    		</div>
+            <div class='row' style="padding-top: 20px;">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-1" style="text-align: center;">
+                      <label><input onclick='guardaversion();' type="radio" id="id_version" name="id_version" value="3" style="width: 40px;height: 40px;"></label>
+                </div>
+                <div class="col-xs-7" id='trans_label_67' onclick="activaradio(3);">
+                  <span style="font-size: 18px"><b>Restaurante</b></span><br>
+                  Opción con mapa de mesas para restaurante. Permite almacenar pedidos en las mesas y facturar al final.
+                </div>
+                <div class="col-xs-2">
+                </div>
+    		</div>
+    		<br/><br/>
+    		<div style='padding-bottom:30px; padding-top:30px; display:none;'>
+    			<center><button type="button" class="btn btn-lg btn-success trans_continue" onclick='guardaversion()' style="font-size: 16px;">Continuar</button></center>
+    		</div>
+        </div>
+		<br/><br/>
+        </div>-->
+
+       <!---<div id='pide_telefono' style='z-index:6;' class='col-lg-12'>
+			<div style='padding-top:40px; padding-bottom:20px; text-align:center;'>
+			<img src="img/logoava.png" width="150" alt="" />
+			</div>
+    		<div class='row' style="padding-top: 15px;">
+    			<div class="col-lg-12" id="trans_label_68" style="text-align: center;font-weight: bold;font-size: 40px;">
+    			    Activar Inteligencia Artificial
+                </div>
+    		</div>
+            <div class='row'>
+                <div class="col-xs-2">
+                </div>
+    			<div class="col-xs-8" id='trans_label_70' style="text-align:justify; padding-top:20px;">
+    			   Ava es un robot con inteligencia artificial que te ayuda a manejar tu negocio por medio de chats en WhatsApp.
+                </div>
+                <div class="col-xs-2">
+                </div>
+    		</div>
+            <br><br>
+            <div class='row'>
+                <div class="col-xs-2">
+                </div>
+    			<div class="col-xs-8" id='trans_label_76' style="text-align:justify; font-weight: bold; font-size: 16px;">
+    			    Para activar a Ava, necesitamos un número telefónico válido con WhatsApp. Nunca usaremos este teléfono para llamarte, ni para otros propósitos y jamás venderemos tu información. Serás contactado exclusivamente por Ava a este número por medio de  WhatsApp.
+                </div>
+                <div class="col-xs-2">
+                </div>
+    		</div>
+            <br>
+            <div class='row'>
+                <div class="col-lg-5 col-md-5">
+                    <select class="form-control input-lg" style='margin-bottom:20px;' id="paiswhat" name="paiswhat" size="1" required="" placeholder="País" onchange="ponerCodigoPais();">
+                      <option id="trans_label_82" value="0" style="color: #E0DEDE">País</option>
+                      <option value="1">Antigua y Barbuda</option>
+                      <option value="54">Argentina</option>
+                      <option value="1">Bahamas</option>
+                      <option value="1">Barbados</option>
+                      <option value="501">Bélice</option>
+                      <option value="591">Bolivia</option>
+                      <option value="55">Brasil</option>
+                      <option value="1">Canadá</option>
+                      <option value="56">Chile</option>
+                      <option value="57">Colombia</option>
+                      <option value="506">Costa Rica</option>
+                      <option value="53">Cuba</option>
+                      <option value="1">Dominica</option>
+                      <option value="593">Ecuador</option>
+                      <option value="503">El Salvador</option>
+                      <option value="1">Estados Unidos</option>
+                      <option value="1">Granada</option>
+                      <option value="502">Guatemala</option>
+                      <option value="592">Guyana</option>
+                      <option value="509">Haití</option>
+                      <option value="504">Honduras</option>
+                      <option value="1">Jamaica</option>
+                      <option value="52">México</option>
+                      <option value="505">Nicaragua</option>
+                      <option value="507">Panamá</option>
+                      <option value="595">Paraguay</option>
+                      <option value="51">Perú</option>
+                      <option value="1">Puerto Rico</option>
+                      <option value="1">República Dominicana</option>
+                      <option value="1">San Cristóbal y Nevis</option>
+                      <option value="1">San Vicente y las Granadinas</option>
+                      <option value="1">Santa Lucía</option>
+                      <option value="597">Surinam</option>
+                      <option value="1">Trinidad y Tobago</option>
+                      <option value="598">Uruguay</option>
+                      <option value="58">Venezuela</option>
+                  </select>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                    <input id="codigo_pais" name="codigo_pais" style='margin-bottom:20px;' type="number" class="form-control input-lg trans_code" placeholder="Código" readonly="readonly" style="text-align:center;">
+                </div>
+    			<div class="col-lg-5 col-md-5">
+                    <input id="numero_telefonico" style='margin-bottom:20px;' name="numero_telefonico" type="tel" placeholder="Teléfono" class="form-control trans_phone input-lg" />
+                </div>
+    		</div>
+			<div class='row' style='margin-bottom:30px;'>
+    			<center><button class='btn btn-default btn-lg' id='trans_label_81' onclick='omitirtelefono();'>Omitir</button>&nbsp;<button type="button" class="btn btn-lg btn-success trans_active_ava" onclick='guardatelefono()' style="font-size: 20px;">Activar AVA</button></center>
+			</div>
+	</div>--->
+
+		<!--modal cantidad-->
+		<div class="modal fade" role="dialog" id='popupprecios' data-backdrop='static'>
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 id='titlenumeric' style='text-align:center;'></h3>
+					</div>
+					<div class='modal-body'>
+						<div style='padding:5px;' id='tecladoc'>
+							<div class='row'>
+								<div class='col-xs-12 col-md-12 col-lg-12'>
+									<input class='cantidadn' readonly value='0'/>
+									<input type='text' style='display:none;' id='inputtarget' />
+								</div>
+							</div>
+							<div class='row'>
+								<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+								<button onclick='ClickNumeroP(this);' class='numeron btn btn-default btn-lg' cual='1'>1</button> 
+								</div>
+								<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+								<button onclick='ClickNumeroP(this);' class='numeron btn btn-default btn-lg' cual='2'>2</button>
+								</div>
+								<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+								<button onclick='ClickNumeroP(this);' class='numeron btn btn-default btn-lg' cual='3'>3</button>
+								</div>
+							</div>
+							<div class='row'>
+								<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+								<button onclick='ClickNumeroP(this);' class='numeron btn btn-default btn-lg' cual='4'>4</button>
+								</div>
+								<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+								<button onclick='ClickNumeroP(this);' class='numeron btn btn-default btn-lg' cual='5'>5</button>
+								</div>
+								<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+								<button onclick='ClickNumeroP(this);' class='numeron btn btn-default btn-lg' cual='6'>6</button>
+								</div>
+							</div>
+							<div class='row'>
+								<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+								<button onclick='ClickNumeroP(this);' class='numeron btn btn-default btn-lg' cual='7'>7</button>
+								</div>
+								<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+								<button onclick='ClickNumeroP(this);' class='numeron btn btn-default btn-lg' cual='8'>8</button>
+								</div>
+								<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+								<button onclick='ClickNumeroP(this);' class='numeron btn btn-default btn-lg' cual='9'>9</button>
+								</div>
+							</div>
+							<div class='row'>
+								<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+								<button onclick='ClickNumeroP(this);' class='numeron btn btn-default btn-lg' cual='0'>0</button>
+								</div>
+								<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+								<button onclick='ClickNumeroP(this);' class='numeron btn btn-default btn-lg' cual='p'>.</button>
+								</div>
+								<div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
+								<button onclick='ClickNumeroP(this);' class='numeron btn btn-default btn-lg' cual='d'><span class='fa fa-long-arrow-left'></span></button>
+								</div>
+							</div>
+							<div class='row' style='padding-top:20px;'>
+								<div class='col-lg-12' style='text-align:center;'>
+								<button class='btn btn-default btn-lg trans_cancel' type='button' onclick='ocultarTeclado(0);'>Cancelar</button>
+								<button class='btn btn-success btn-lg trans_apply' type='button' onclick='ocultarTeclado(1);'>Aplicar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--fin modal cantidad-->
+
+<!--popup factura guardada-->
+<div  class="modal fade" id="popupsavefactura" role="dialog" data-backdrop="static">
+		<div class="modal-dialog modal-lg">
+			<div class='modal-content text-center'>
+				<div class="modal-header" style='color:#404041;'>
+				<div class='row'>
+					<div class='col-lg-12' style='padding-top:20px;'>
+					<h1><span class="label label-success" style='border-radius:0px; font-size:48px;'><span class='trans_change'>VUELTO</span>:<span id='vueltoalert'>$ 0.00</span></span></h1>
+					</div>
+				</div>
+				<h1 id='trans_label_88' style='font-size:58px; margin-bottom:20px; margin-top:40px;'>FACTURA GUARDADA CON ÉXITO</h1>
+				<div style='width:100%; text-align:right; padding-right:5px; padding-top:5px;cursor:pointer;color:#1495C0; position:absolute; top:0px; right:12px; cursor:pointer;'>
+					<i class="fa fa-chevron-circle-left fa-3x" title='Volver...' onclick='$("#cargandoTabs").modal("hide");$("#popupsavefactura").modal("hide");'></i>
+				</div>
+				</div>
+				<div class="modal-body" style='color:#404041;'>
+						<div class='row' style='font-size:20px; margin-top:20px;'>
+							<div class='col-lg-3 col-md-3 col-xs-3'></div>
+							<div class='col-lg-5 col-md-5 col-xs-5'>
+							<div class='row'><div class='col-lg-6 col-md-6 col-xs-6' style='text-align:right;'><b>TOTAL</b>:</div><div class='col-lg-6 col-md-6 col-xs-6' style='text-align:right;'><span id='totalalert' style='font-weight:bold;'>$ 0.00</span></div></div>
+							<div class='row'><div class='col-lg-6 col-md-6 col-xs-6' style='text-align:right;'><span class='trans_paid'>PAGADO</span>:</div><div class='col-lg-6 col-md-6 col-xs-6' style='text-align:right;'><span id='pagadoalert'>$ 0.00</span></div></div>
+							<!--<div class='row'><div class='col-lg-6 col-md-6 col-xs-6' style='text-align:right;'><span class='trans_change'>VUELTO</span>:</div><div class='col-lg-6 col-md-6 col-xs-6' style='text-align:right;'><span id='vueltoalert'>$ 0.00</span></div>
+							</div>-->
+							</div>
+							<div class='col-lg-4 col-md-4 col-xs-4'></div>
+						</div>
+						<div class='row'>
+							<div class='col-lg-12' style='text-align:center; margin-top:35px;'>
+								<button class='btn btn-lg btn-success' onclick='$("#cargandoTabs").modal("hide");$("#menuSubNew2").html("Total"); if (screen.width<900){document.getElementById("lapartedepagos").style.display="none";} $("#popupsavefactura").modal("hide");' style='min-width:100px;'>OK</button>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+</div>
+<!--fin factura guardada-->
+
+
+<!--popup creado-->
+<div  class="modal fade" id="popupsaveproducts" role="dialog" data-backdrop="static">
+	<div class="modal-dialog modal-lg">
+		<div class='modal-content text-center'>
+			<div class="modal-header" style='color:#404041;'>
+			<h1 id='trans_label_89' style='font-size:58px; margin-bottom:20px; margin-top:60px;'>Producto guardado con éxito</h1>
+			<div style='width:100%; text-align:right; padding-right:5px; padding-top:5px;cursor:pointer;color:#1495C0; position:absolute; top:0px; right:12px; cursor:pointer;'>
+				<i class="fa fa-chevron-circle-left fa-3x" title='Volver...' onclick='$("#popupsaveproducts").modal("hide");envia("nuevoproducto");'></i>
+			</div>
+			</div>
+			<div class='modal-body'>
+			<div class='row'>
+				<div class='col-lg-12' style='text-align:center; margin-top:35px;'>
+					<button class='btn btn-lg btn-default' onclick='$("#popupsaveproducts").modal("hide");envia("nuevoproducto");' style='min-width:100px;'>Crear Otro</button>&nbsp;&nbsp;
+					<button class='btn btn-lg btn-success' onclick='$("#popupsaveproducts").modal("hide");clickMenu(1);' style='min-width:100px;'>Ir a Facturación</button>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--fin creado-->
+
+<!--modal ayuda-->
+		<div class="modal fade" id="myDash" role="dialog" data-backdrop='static'>
+			<img id='flechamenu' src='images/flechamenu.png' style='display:none; position:absolute; top:60px; left:10%; width:160px; z-index:5;'/>
+			<img id='flechamenumovil' src='images/flechamenumovil.png' style='display:none; position:absolute; top:60px; left:67%; width:160px; z-index:5;'/>
+			<div class="modal-dialog">
+			  <!-- Modal content-->
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal">&times;</button>
+				  <h4 class="modal-title" id='trans_label_90'>Avapos Instrucciones de Navegación</h4>
+				</div>
+				<div class="modal-body">
+				  <p class='ayudainicialp' id='trans_label_91'>Este es el menú principal de AvaPOS, puedes navegar por todas las opciones, por ejemplo puedes empezar vendiendo.</p>
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-default trans_end" data-dismiss="modal">Finalizar</button>
+				</div>
+			  </div>
+			</div>
+		</div>
+<!--fin ayuda-->
+</div>
+</div>
+</body>
+<link href="slide/bootstrap-switch.css" rel="stylesheet"/>
+<script src="slide/bootstrap-switch.js"></script>
+<!---<script src="slide/highlight.js"></script>--->
+<script>
+			//app.initialize();
+			google.load("visualization", "1", {packages:["corechart"]});
+			var timerFade;
+			function startAnimation(){
+				$("#logo").load(function() {
+					$("#logo").fadeIn("slow");
+					timerFade=setTimeout(function(){
+						$("#fade").animate({  top: "-100%", display : "none"  } , 1500 , "easeOutQuint" , function(){
+								$("#contentCenterFadeArea").html('');
+						});
+						//$("#fade").slideUp();
+					},3000);
+					
+				}).attr('src', 'img/logo.png');
+			}
+			
+			document.addEventListener("deviceready", function(){
+				var uuid = device.uuid;
+				id_barra=uuid;
+				var model=device.model;
+				$('#deviceid').html(uuid);
+				$('#devicemodel').html(model);
+			});
+			
+			
+	$( document ).ready(function(){
+			//alert($(window).width());
+			SyncStart();
+			digitado=false;
+			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			db.transaction(iniciaDB,errorCB,successCB);
+			
+			/*if(localStorage.getItem("id_version_nube") == '0'){
+				envia('config');
+            }
+			
+			if(localStorage.getItem("id_version_nube") != '0' && localStorage.getItem("telefono_inte") == ''){
+				envia('config');
+            }
+			
+			if(localStorage.getItem("id_version_nube") != '0' && localStorage.getItem("telefono_inte") != '' && localStorage.getItem("id_locales") == '0'){
+			  envia('config');
+            }
+
+            ListarLocales();
+
+            if(localStorage.getItem("terminos") == 'false'){
+			    //$('#terminos_condiciones').fadeIn('slow');
+                //document.getElementById('main').style.display='none';
+				envia('config');
+            }*/
+
+			$('#myDash').on('show.bs.modal',function(){
+				if(parseInt($(window).width())>900){
+					$('.navbar').slideDown();
+					$('#barraalternamovil').css('display','none');
+					$(this).find('.modal-dialog').css('top','150px');
+				}else{
+					$('#barraalternamovil').slideDown();
+					$('.navbar').css('display','none');
+					$(this).find('.modal-dialog').css('top','75px');
+				}
+			});
+			
+			$('#myDash').on('shown.bs.modal',function(){
+				var hmenu=parseFloat($('.navbar').css('height'));
+				$(this).find('.modal-backdrop').css('top',hmenu);
+				if(parseInt($(window).width())>900){
+				setTimeout(function(){$('#listademenus').effect('highlight',{'color':'#CCC', "opacity": ".5"},2000)},2500);
+				}
+				else{
+				setTimeout(function(){$('.navbar-toggle').effect('highlight',{'color':'#CCC', "opacity": ".5"},2000)},2500);
+				}
+				$('body,#myDash').css('padding-right','0px');
+				$('body,html').css('overflow-y','hidden');
+			});
+			
+			$('#myDash').on('hidden.bs.modal',function(){
+				$('body,#myDash').css('padding-right','0px');
+				$('body,html').css('overflow-y','auto');
+			}); 
+			
+			$('#popupprecios').on('shown.bs.modal',function(){
+				$('body,#myDash').css('padding-right','0px');
+				$('body,html').css('overflow-y','hidden');
+			});
+			
+			$('#popupprecios').on('hidden.bs.modal',function(){
+				$('body,#myDash').css('padding-right','0px');
+				$('body,html').css('overflow-y','auto');
+			}); 
+			
+            window.addEventListener('native.keyboardshow', keyboardShowHandler);
+            function keyboardShowHandler(e){
+    			//alert("show");
+    			var inp=$(":focus");
+    			var padding = 15;
+                var targetPosition = parseInt($(inp).offset().top + padding);
+                var keyboardHeight = parseInt($(window).height())-parseInt(e.keyboardHeight);//get keyboard height
+
+                //if the input is hidden by the keyboard,scroll to the input
+    			//alert(targetPosition+'/'+keyboardHeight);
+                if (targetPosition >= keyboardHeight) {
+                    //padding *=5;
+    				if(inp.attr('id')=='search-renderitem')
+                    $('#pide_telefono').css("top",-(targetPosition-keyboardHeight+padding+20)+"px");
+    				else
+                    $('#pide_telefono').css("top",-(targetPosition-keyboardHeight+padding)+"px");
+                }
+    		}
+
+			// This event fires when the keyboard will show
+			window.addEventListener('native.keyboardhide', keyboardHideHandler);
+
+			function keyboardHideHandler(e){
+					//alert("hide");
+					$('#pide_telefono').css("top","0px");
+			}
+			
+			//$('html').addClass('android-scroll-bar');
+				
+			//idioma
+			var linklang="es";			
+			var xmlidioma=$.get("lang/"+linklang+".xml",function(d){
+					//alert("Ana");
+					var itemestructura=$(d).find("estructura")[0];
+					var itemmen=$(itemestructura).find("menu")[0];
+					var itembotones=$(itemestructura).find("botones")[0];
+					var itemlabels=$(itemestructura).find("labels")[0];
+					var itemplaceholder=$(itemestructura).find("placeholder")[0];
+					var todositems=$(itemmen).find("item");
+					var todosbotones=$(itembotones).find("item");
+					var todoslabels=$(itemlabels).find("item");
+					var todosplaceholder=$(itemplaceholder).find("item");
+					for(var k=0;k<todositems.length;k++){
+						var miitem=$(todositems[k]);
+						$('#lab_menu_'+(k+1)).html(miitem.html());
+					}
+					
+					for(var k=0;k<todosbotones.length;k++){
+						var miitemname=$(todosbotones[k]).attr("name");
+						$('.'+miitemname).html($(todosbotones[k]).html());
+					}	
+					
+					for(var k=0;k<todoslabels.length;k++){
+						var miitemname=$(todoslabels[k]).attr("name");
+						$('#'+miitemname).html($(todoslabels[k]).html());
+					}
+					
+					for(var k=0;k<todosplaceholder.length;k++){
+						var miitemname=$(todosplaceholder[k]).attr("name");
+						$('.'+miitemname).prop("placeholder",$(todosplaceholder[k]).html());
+					}
+			});
+			startAnimation();
+			//fin idioma
+	});
+			
+	function ClickNumeroP(numc){
+		console.log('entra al click');
+		//var div=$(numc).parent().parent().parent().parent();
+		var miinp=$('.cantidadn');
+		//console.log(miinp);
+		/*$('#pay input').each(function(){
+			if($(this).attr('aria-describedby')==div.attr('id')){
+				miinp=$(this);
+			}
+		});*/
+		//alert(div.attr('id'));
+		var accion = $.trim($(numc).attr('cual'));
+			//console.log(accion);
+		if(accion == 'p'){
+				if(miinp.val().indexOf('.') == -1){
+					/*if(miinp.val()==0){
+						miinp.val(miinp.val()+".");
+						digitado=true;
+					}
+					else{*/
+						if(digitado==false){
+							miinp.val('0.');
+							digitado=true;
+						}
+						else{
+							miinp.val(miinp.val()+'.');
+							digitado=true;
+						}
+					//}
+				}else{
+					if(digitado==false){
+							miinp.val('0.');
+							digitado=true;
+					}
+				}
+				return false;
+		}
+		else if($.isNumeric(accion) === true){
+				if(miinp.val()=='0'){
+					miinp.val(accion);
+					digitado=true;
+				}
+				else {
+					if(digitado==true)
+						miinp.val(miinp.val()+accion);
+					else{
+						miinp.val(accion);
+						digitado=true;
+					}
+				}
+						
+				return false;
+		}
+
+		var fetchHTML = $.trim(miinp.val());
+		miinp.val(fetchHTML.substring(0,(fetchHTML.length-1)));
+		if(miinp.val()=='')
+			miinp.val('0');
+	}
+	
+	function ocultarTeclado(como){
+			if(como==1){
+				var miinp=$('#inputtarget').val();
+				var inp=$('#'+miinp);
+				inp.val($('.cantidadn').val());
+				if(miinp=='precioproducto')
+					CalcularConImpuestos();
+				else if(miinp=='precioConImpuestos')
+					CalcularSinImpuestos();
+				else if(miinp=='paymentEfectivo'||miinp=='valortarjeta'||miinp=='valorcheque1'||miinp=='valorcxc'||miinp=='valorConsumoI')
+					$(inp).change();
+				else if(miinp=='precioprof'||miinp=='totalprof'){
+					calculaProdProf()
+				}else if(miinp.indexOf('preciomod_')>=0){
+					//sconsole.log(miinp);
+					EditarLinea($('#'+miinp));
+				}
+			}
+		$('#popupprecios').modal('hide');
+	}
+
+    function activaradio(cual){
+      $('input[value="'+cual+'"]').prop("checked", true);
+	  guardaversion();
+    }
+
+function ListarLocales(){
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+	tx.executeSql('SELECT * FROM LOCALES where timespan != "0" and activo = "true" ORDER BY local asc;',[],function(tx,results){
+		//console.log(results.rows.length);
+		var inhtml='';
+        if(localStorage.getItem("idioma")==2){
+         inhtml += '<option value="0">Select Local</option>';
+        }else{
+         inhtml += '<option value="0">Seleccionar Local</option>';
+        }
+
+		for (var i=0; i < results.rows.length; i++){
+			var row=results.rows.item(i);
+			inhtml+='<option value="'+row.timespan+'">'+row.local+'</option>';
+		}
+		 //LlenarComboCat(inhtml);
+         $('#idlocales').html(inhtml);
+
+	});
+	});
+}
+function IrLocales(){
+  var us = btoa(localStorage.getItem("userRegister"));
+  var pa = btoa(localStorage.getItem("userPasswod"));
+  var url = 'https://www.practisis.net/indexredirect.php?rvpas='+pa+'&rvus='+us+'&mod=locales';
+    window.open(url);
+}
+
+
+function clickMenu(cual){
+
+document.getElementById("menuNew1").className = "col-xs-3 itemsmenu";
+document.getElementById("menuNew2").className = "col-xs-3 itemsmenu";
+document.getElementById("menuNew3").className = "col-xs-3 itemsmenu";
+document.getElementById("menuNew4").className = "col-xs-1 itemsmenu";
+document.getElementById("menuNew5").className = "col-xs-1 itemsmenu";
+document.getElementById("menuSubNew1").style.display="none";
+document.getElementById("menuSubNew2").style.display="none";
+
+if (cual==1){
+	envia('puntodeventa');
+	document.getElementById("menuNew1").className = "col-xs-3 itemsmenuactive";
+	document.getElementById("menuSubNew1").style.display="block";
+	document.getElementById("menuSubNew2").style.display="block";
+	if(localStorage.getItem("con_shop")=='true'){
+		document.getElementById("productosnew").style.display="block";
+	}
+	else{
+		document.getElementById("productos").style.display="block";
+	}
+	 
+	$("#lapartedepagos").css("display","none");
+	
+}else if (cual==2){
+VerificarPermiso('historial');
+document.getElementById("menuNew2").className = "col-xs-3 itemsmenuactive";
+$("#menuSubNew2").html("Total");
+}
+else if (cual==3){
+VerificarPermiso('productos');
+document.getElementById("menuNew3").className = "col-xs-3 itemsmenuactive";
+$("#menuSubNew2").html("Total");
+}
+else if (cual==4){
+envia('dashboard');
+document.getElementById("menuNew4").className = "col-xs-1 itemsmenuactive";
+$("#menuSubNew2").html("Total");
+}
+else if (cual==5){
+VerificarPermiso('configuracion');
+document.getElementById("menuNew5").className = "col-xs-1 itemsmenuactive";
+$("#menuSubNew2").html("Total");
+}
+
+}
+
+function clickSubMenu(cual){
+	document.getElementById("menuSubNew1").className = "col-xs-6 itemafac";
+	document.getElementById("menuSubNew2").className = "col-xs-6 itemafac";
+
+	if (cual==1){
+		document.getElementById("menuSubNew1").className = "col-xs-6 itemafacactivo";
+		document.getElementById("lapartedepagos").style.display="none";
+		if(localStorage.getItem("con_shop")=='true'){
+			document.getElementById("productosnew").style.display="block";
+		}else{
+			document.getElementById("productos").style.display="block";
+		}
+	}
+	else{
+		document.getElementById("menuSubNew2").className = "col-xs-6 itemafacactivo";
+		document.getElementById("lapartedepagos").style.display="block";
+		if(localStorage.getItem("con_shop")=='true'){
+			document.getElementById("productosnew").style.display="none";
+		}else{
+			document.getElementById("productos").style.display="none";
+		}
+	}
+}
+
+	</script>
+</html>

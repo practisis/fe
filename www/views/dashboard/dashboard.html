@@ -1,0 +1,433 @@
+<div class="page page-dashboard" data-ng-controller="DashboardCtrl">
+	<div class='row'>
+		<div class='col-lg-12'>
+			<div class="panel" style='padding-top:10px; padding-bottom:10px; padding-left:5px;'>
+				<div class='row'>
+					<div class='col-lg-8 col-md-8 col-xs-8' style='margin-left:10px;'>
+					<table align='left'><tr><td>
+						<div class="input-group"> 
+						<span class="input-group-addon glyphicon glyphicon-calendar" id="basic-addon1"></span>
+						<input type='text' class='form-control' id='desde' readonly style="min-width:100px;"/>
+						<input type='text' class='form-control' id='hasta' style='display:none;'/></div>
+					</td><td>
+						<button class='btn btn-primary trans_filter' type='button' style='margin-top:0px;' onclick='ObtenerDatosDashboard();'>Filtrar</button>
+						</td>
+						</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    <div class="row">
+	    <div class="col-md-3">
+            <div class="panel mini-box" onclick='envia("puntodeventa");'>
+                <span class="box-icon bg-danger">
+                    <i class="fa fa-dollar"></i>
+                </span>
+                <div class="box-info">
+                    <p class="size-h3" id='totalventas'>0.00</p>
+                    <p class="text-muted"><span data-i18n="Ventas $" id='trans_label_1'>Ventas $</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel mini-box" onclick='envia("puntodeventa");'>
+                <span class="box-icon bg-success">
+                    <i class="fa fa-credit-card"></i>
+                </span>
+                <div class="box-info">
+                    <p class="size-h3" id='ticketpromedio'>0.00</p>
+                    <p class="text-muted"><span data-i18n="Ticket Promedio $" id='trans_label_2'>Ticket Promedio $</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel mini-box" onclick='envia("puntodeventa");'>
+                <span class="box-icon bg-info">
+                    <i class="fa fa-users"></i>
+                </span>
+                <div class="box-info">
+                    <p class="size-h3" id='transacciones'>0</p>
+                    <p class="text-muted"><span data-i18n="Transacciones" id='trans_label_3'>Transacciones</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel mini-box" onclick='envia("puntodeventa");'>
+                <span class="box-icon bg-warning">
+                    <i class="fa fa-star"></i>
+                </span>
+                <div class="box-info">
+                    <p class="size-h3"><span id='cumplimiento'>0.00</span>%</p>
+                    <p class="text-muted"><span data-i18n="cumplimiento $"><span id="trans_label_4">% Cumplimiento - Presupuesto $</span><span id='mipres'></span></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+		<div class='col-md-6'>
+			<section class="panel panel-box info-box">
+					<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span id='trans_label_5' data-i18n="ventascateg">Ventas por Categoria</span></strong></div>
+					<div class="panel-body">
+					<div id='trans_label_92'  style='display:none;'>Aquí puedes ver tus ventas por categoría cuando comiences a facturar.</div>
+					<div id='ventascategoria'>
+					</div>
+					</div>
+			</section>
+		</div>
+		<div class='col-md-6'>
+			<section class="panel panel-box info-box">
+					<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="productosten" id='trans_label_6'>Ranking de Productos</span></strong></div>
+					<div class="panel-body">
+					<div id='trans_label_93' style='display:none;'>Aquí puedes ver la lista de tus 10 productos más vendidos cuando comiences a facturar.</div>
+					<div id='productosten'>
+					</div>
+					</div>
+			</section>
+		</div>
+	</div>
+	<div class='row' style='display:none;'>
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span id='trans_label_7' data-i18n="Rank Productos">Ranking de Productos</span></strong></div>
+                <div class="panel-body"  data-ng-controller="flotChartCtrl">
+					<table class="table" id='tablarank'>
+					<thead>
+						<tr>
+							<th>Producto</th>
+							<th>Cantidad</th>
+							<th>Ventas $</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+					</table>
+							
+			</div>
+            </div>
+        </div>
+    </div>
+	<button style='display:none;' type='button' class='btn btn-lg btn-success' onclick='BuscarEpson();'>Epson</button>
+</div>
+<div id='jsoncats'></div>
+<script>
+$(document).ready(function(){
+					var linklang="es";
+					if(localStorage.getItem("idioma")==2)
+						linklang="en";
+						var xmlidioma=$.get("lang/"+linklang+".html",function(datos){
+			d=JSON.parse(datos);
+			var itemestructura=d.estructura;
+			//console.log(itemestructura);
+			var itemmen=itemestructura.menu;
+			var itemplaceholder=itemestructura.placeholder;
+			var itemtitles=itemestructura.titles;
+			var itembuttons=itemestructura.botones;
+			var itemlabels=itemestructura.labels;
+			var todostitles=itemtitles.item;
+			var todosbuttons=itembuttons.item;
+			var todoslabels=itemlabels.item;
+			var todositems=itemmen.item;	
+			var todosplaceholder=itemplaceholder.item;
+			
+			for(var k=0;k<todosplaceholder.length;k++){
+				var miitemname=todosplaceholder[k].name;
+				//alert(miitemname);
+				$('.'+miitemname).attr("placeholder",todosplaceholder[k].text);
+			}
+			
+			for(var k=0;k<todositems.length;k++){
+					var miitem=todositems[k];
+					$('#lab_menu_'+(k+1)).html(miitem);
+			}
+					
+				for(var k=0;k<todostitles.length;k++){
+					var miitemname=todostitles[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todostitles[k].text);
+				}
+				
+				for(var k=0;k<todosbuttons.length;k++){
+					var miitemname=todosbuttons[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todosbuttons[k].text);
+				}
+				
+				for(var k=0;k<todoslabels.length;k++){
+					//console.log(todoslabels[k].name+"/"+todoslabels[k].name);
+					var miitemname=todoslabels[k].name;
+					$('#'+miitemname).html(todoslabels[k].text);
+				}
+				
+		});
+				//fin idioma
+  
+  $('#desde,#hasta').datepicker({"dateFormat":"yy-mm-dd"});
+ //colocar fechas
+  var ahora=new Date();
+			
+  var mesa=(parseInt(ahora.getMonth())+1).toString();//console.log(mes);
+  var diaa=ahora.getDate().toString();
+  if(diaa.length==1)
+			diaa='0'+diaa;
+  if(mesa.length==1)
+			mesa='0'+mesa;
+  var fechahoy=ahora.getFullYear()+"-"+mesa+'-'+diaa;
+  
+  var mimanana=new Date(fechahoy.replace("-","/")+" 00:00:00").getTime()+(1000*59*59*23);
+  var manana=new Date(mimanana);
+  console.log(fechahoy);
+  var dia=manana.getDate().toString();
+  var mes=(parseInt(manana.getMonth())+1).toString();//console.log(mes);
+  if(dia.length==1)
+			dia='0'+dia;
+  if(mes.length==1)
+			mes='0'+mes;
+  
+  var fechamanana=manana.getFullYear()+"-"+mes+'-'+dia;
+  $('#desde').val(fechahoy);
+  $('#hasta').val(fechamanana);
+  
+  $('#desde').change(function(){
+		$('#hasta').val($(this).val());
+  });
+
+   ObtenerDatosDashboard();
+});
+
+
+function ObtenerDatosDashboard(){
+	//alert("datos");
+	$('#ventascategoria,#productosten,#mipres').html('');
+	$('#cumplimiento').html('0.00');
+	var fdesde=$('#desde').val();
+	fdesde=fdesde.replace("-","/");
+	fdesde=new Date(fdesde);
+	var fhasta=$('#hasta').val()+" 23:59:59";
+	fhasta=fhasta.replace("-","/");
+	fhasta=new Date(fhasta);
+	categoriasvector= new Array();
+	var misubtotal=0;
+    var trans=0;
+
+    if(localStorage.getItem("con_localhost") == 'true'){
+       var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
+       $.post(apiURL,{
+  		id_emp : localStorage.getItem("empresa"),
+  		action : 'VerDashboard',
+  		id_barra : localStorage.getItem("idbarra"),
+  		deviceid:$("#deviceid").html(),
+          fecha : $('#desde').val()
+  		}).done(function(response){
+  			if(response!='block' && response!='Desactivado'){
+  				console.log(response);
+                  var res = response.split("||");
+                  misubtotal = parseFloat(res[0]);
+                  trans = parseFloat(res[1]);
+                  $('#transacciones').html(res[1]);
+                  $('#totalventas').html(res[0]);
+                  if(trans != 0){
+                    $('#ticketpromedio').html((misubtotal/trans).toFixed(2));
+                  }else{
+                    $('#ticketpromedio').html('0.00');
+                  }
+                  var ventast=parseFloat(res[0]);
+      			  var porcen=(ventast)*100/(res[2]);
+                  if(res[2] != '0.00' && res[2] != '0'){
+      			    $('#cumplimiento').html(porcen.toFixed(2));
+                  }else{
+                    $('#cumplimiento').html('0.00');
+                  }
+      			  $('#mipres').html(res[2]);
+                  var ventasprodu = res[4];
+                  var resvp = ventasprodu.split("$$");
+                  var datap = new google.visualization.DataTable();
+					var titlev="Ranking de ventas por Producto"
+					if(localStorage.getItem("idioma")==2)
+						titlev="Ranking Sales per Product";
+					datap.addColumn('string', 'Producto');
+					datap.addColumn('number', 'Ventas $');
+					for(var n=0;n<resvp.length;n++){
+					  var resvpaux = resvp[n].split("@@");
+					  var entot=parseFloat(resvpaux[1]).toFixed(2);
+					  datap.addRow([resvpaux[0],Number(entot)]);
+					var optionsp = {
+						title: titlev
+					};
+					var chartp = new google.visualization.ColumnChart(document.getElementById('productosten'));
+					chartp.draw(datap,optionsp);
+					}
+                    var ventascat = res[5];
+                    var resvc = ventascat.split("$$");
+                    var data = new google.visualization.DataTable();
+					data.addColumn('string', 'Categoria');
+					data.addColumn('number', 'Ventas $');
+					var titlev="Ventas por Categoría"
+					if(localStorage.getItem("idioma")==2)
+						titlev="Sales per Category";
+					for(var t=0;t<resvc.length;t++){
+					  var resvcaux = resvc[t].split("@@");
+						var entot=parseFloat(resvcaux[1]).toFixed(2);
+						data.addRow([resvcaux[0]+' $',Number(entot)]);
+					}
+					var options = {
+						title:titlev
+					};
+
+					var chart = new google.visualization.PieChart(document.getElementById('ventascategoria'));
+					chart.draw(data,options);
+
+
+
+  			}else if(response=='Desactivado'){
+  			    envia('cloud');
+  				setTimeout(function(){
+  					$('.navbar').slideUp();
+  					$("#demoGratis,#fadeRow,#finalizado,#contentStepSincro,#cuentaactiva").css("display","none");
+  					$('#desactivo').fadeIn();
+  				},100);
+  			}else{
+  				envia('cloud');
+  				setTimeout(function(){
+  					$('#linklogin,#linkloginb').attr("href","https://www.practisis.net/index3.php?rvpas="+localStorage.getItem("userPasswod")+"&rvus="+localStorage.getItem("userRegister"));
+  					$('.navbar').slideUp();
+  					$("#demoGratis,#fadeRow,#finalizado,#contentStepSincro,#cuentaactiva").css("display","none");
+  					$('#bloqueo').fadeIn();
+  				},100);
+
+  			}
+
+  		}).fail(function(){
+  			updateOnlineStatus("OFFLINE");
+  			setTimeout(function(){SincronizadorNormal()},180000);
+  		});
+      }else{
+    //***************************inico normal*********************************************
+	var db = window.openDatabase("Database","1.0","PractisisMobile", 200000);
+	db.transaction(
+		function (tx){
+			//console.log('SELECT COUNT(*) AS number_rows FROM facturas WHERE fecha >='+fdesde.getTime()+' AND fecha <='+fhasta.getTime()+'');
+			tx.executeSql('SELECT COUNT(*) AS number_rows FROM facturas WHERE anulada=0 and fecha >=? AND fecha <=?',[fdesde.getTime(),fhasta.getTime()],
+			function(tx,res){
+				console.log('trans'+res.rows.item(0).number_rows);
+				console.log('fecha'+fdesde.getTime()+'/'+fhasta.getTime());
+				$('#transacciones').html(res.rows.item(0).number_rows);
+			});				
+	},errorCB,successCB);
+
+	db.transaction(
+		function (tx){
+			tx.executeSql('select sum(subconiva+subsiniva) as total from facturas where anulada=0 and fecha>=? and fecha<=? ',[fdesde.getTime(),fhasta.getTime()],
+			function(tx,res){
+				if(res.rows.length>0){
+					console.log(res);
+					if(res.rows.item(0).total==null){
+						misubtotal=0;
+						$('#trans_label_92,#trans_label_93').fadeIn();
+					}
+					else{
+						misubtotal=parseFloat(res.rows.item(0).total);
+					}
+					$('#totalventas').html(parseFloat(misubtotal).toFixed(2));
+				}
+
+				var trans=parseFloat($('#transacciones').html());
+				
+				if(trans>0)
+				$('#ticketpromedio').html((misubtotal/trans).toFixed(2));
+				else
+				$('#ticketpromedio').html((0).toFixed(2));
+			});				
+	},errorCB,successCB);
+
+	db.transaction(
+		function (tx){
+			tx.executeSql('SELECT s.formulado as formu,sum(p.cantidad)*max(p.precio_unitario) as tot FROM facturas f, facturas_formulados p, productos s WHERE f.anulada=0 and f.fecha >=? AND s.timespan=p.timespan_formulado AND f.fecha <=? and f.timespan=p.timespan_factura group by timespan_formulado order by tot desc limit 10',[fdesde.getTime(),fhasta.getTime()],
+			function(tx,res){
+				if(res.rows.length>0){
+					var datap = new google.visualization.DataTable();
+					var titlev="Ranking de ventas por Producto"
+					if(localStorage.getItem("idioma")==2)
+						titlev="Ranking Sales per Product";
+					datap.addColumn('string', 'Producto');
+					datap.addColumn('number', 'Ventas $');
+					for(var n=0;n<res.rows.length;n++){
+						var entot=parseFloat(res.rows.item(n).tot).toFixed(2);
+						datap.addRow([res.rows.item(n).formu,Number(entot)]);
+					var optionsp = {
+						title: titlev
+					};
+					var chartp = new google.visualization.ColumnChart(document.getElementById('productosten'));
+					chartp.draw(datap,optionsp);
+					}
+				}
+			});				
+	},errorCB,successCB);
+	
+	db.transaction(
+		function (tx){
+			tx.executeSql('SELECT s.categoria as categ,sum(p.cantidad*p.precio_unitario) as tot FROM facturas f, facturas_formulados p, categorias s,productos pr WHERE f.anulada=0 and f.fecha >=? AND s.timespan=pr.categoriaid AND p.timespan_formulado=pr.timespan AND f.fecha <=? and f.timespan=p.timespan_factura group by categoriaid order by tot desc',[fdesde.getTime(),fhasta.getTime()],
+			function(tx,res){
+				if(res.rows.length>0){
+					var data = new google.visualization.DataTable();
+					data.addColumn('string', 'Categoria');
+					data.addColumn('number', 'Ventas $');
+					var titlev="Ventas por Categoría"
+					if(localStorage.getItem("idioma")==2)
+						titlev="Sales per Category";
+					for(var t=0;t<res.rows.length;t++){
+						var entot=parseFloat(res.rows.item(t).tot).toFixed(2);
+						data.addRow([res.rows.item(t).categ+' $',Number(entot)]);
+					}
+					var options = {
+						title:titlev
+					};
+
+					var chart = new google.visualization.PieChart(document.getElementById('ventascategoria'));
+					chart.draw(data,options);
+				}
+			});				
+	},errorCB,successCB);
+
+	//query para presupuesto
+	db.transaction(
+		function (tx5){
+			tx5.executeSql('SELECT valor as suma , transacciones as trans FROM presupuesto WHERE fecha >=? AND fecha <=?',[fdesde.getTime(),fhasta.getTime()],
+			function(tx5,res){
+				if(res.rows.length>0){
+					var vendido=res.rows.item(0);
+					var ventast=parseFloat($('#totalventas').html());
+					var trans=parseFloat($('#transacciones').html());
+					var porcen=(ventast)*100/(vendido.suma);
+					$('#cumplimiento').html(porcen.toFixed(2));
+					$('#mipres').html(vendido.suma.toFixed(2));
+				}
+			});
+		},errorCB,successCB);
+    //************************************fin normal**************************************
+    }
+}
+
+
+function BuscarEpson(){
+	//alert('BuscarEpson');
+	StarIOAdapter.searchEpson("",function(resp){
+		alert(resp);
+	},function(error){
+		alert(error);
+	});
+}
+
+function ProbarWise(){
+	alert("entra al bwise");
+	StarIOAdapter.bwise($.trim($('#jsonprint').html()),function(resp){alert(resp)},
+	function(error){alert(error);
+	});
+}
+
+function callNewActivity() {
+    window.MainActivity.customFunctionCalled();
+}
+</script>
+  

@@ -1,0 +1,254 @@
+<div id='console' class='table-responsive' style='padding:20px; font-size:12px; color:#404041; background-color:white;'>
+<p style="text-align: right"><button type="button" class="btn btn-success" id='backup' onclick='backupbdd();'>Backup</button> </p>
+	<table id='tableconsole' class='table table-stripped'>
+	<thead><tr><th class='trans_fecha'>Fecha</th><th class="trans_descr">Descripcion</th><th class="trans_detail">Datos</th></tr></thead>
+	<tbody></tbody>
+	</table>
+</div>
+<div id="myModalbdd" class="modal fade" role="dialog" style="margin-top: 25px;position: absolute;">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Backup</h4>
+      </div>
+      <div class="modal-body" style="height: 450px;overflow-x: hidden;overflow-y: auto;">
+        <div id="backupbdd">
+            { "Backup" : [
+            <div id="facturas"></div>
+            <div id="facturas_formulados"></div>
+            <div id="menu"></div>
+            <div id="menu_categorias"></div>
+            <div id="productos"></div>
+            ] }
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script>
+	$(document).ready(function(){
+	var linklang="es";
+		if(localStorage.getItem("idioma")==2)
+			linklang="en";
+				var xmlidioma=$.get("lang/"+linklang+".html",function(datos){
+			d=JSON.parse(datos);
+			var itemestructura=d.estructura;
+			//console.log(itemestructura);
+			var itemmen=itemestructura.menu;
+			var itemplaceholder=itemestructura.placeholder;
+			var itemtitles=itemestructura.titles;
+			var itembuttons=itemestructura.botones;
+			var itemlabels=itemestructura.labels;
+			var todostitles=itemtitles.item;
+			var todosbuttons=itembuttons.item;
+			var todoslabels=itemlabels.item;
+			var todositems=itemmen.item;	
+			var todosplaceholder=itemplaceholder.item;
+			
+			for(var k=0;k<todosplaceholder.length;k++){
+				var miitemname=todosplaceholder[k].name;
+				$('.'+miitemname).prop("placeholder",todosplaceholder[k].text);
+			}
+			
+			for(var k=0;k<todositems.length;k++){
+					var miitem=todositems[k];
+					$('#lab_menu_'+(k+1)).html(miitem);
+			}
+					
+				for(var k=0;k<todostitles.length;k++){
+					var miitemname=todostitles[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todostitles[k].text);
+				}
+				
+				for(var k=0;k<todosbuttons.length;k++){
+					var miitemname=todosbuttons[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todosbuttons[k].text);
+				}
+				
+				for(var k=0;k<todoslabels.length;k++){
+					//console.log(todoslabels[k].name+"/"+todoslabels[k].name);
+					var miitemname=todoslabels[k].name;
+					$('#'+miitemname).html(todoslabels[k].text);
+				}
+				
+		});
+	
+	
+	$('#console').css("height",parseInt($(window).height())*80/100);
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+		db.transaction(function(tx){
+			var today = new Date();
+			var m = today.getMonth()+1; // 0-11
+			var y = today.getFullYear();
+			var d = today.getDate();
+			var diahoy=y+"-"+m+"-"+d+" 00:00:00";
+			var timehoy=new Date(diahoy).getTime();
+			/*tx.executeSql("DELETE FROM LOGACTIONS WHERE time <'"+timehoy+"'");*/
+			tx.executeSql("SELECT * FROM LOGACTIONS WHERE time>=? ORDER BY time desc",[timehoy],function(tx,results){
+				if(results.rows.length>0){
+					var mihtml='';
+					for(var n=0;n<results.rows.length;n++){
+						var item=results.rows.item(n);
+						var fec=FechaNormal(item.time);
+						mihtml+="<tr><td>"+fec+"</td><td>"+item.descripcion+"</td><td>"+item.datos+"</td></tr>";
+					}
+					$('#tableconsole tbody').html(mihtml);
+				}
+		    });	},errorCB,function(){console.log("Leyendo Registros de Log")});
+	});
+	
+	function FechaNormal(fecha){
+		var today = new Date(fecha);
+		var m = today.getMonth()+1; // 0-11
+		var y = today.getFullYear();
+		var d = today.getDate();
+		var h = today.getHours();
+		var min = today.getMinutes();
+		var s = today.getSeconds();
+		var ml = today.getMilliseconds();
+		return y+"-"+m+"-"+d+" "+h+":"+min+":"+s+":"+ml;
+	}
+function backupbdd(){
+  backupContent();
+  $('#myModalbdd').modal('show');
+}
+// backup content
+function backupContent() {
+var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+ db.transaction(
+  function(transaction) {
+   transaction.executeSql('SELECT * FROM FACTURAS;', null,
+    function (transaction, result) {
+     if (result.rows.length > 0) {
+      var tag = '{"FACTURAS":[';
+      for (var i=0; i < result.rows.length; i++) {
+       var row = result.rows.item(i);
+       // expand and change this according to your table attributes
+       tag = tag + '{"id":"' + row.id + '", "timespan":"' + row.timespan + '", "clientName":"' + row.clientName + '", "RUC":"' + row.RUC + '", "address":"' + row.address + '", "tele":"' + row.tele + '", "fetchJson":"' + row.fetchJson + '", "paymentsUsed":"' + row.paymentsUsed + '", "cash":"' + row.cash + '", "cards":"' + row.cards + '", "cheques":"' + row.cheques + '", "vauleCxC":"' + row.vauleCxC + '", "paymentConsumoInterno":"' + row.paymentConsumoInterno + '", "tablita":"' + row.tablita + '", "acc":"' + row.acc + '", "echo":"' + row.echo + '", "aux":"' + row.aux + '", "fecha":"' + row.fecha + '", "anulada":"' + row.anulada + '", "sincronizar":"' + row.sincronizar + '"}';
+       if (i+1 < result.rows.length) {
+        tag = tag + ',';
+       }
+      }
+      tag = tag + ']}';
+        //alert(tag);
+        $('#facturas').html(tag+',');
+     } else {
+      alert("No content to backup.");
+     }
+    },
+    errorHandlerSqlTransaction
+   );
+  }
+ );
+ db.transaction(
+  function(transaction) {
+   transaction.executeSql('SELECT * FROM FACTURAS_FORMULADOS;', null,
+    function (transaction, result) {
+     if (result.rows.length > 0) {
+      var tag = '{"FACTURAS_FORMULADOS":[';
+      for (var i=0; i < result.rows.length; i++) {
+       var row = result.rows.item(i);
+       // expand and change this according to your table attributes
+       tag = tag + '{"id":"' + row.id + '", "timespan_factura":"' + row.timespan_factura + '", "timespan_formulado":"' + row.timespan_formulado + '", "cantidad":"' + row.cantidad + '", "precio_unitario":"' + row.precio_unitario + '"}';
+       if (i+1 < result.rows.length) {
+        tag = tag + ',';
+       }
+      }
+      tag = tag + ']}';
+        //alert(tag);
+        $('#facturas_formulados').html(tag+',');
+     } else {
+      alert("No content to backup.");
+     }
+    },
+    errorHandlerSqlTransaction
+   );
+  }
+ );
+ db.transaction(
+  function(transaction) {
+   transaction.executeSql('SELECT * FROM MENU;', null,
+    function (transaction, result) {
+     if (result.rows.length > 0) {
+      var tag = '{"MENU":[';
+      for (var i=0; i < result.rows.length; i++) {
+       var row = result.rows.item(i);
+       // expand and change this according to your table attributes
+       tag = tag + '{"id":"' + row.id + '", "fila":"' + row.fila + '", "idcatmenu":"' + row.idcatmenu + '", "idproducto":"' + row.idproducto + '", "timespan":"' + row.timespan + '", "activo":"' + row.activo + '"}';
+       if (i+1 < result.rows.length) {
+        tag = tag + ',';
+       }
+      }
+      tag = tag + ']}';
+        //alert(tag);
+        $('#menu').html(tag+',');
+     } else {
+      alert("No content to backup.");
+     }
+    },
+    errorHandlerSqlTransaction
+   );
+  }
+ );
+ db.transaction(
+  function(transaction) {
+   transaction.executeSql('SELECT * FROM MENU_CATEGORIAS;', null,
+    function (transaction, result) {
+     if (result.rows.length > 0) {
+      var tag = '{"MENU_CATEGORIAS":[';
+      for (var i=0; i < result.rows.length; i++) {
+       var row = result.rows.item(i);
+       // expand and change this according to your table attributes
+       tag = tag + '{"id":"' + row.id + '", "orden":"' + row.orden + '", "nombre":"' + row.nombre + '", "timespan":"' + row.timespan + '", "activo":"' + row.activo + '"}';
+       if (i+1 < result.rows.length) {
+        tag = tag + ',';
+       }
+      }
+      tag = tag + ']}';
+        //alert(tag);
+        $('#menu_categorias').html(tag+',');
+     } else {
+      alert("No content to backup.");
+     }
+    },
+    errorHandlerSqlTransaction
+   );
+  }
+ );
+ db.transaction(
+  function(transaction) {
+   transaction.executeSql('SELECT * FROM PRODUCTOS;', null,
+    function (transaction, result) {
+     if (result.rows.length > 0) {
+      var tag = '{"PRODUCTOS":[';
+      for (var i=0; i < result.rows.length; i++) {
+       var row = result.rows.item(i);
+       // expand and change this according to your table attributes
+       tag = tag + '{"id_local":"' + row.id_local + '", "formulado":"' + row.formulado + '", "codigo":"' + row.codigo + '", "precio":"' + row.precio + '", "categoriaid":"' + row.categoriaid + '", "cargaiva":"' + row.cargaiva + '", "productofinal":"' + row.productofinal + '", "materiaprima":"' + row.materiaprima + '", "timespan":"' + row.timespan + '", "ppq":"' + row.ppq + '", "color":"' + row.color + '", "servicio":"' + row.servicio + '", "estado":"' + row.estado + '", "sincronizar":"' + row.sincronizar + '"}';
+       if (i+1 < result.rows.length) {
+        tag = tag + ',';
+       }
+      }
+      tag = tag + ']}';
+        //alert(tag);
+        $('#productos').html(tag);
+     } else {
+      alert("No content to backup.");
+     }
+    },
+    errorHandlerSqlTransaction
+   );
+  }
+ );
+}
+function errorHandlerSqlTransaction(error) {
+  //alert(error);
+	console.error('SQLite - Error code: ' + error.code + ' - Error message: ' + error.message);
+	return true;
+}
+</script>

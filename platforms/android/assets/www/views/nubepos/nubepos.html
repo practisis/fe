@@ -1,0 +1,1801 @@
+<style>
+	.numero table{
+		font-size:25px;font-weight:bolder;
+	}
+    .numerocnew{
+	text-align:center;
+	cursor:pointer;
+	width:100%;
+	margin-top:5px;
+	font-size:28px;
+    }
+    .cantidadnew{
+	text-align:right;
+	border:1px solid rgba(90,91,93,0.7);
+	width:100%;
+	cursor:pointer;
+	/*float:left;*/
+	padding-right:10px;
+	margin-left:auto;
+	margin-right:auto;
+	background:#404041;
+	color:#79ba43;
+	font-size:25px;
+	height:40px;
+	/*text-shadow:1px 1px 1px #70cbcd;*/
+    }
+    #resultBuscadornew{
+	position:absolute;
+	background-color:rgba(255,255,255,1);
+	border-left:1px solid #CCC;
+	border-right:1px solid #CCC;
+	border-bottom:1px solid #CCC;
+	color:#404041;
+	overflow:hidden;
+	width:91%;
+	display:none;
+	z-index:5;
+    }
+	.extralarge{
+		min-height:70px;
+		font-size:30px;
+	}
+	
+	.labellarge{
+		font-size:24px;
+	}
+</style>
+<!--<section id="content2">-->
+<div class='row' id='row1'>
+<div  id='central'>
+
+<div class='col-md-8' id='productosnew' align='center' style="display: none;margin-top:10px;">
+    <div class='row'>
+      <div class='col-md-12' >
+      	<div class="input-group">
+      	<span class="input-group-addon" onclick="$('inputbuscnew').val('');"><span class='fa fa-barcode fa-4x'></span></span>
+      	<input type='text' id='inputbuscnew' name='inputbuscnew' autofocus="true" placeholder='Buscar' onkeyup='BuscarSugerencias2new(this.value,event);' class='form-control input-lg trans_buscar' style="height: 100px;font-size: 40px;"/>
+      	</div>
+      	<div id="resultBuscadornew" class='resultBuscadornew'>
+      		<table id='tableresultsnew' width='100%' cellspacing='0px' cellpadding='0px'>
+      		</table>
+      	</div>
+      </div>
+    </div>
+    <div>
+        <div class='row'>
+            <br>
+    		<div class='col-xs-12'>
+    			<div class='cantidadnew' id='modificaCantidadActualnew'>0</div>
+    		</div>
+    		<div class='col-xs-4' align='center'>
+    			<button class='numerocnew btn btn-default btn-lg' cual='1'>1</button>
+    		</div>
+    		<div class='col-xs-4' align='center'>
+    			<button class='numerocnew btn btn-default btn-lg' cual='2'>2</button>
+    		</div>
+    		<div class='col-xs-4' align='center'>
+    			<button class='numerocnew btn btn-default btn-lg' cual='3'>3</button>
+    		</div>
+    		<div class='col-xs-4' align='center'>
+    			<button class='numerocnew btn btn-default btn-lg' cual='4'>4</button>
+    		</div>
+    		<div class='col-xs-4' align='center'>
+    			<button class='numerocnew btn btn-default btn-lg' cual='5'>5</button>
+    		</div>
+    		<div class='col-xs-4' align='center'>
+    			<button class='numerocnew btn btn-default btn-lg' cual='6'>6</button>
+    		</div>
+    		<div class='col-xs-4' align='center'>
+    			<button class='numerocnew btn btn-default btn-lg' cual='7'>7</button>
+    		</div>
+    		<div class='col-xs-4' align='center'>
+    			<button class='numerocnew btn btn-default btn-lg' cual='8'>8</button>
+    		</div>
+    		<div class='col-xs-4' align='center'>
+    			<button class='numerocnew btn btn-default btn-lg' cual='9'>9</button>
+    		</div>
+    		<div class='col-xs-4' align='center'>
+    			<button class='numerocnew btn btn-default btn-lg' cual='0'>0</button>
+    		</div>
+    		<div class='col-xs-4' align='center'>
+    			<button class='numerocnew btn btn-default btn-lg' cual='p'>.</button>
+    		</div>
+    		<div class='col-xs-4' align='center'>
+    			<button class='numerocnew btn btn-default btn-lg' cual='d'><span class='fa fa-long-arrow-left'></span></button>
+    		</div>
+    	</div>
+    </div>
+</div>
+	<div class='productos col-md-8 col-lg-8 col-sm-8' id='productos' align='center'>
+		<div class='row'>
+		<div class='col-md-12' id='menuproductos'>
+
+        <div class='col-md-12' id='menuproductosaux'>
+        </div>
+		<div class="row" style='margin-top:5px;display:none;' id="avisadorpeque" >
+			<div class="col-xs-12" >
+			<span id="espacioavisador"></span>
+			</div>
+		</div>
+		
+		<!--<div id="loader" style="display:none; position: absolute; width: 100%; height: 100%; top: 0; left: 0; background: rgba(255,255,255,0.8); text-align: center;">
+				<img alt="" style="height:20%;" src="images/loading.gif"/>
+		</div>-->
+		<div class="row" style='margin-top:10px;' >
+			<div class="col-xs-1" style='padding-right:0px;'>
+								<button onclick="slider('izquierda'); return false;" class='direccionales btn btn-success btn-xs'><span class='fa fa-chevron-left'></span></button>
+			</div>
+			<div class="col-xs-10" style='padding-left:0px;padding-right:0px;'>
+								<div id='listaCategorias'>
+									<div id='contenidoCategorias'>
+                                        <ul role="tablist" id='listacat' class='nav nav-tabs'>
+                                        </ul>
+                                    </div>
+								</div>
+			</div>
+			<div class="col-xs-1" style='padding-left:0px;'>
+								<button onclick="slider('derecha'); return false;" class='direccionales btn btn-success btn-xs'><span class='fa fa-chevron-right'></span></button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<span class='contentListaProductos ' id='contentListaProductos' >
+					<div id='listaProductos' class='' style='display:block;overflow-y:visible;'></div>
+                    <div class='col-md-12' id='prodprofesionales' align='center' style="display: none;font-size: 17px;background-color: #FFFFFF;height: 100%;">
+                          <br><br><br>
+                          <div class="row" style="text-align: left;">
+                              <div class="col-xs-1"></div>
+                              <div class="col-xs-10" style="font-weight: bold;"><span id="trans_label_118">Ingrese descripción Producto/Servicio</span></div>
+                              <div class="col-xs-1"></div>
+                          </div>
+                          <div class="row">
+                              <div class="col-xs-1"></div>
+                              <div class="col-xs-10"><input type='text' id='productoprof' name='productoprof' class='form-control input-lg trans_descripcion' placeholder="Descripción" style="height: 45px;font-size: 16px;background-color: #F0F0F0;"/></div>
+                              <div class="col-xs-1"></div>
+                          </div>
+                          <div class="row" style="text-align: left;margin-top: 10px;">
+                              <div class="col-xs-1"></div>
+                              <div class="col-xs-4"><b><span class="trans_sinimp">Precio Sin Imp.</span></b></div>
+                              <div class="col-xs-4"><b><span class="trans_precio">Precio Con Imp.</span></b></div>
+                              <div class="col-xs-2"><b><span class="trans_imp">Aplica Imp.</span></b></div>
+                              <div class="col-xs-1"></div>
+                          </div>
+                          <div class="row">
+                              <div class="col-xs-1">
+                                <select id='listacategoriasprof' onchange="sacaidcatprof();" class="form-control" style="height: 35px;font-size: 14px;display: none;"></select>
+                              </div>
+                              <div class="col-xs-4"><input type='text' id='precioprof' name='precioprof' class='form-control input-lg' style="height: 45px;font-size: 16px;text-align: right;" readonly="readonly" value="0.0000"/></div>
+                              <div class="col-xs-4"><input type='text' id='totalprof' name='totalprof' class='form-control input-lg' style="height: 45px;font-size: 16px;text-align: right;" readonly="readonly" value="0.0000"/></div>
+                              <div class="col-xs-2"><input id="ivaprof" name="ivaprof" onchange="calculaProdProf();" type="checkbox" checked="checked" style="width: 30px;height: 30px;"></div>
+                              <div class="col-xs-1"><input type="hidden" id='cantidadprof' name='cantidadprof' onclick="modificarCantidadProf();" class='form-control input-lg' style="height: 35px;font-size: 14px;text-align: center;" readonly="readonly" value="1"/></div>
+                          </div>
+                      <br><br><br>
+                      <div class='row'>
+                        <div class='col-xs-2'>
+                        </div>
+                        <div class='col-xs-8'>
+                          <input id="queprecioaux" name="queprecioaux" type="hidden" value="0">
+                          <button type="button" onclick="agregarCompraProf();" class="btn btn-primary btn-block btn-lg" style="margin-bottom:5px; margin-right:5px; text-transform:uppercase;height: 80px;font-size: 30px;font-weight: bold;" onclick="AgregarProdPref(); return false;">
+                              <span class="trans_agregar">Agregar a Factura>></span>
+                          </button>
+                        </div>
+                        <div class='col-xs-2'>
+                        </div>
+                      </div>
+
+                  </div>
+				</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12" style='margin-top:10x;'>
+				<span style='text-align:center;background-color:#CCC;'>
+					<span id='nombre_mesa' onclick='envia("puntodeventa");' style='font-size:12px; text-transform:uppercase;'></span><span id='divservicioquitar' onclick='alertaservicio();'>&nbsp;<input onclick='ToggleServicio();' type='checkbox' id='sinservicio' name='sinservicio'/>&nbsp;<label for='sinservicio' style='font-size:12px; padding:3px 4px 3px 4px;'>SIN SERVICIO</label></span>
+				</span>
+			</div>
+		</div>
+		<table cellspacing="0px" cellpadding="0px" width='98%' style='margin-top:10px;' align='center'>
+			<tr>
+				<div id='navegadoresh'>
+						<table cellspacing='0px' cellpadding='0px' width='99%' align='center'>
+							<tr>
+								<td align='right'></td>
+								<td align='left'></td>
+								<td></td>
+							</tr>
+						</table>
+					</div>
+			</tr>
+		</table>
+		
+		</div>
+		
+		<!---div calculadora-->
+        
+        <div class='numpad col-md-4 ' id='numpad' style='display:none;'>
+        <div id='divInNumPad' class='panel panel-default' style='margin-top:10px; background-color:#EEE;'>
+            <div class='panel-body' style='padding:10px; text-align:center;'>
+                    <div class='row'>
+                        
+                        <div class='col-xs-12' style='margin-bottom:5px;'>
+                        <div class='cantidad btn btn-default btn-lg'>0.00</div>
+                        </div>
+                        <div id="createHereCustomProduct"></div>
+                        
+                    </div>
+                    <div class='row' style='text-align:center;'>
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-default btn-lg' cual='7'>
+                            <table width='100%' height='100%' cellpadding='0' cellspacing='0'><tr><td valign='center' align='center'>7</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-default btn-lg' cual='8'>
+                            <table width='100%' height='100%' cellpadding='0' cellspacing='0'><tr><td valign='center' align='center'>8</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-default btn-lg' cual='9'>
+                            <table width='100%' height='100%' cellpadding='0' cellspacing='0'><tr><td valign='center' align='center'>9</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-success btn-lg' cual='+'>
+                            <table width='100%' height='100%' cellpadding='0' cellspacing='0'><tr><td valign='center' align='center'>PLU</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    
+                    </div>
+                    <div class='row'>
+                    
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-default btn-lg' cual='4'>
+<table width='100%' height='100%' cellpadding='0' cellspacing='0'><tr><td valign='center' align='center'>4</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-default btn-lg' cual='5'>
+<table width='100%' height='100%' cellpadding='0' cellspacing='0'><tr><td valign='center' align='center'>5</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-default btn-lg' cual='6'>
+                        <table width='100%' height='100%' cellpadding='0' cllspacing='0'><tr><td valign='center' align='center'>6</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-success btn-lg' cual='d'>
+                            <table width='100%' height='100%' cellpadding='0' cllspacing='0'><tr><td valign='center' align='center'>DEL</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    
+                    </div>
+                    
+                    <div class='row'>
+                    
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                    <button class='numero btn btn-default btn-lg' cual='1'>
+<table width='100%' height='100%' cellpadding='0' cellspacing='0'><tr><td valign='center' align='center'>1</td></tr></table>
+                    </button>
+                    </div>
+                    </div>
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-default btn-lg' cual='2'>
+<table width='100%' height='100%' cellpadding='0' cellspacing='0'><tr><td valign='center' align='center'>2</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-default btn-lg' cual='3'>
+<table width='100%' height='100%' cellpadding='0' cellspacing='0'><tr><td valign='center' align='center'>3</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-success btn-lg' cual='-'>
+                            <table width='100%' height='100%' cellpadding='0' cellspacing='0'><tr><td valign='center' align='center'>@/CANT</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    
+                    </div>
+                    
+                    <div class='row'>
+                    
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-default btn-lg' cual='00'>
+<table width='100%' height='100%' cellpadding='0' cellspacing='0'><tr><td valign='center' align='center'>00</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-default btn-lg' cual='0'>
+<table width='100%' height='100%' cellpadding='0' cellspacing='0'><tr><td valign='center' align='center'>0</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-default btn-lg' cual='.'>
+<table width='100%' height='100%' cellpadding='0' cellspacing='0'><tr><td valign='center' align='center'>.</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    <div class='col-xs-3'>
+                    <div class='contnumero' align='center'>
+                        <div class='numero  btn btn-success btn-lg' cual='go'>
+	<table width='100%' height='100%' cellpadding='0' cellspacing='0'><tr><td valign='center' align='center'>
+		<img src='images/enter1.png' />
+	</td></tr></table>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+	</div>
+	</div>
+    <!--<div class='col-lg-2'></div>-->
+    
+        <!--fin calculadora--->
+		
+	<div class='col-md-4 col-lg-4 col-sm-4' id="lapartedepagos" >
+	<div class='row sumarow'>
+	<div  id='buscador' style='margin-top:10px;'>
+
+		<div style='display:none;'>
+			<button type='button' onclick='toogleCalc();' id='pad' class='btn btn-primary bnt-lg' style='margin-top:5px;'><span class='glyphicon glyphicon-menu-left' style='display:inline;'></span><span>Pad</span></button>
+			<button type='button' onclick='toogleCalc();' id='grid' class='btn btn-primary bnt-lg' style='display:none;margin-top:5px;'><span class='glyphicon glyphicon-menu-left' style='display:inline;'></span><span>Grid</span></button>
+		</div>
+		<div class='col-md-12' >
+			<div class="input-group">
+			<span class="input-group-addon"><span class='glyphicon glyphicon-search'></span></span>
+			<input type='text' id='inputbusc' name='inputbusc' placeholder='Buscar' onkeydown='BuscarSugerencias2(this.value,event);' class='form-control input trans_buscar'/>
+			</div>
+			<div id="resultBuscador" class='resultBuscador'>
+				<table id='tableresults' width='100%' cellspacing='0px' cellpadding='0px'>
+				</table>
+			</div>
+		</div>
+		
+	</div>
+	</div>
+	<div class='row'>
+		<div class='detalle col-md-12' id='detalle'>
+		<div class='row' style="margin-right: 5px; margin-left: 5px;">
+		<div class='divDetalle col-lg-12 col-md-12 col-xs-12'>
+			<table width='100%' cellpadding='0px' cellspacing='0px'>
+				<tr>
+					<td style='vertical-align:top;'>
+						<table class='table'  style='padding-bottom:0px; margin-bottom:0px; border-bottom:1px solid #404041; color:#404041; background-color:#EEE;' id='headerdetalle'>
+							<tr>
+								<th style="width:5%;"></th>
+								<th style="width:20%;" >
+									<table width='100%' height='100%'>
+										<tr>
+											<td valign='middle' align='center' class='trans_cant'>
+												Cant.
+											</td>
+											<td valign='middle' align='center'>
+												<span id='itemsVendidos' class='badge'>0</span>
+											</td>
+										</tr>
+									</table>
+								</th>
+								<th style="width:50%; text-align:left; padding-left:20px;"  class='trans_prod'>Producto</th>
+								<th style="text-align:right; padding-right:20px;"><span onclick='AbrirDrawer();'>$Total</span></th>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td align='center' colspan='3' style='vertical-align:top;'>
+						<div class='contentdetalle' id='contentdetalle'>
+							<table id="tablaCompra" class='table table-bordered' align='left'>
+							</table>
+						</div>
+						<!---<div id='navegadoresv'>
+						<table cellpadding='0px' cellspacing='0px'>
+							<tr><td valign='bottom'><img src='images/navarriba.png' style='height:80px; cursor:pointer;' id='nav_up' onmousedown='DetalleAbajo();'/></td></tr>
+							<tr><td valign='top'><img src='images/navabajo.png' style='height:80px;cursor:pointer;' id='nav_down'  onclick='DetalleArriba();' onmousedown='DetalleArriba();'/></td></tr>
+						</table>
+						</div>--->
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class='col-lg-12 col-xs-12 col-md-12' style='text-align:right; background-color:white;'>
+			<div class='row'>
+			<div class='col-lg-12'>
+				<div id='divtotal'>
+					<span>TOTAL</span> 
+					<span id='total'>0.00</span>
+				</div>
+			</div>
+			</div>
+			<div class='row'>
+				<div class='col-lg-5 col-md-6 col-xs-6' style='padding-top:5px; padding-right:0px; text-align:right;'>
+				<span><button type='button' class='btn btn-default trans_mesas' style='display:none; margin-bottom:5px; margin-right:5px;' id='btn_mesas' data-toggle="tooltip" data-placement="top" title="" onclick="ImprimirPrecuenta();"><span class="fa fa-print fa-2x"></span></button>
+				<button type='button' class='btn btn-default btn-lg' style='margin-bottom:5px; margin-right:5px;' id='btn_descuento' onclick="showPopup(); return false;"><span class='fa fa-minus'></span>&nbsp;<span class='fa fa-dollar'></span></button>
+				</span>
+				</div>
+				<div class='col-lg-7 col-md-6 col-xs-6' style='padding-top:5px; padding-left:0px;'>
+				<span>
+				<button type='button' class='btn btn-default btn-block' id='btn_pagar' style='margin-bottom:5px; margin-right:5px; text-transform:uppercase;' onclick="VerPropinas(); return false;"><span class='trans_pay' id='spanaction'>PAGAR</span></button>
+				<button type='button' class='btn btn-success btn-lg trans_save btn-block' style='margin-bottom:5px; margin-top:0px; margin-right:5px; display:none; text-transform:uppercase;' data-toggle="tooltip" data-placement="top" title="" id='btn_gpedidos' onclick="SaveMesa();">GUARDAR</button>
+				</span>
+				</div>
+			</div>
+			
+			
+			<!--<div class='row'>
+				<div class='col-xs-6'>
+					<center>-->
+			
+					<!--</center>
+				</div>
+				<div class='col-xs-6'>
+					<center>	-->
+			
+			
+					<!--</center>
+				</div>
+			</div>-->
+			<button type='button' class='btn btn-default btn-lg' style='margin-top:5px; float:right; display:none;' id='btn_cierre' onclick='$("#modalcierre").modal("show");'>CIERRE</button>
+		</div>
+		</div>
+	</div>
+	<!--<div class='scan col-lg-12 col-md-12 col-xs-5' id='scan'>
+		<div class="app">
+			<div id="deviceready" class="blink" style="display:none;">
+				<p class="event listening">Connecting to Device</p>
+				<p class="event received">Device is Ready</p>
+			</div>
+			 <div class='btn-lg btn-success' style='margin-top:10px;' type='button' id='btn_scan'>SCAN&nbsp;<span class='fa fa-barcode'></span></div>
+		</div>
+	</div>-->
+	<!--<iframe src="scan/index.html" style="position:relative; z-index:500; width:100px; height:30px; overflow:hidden; margin-left:10px; margin-top:30px;" frameborder="0"></iframe>-->
+	</div>
+	</div>
+	</div>
+</div>
+
+<div id="paymentModule" class='row' style='display:none; background-color:white; height:100%;'>
+	<div class='col-lg-12 col-md-12 col-xs-12' style='min-height:100%;'>
+		<div class='container-fluid' style='min-height:100%;'>
+			<div style="display: none;" id="json"></div>
+			<input id="order_id" name="order_id" type="hidden" value="" readonly="readonly" style='display:none;'>
+			<input id="respuestatarjeta" name="respuestatarjeta" type="hidden" value="" readonly="readonly" style='display:none;'>
+			<table style="width:100%; display:none;" cellspacing="0" cellpadding="0" id='tablaformaspago'>
+			</table>
+			<div class='row' id='easypay'>
+				<div class='col-lg-12 col-md-12 col-xs-12'>
+					<h3 id='trans_label_32'>Formas de Pago</h3>
+					<div style='width:100%; text-align:right; padding-right:5px; padding-top:5px;cursor:pointer;color:#1495C0; position:absolute; top:0px; right:12px; cursor:pointer;'>
+						<i class="fa fa-chevron-circle-left fa-3x" title='Volver...' onclick='cancelPayment();'></i>
+					</div>
+					<div class='container-fluid'>
+					<div class='row' style='margin-top:10px;'>
+						<div id='divtotal2'>TOTAL: $
+								<span id="invoiceTotal" class="payOverview">0.00</span>
+						</div>
+					</div>
+					<div class='row' style='background-color:#DDD; padding-bottom:10px; padding-top:10px;'>
+						<div class='col-xs-6' >
+							<div class="row">
+								<div class='col-md-5 col-lg-5 col-xs-12' style='padding-right:0px; '>
+									<div style='margin-top:5px; text-align:left;'><b><span class='trans_nfact'>Factura No.</span>&nbsp;&nbsp;</b><span id='seriesfact'></span></div>
+									<input id='invoiceNrComplete' type='hidden' style='display:none;'/>
+								</div>
+								<div class='col-md-4 col-lg-4 col-xs-12'>
+								<input id="invoiceNr" class='form-control input input-lg' onchange='VerificarNumero(this.value);' type='text'  maxlength='9'/>
+								</div>
+								<div class='col-md-3 col-lg-3 col-xs-0'>
+								</div>
+							</div>
+						</div>
+						<div class='col-xs-6' style='text-align:right;'>
+							<div class='row'>
+								<div class='col-lg-12 col-md-12 col-sm-12'>
+									<span name='busquedacliente' id='busquedacliente'>9999999999999</span> - 	
+									<span style='color:#404041; font-weight:bold;' id='clientefind' class='trans_customer'>Consumidor Final</span>
+									<button style='margin-left:5px;' onclick="BuscarCliente(13);" type='button' class='btn btn-default btn-lg trans_cliente'>Cambiar Cliente</button>&nbsp;		
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class='row'>
+					<div class="list-group" style='text-align:left; margin-bottom:0px;'>
+						<div class="list-group-item" style='padding:0px;'>
+						<div class='row'>
+							<div class='col-lg-12'>
+								<table width='100%'><tr>
+								<td width='95%'>
+								<div onclick="changePaymentCategory('1','Efectivo');" style='padding:15px;'><span id='caretEfectivo' class='fa fa-caret-down'></span>&nbsp;<span id='trans_label_84' style='font-size:18px; font-weight:bold;'>Efectivo</span></div>
+								</td>
+								<td style='vertical-align:middle'>
+							    <span class="badge" style='float:right;' id='paymentEfectivoa'>$ 0.00</span>
+								</td>
+								<td>
+								<button onclick='ResetPagos(1);'class='btn btn-default basurero' style='margin-left:5px;margin-right:15px;'><span class='glyphicon glyphicon-trash'></span></button>
+								</td>
+								</tr>
+								</table>
+							</div>
+						</div>
+						</div>
+						<div id='touchefectivo' style='display:none; padding:15px;' class='touchpago  container-fluid'>
+						<!--<span id='trans_label_34'>Elige tu pago en efectivo</span>-->
+							<div style='text-align:left;'>
+								<div class='' style='text-align:left; display:inline;'>
+								<button onclick='subirefectivo(this);' id='justo' class='btn btn-lg btn-primary den' style='margin:5px;' data-value='' type='button'></button>
+								</div>
+								<div class='' style='text-align:left; display:inline;'>
+								<button onclick='subirefectivo(this);' id='redondeado' class='btn btn-lg btn-primary den' style='margin:5px;'  data-value='' type='button'></button>
+								</div>
+								<div class='' style='text-align:left; display:none;'>
+								<button onclick='subirefectivo(this);' id='altaden' class='btn btn-lg btn-primary den' style='margin:5px;'  data-value='' type='button'></button>
+								</div>
+								<div class='' style='text-align:left; display:none;'>
+								<button onclick='subirefectivo(this);' id='prox10' class='btn btn-lg btn-primary den' style='margin:5px;'  data-value='' type='button'></button>
+								</div>
+								<div class='' style='text-align:left; display:none;'>
+								<button onclick='subirefectivo(this);' id='prox20' class='btn btn-lg btn-primary den' style='margin:5px;'  data-value='' type='button'></button>
+								</div>
+								<div class='' style='text-align:left; display:inline;'>
+								<button onclick='$("#paymentEfectivo").click();' id='other' class='btn btn-lg btn-primary den trans_otro' style='margin-right: 10px;' data-value='' type='button' >OTHER</button>
+								</div>
+							</div>
+						</div>
+					  
+					  <div class="list-group-item" style='padding:0px;'>
+					  <div class='row'>
+							<div class='col-lg-12'>
+								<table width='100%'><tr>
+								<td width='95%'>
+									<div onclick="changePaymentCategory('2','Tarjetas');" style='padding:15px;' ><span id='caretTarjetas' class='fa fa-caret-right'></span>&nbsp;<span id='trans_label_85' style='font-size:18px; font-weight:bold;'>Tarjetas</span></div>
+								</td>
+								<td style='vertical-align:middle'>
+									<span class="badge" id='paymentTarjetasa' style='float:right;'>$ 0.00</span>
+								</td>
+								<td>
+									<button onclick='ResetPagos(2);'class='btn btn-default basurero' style='margin-left:5px; margin-right:15px;'><span class='glyphicon glyphicon-trash'></span></button>
+								</td>
+								</tr>
+								</table>
+							</div>
+						</div>
+						</div>
+						<div id='touchtarjetas' style='display:none; padding:15px;' class='touchpago  container-fluid'>
+							<!--<div class='col-lg-12 col-md-12 col-xs-12'>-->
+							<!--<div id='trans_label_35'>Elige la tarjeta con la que vas a pagar</div>-->
+							<div class="input-group" style='display:none;' id='cardgroup'>
+								<span class="input-group-addon trans_valorus" id="basic-addon1" >Valor US</span>
+								<input onchange='valorcardchange();' class='form-control input-lg pop' id='valortarjeta' value='0.00' readonly />
+							</div>
+							<div id='lastarjetas' style='margin-top:15px;'>
+							</div>
+							<!--</div>-->
+						</div>
+					   <div class="list-group-item" style='display:none; padding:0px;' id='licheques'>
+					    <div class='row'>
+							<div class='col-lg-12'>
+								<table width='100%'><tr>
+								<td width='95%'>
+									<div onclick="changePaymentCategory('3','Cheques');" style='padding:15px;'><span id='caretCheques' class='fa fa-caret-right'></span>&nbsp;<span style='font-size:18px; font-weight:bold;' id='trans_label_86'>Cheques</span></div>
+								</td>
+								<td  style='vertical-align:middle'>
+									 <span class="badge" id='paymentChequesa' style='float:right;'>$ 0.00</span>
+								</td>
+								<td>
+								<button onclick='ResetPagos(3);'class='btn btn-default basurero'  style='margin-left:5px; margin-right:15px;'><span class='glyphicon glyphicon-trash'></span></button>
+								</td>
+								</tr></table>
+							</div>
+						</div>	
+						</div>						
+						<div id='touchcheques' style='display:none; padding:15px;' class='touchpago  container-fluid'>
+							<!--<div class='col-lg-12 col-md-12 col-xs-12'>-->
+							<!---<div id='trans_label_36'>Ingresa el monto del cheque</div>-->
+							<table width='100%' style=''>
+								<tr><td>
+								<div class="input-group" style='margin-top:5px; margin-bottom:5px; width:100%;'>
+								<span class="input-group-addon trans_checknumber" id="basic-addon1" style='width:20%;'> Cheque No.</span>
+								<input type='number' id='chequeno1' name='chequeno1' class='form-control input-lg' value='' placeholder='0000' onclick='this.select();'/>
+								</div></td>
+								</tr>
+								<tr>
+								<td>
+								<div class="input-group" style='margin-top:5px; margin-bottom:5px; width:100%;'>
+								<span class="input-group-addon trans_valorus" id="basic-addon1" style='width:20%;' >Valor US</span>
+								<input onchange='valorchequechange();' class='form-control input-lg cheque pop' id='valorcheque1' onkeypress="isalphanumeric(event);" name='valorcheque1' value='0.00' readonly data-container='#touchcheques'/>
+								</div>
+								</td></tr>
+							</table>
+							<!--</div>-->
+						</div>
+					  
+					   <div class="list-group-item" style='display:none; padding:0px;' id='licxc'>
+					    <div class='row'>
+							<div class='col-lg-12'>
+								<table width='100%'><tr>
+								<td width='95%'>
+									<div onclick="changePaymentCategory('4','CxC');" style='padding:15px;'><span id='caretCxC' class='fa fa-caret-right'></span>&nbsp;<span style='font-size:18px; font-weight:bold;' id='trans_label_87'>CxC</span></div>
+								</td>
+								<td  style='vertical-align:middle'>
+									 <span class="badge" id='paymentCxCa' style='float:right;'>$ 0.00</span>
+								</td>
+								<td>
+									<button onclick='ResetPagos(4);'class='btn btn-default basurero'   style='margin-left:5px; margin-right:15px;'><span class='glyphicon glyphicon-trash'></span></button>
+								</td>
+								</tr></table>
+							</div>
+						</div>
+						</div>
+						<div id='touchcxc' style='display:none; padding:15px;' class='touchpago container-fluid'>
+							<!--<div class='col-lg-12 col-md-12 col-xs-12'>-->
+								<!--<div id='trans_label_37'>Ingresa el monto que se va a cancelar</div>-->
+								<table width='100%' style=''>
+								<tr><td>
+								<div class="input-group" style='margin-top:5px; margin-bottom:5px; width:100%;'>
+								<span class="input-group-addon trans_justification" id="basic-addon1" style='width:20%;' >Justificación</span>
+								<input type='text' class='form-control input input-lg' id='justcxc' name='justcxc' onclick='this.select();'/>
+								</div>
+								</td></tr>
+								<tr><td>
+								<div class="input-group" style='margin-top:5px; margin-bottom:5px; width:100%;'>
+								<span class="input-group-addon trans_valorus" id="basic-addon1" style='width:20%;' >Valor US</span>
+								<input onchange='valorcxcchange();' class='form-control input input-lg pop' id='valorcxc' name='valorcxc' readonly data-container='#touchcxc'/>
+								</div>
+								</td></tr></table>
+							<!--</div>-->
+						</div>
+						<div class="list-group-item" style='display:none; padding:0px;' id='liConsumoI'>
+					    <div class='row'>
+							<div class='col-lg-12'>
+								<table width='100%'><tr>
+								<td width='95%'>
+									<div onclick="changePaymentCategory('5','ConsumoI');" style='padding:15px;'><span id='caretConsumoI' class='fa fa-caret-right'></span>&nbsp;<span style='font-size:18px; font-weight:bold;' id=''>
+									Ver Opciones Almuerzos (Consumo Interno)</span></div>
+								</td>
+								<td  style='vertical-align:middle'>
+									 <span class="badge" id='paymentConsumoIa' style='float:right;'>$ 0.00</span>
+								</td>
+								<td>
+									<button onclick='ResetPagos(5);'class='btn btn-default basurero' style='margin-left:5px; margin-right:15px;'><span class='glyphicon glyphicon-trash'></span></button>
+								</td>
+								</tr></table>
+							</div>
+						</div>
+						</div>
+						<div id='touchConsumoI' style='display:none; padding:15px;' class='touchpago container-fluid'>
+							<!--<div class='col-lg-12 col-md-12 col-xs-12'>-->
+								<!--<div id='trans_label_37'>Ingresa el monto que se va a cancelar</div>-->
+								<table width='100%' style=''>
+								<tr><td>
+								<div class="input-group" style='margin-top:5px; margin-bottom:5px; width:100%;'>
+								<span class="input-group-addon trans_valorus" id="basic-addon1" style='width:20%;' >Valor US</span>
+								<input onchange='valorConsumoIchange();' class='form-control input input-lg pop' id='valorConsumoI' name='valorConsumoI' readonly data-container='#touchConsumoI'/>
+								</div>
+								</td></tr></table>
+							<!--</div>-->
+						</div>
+					 
+					</div>
+					</div>
+					<div class='row'>
+						<div class='col-xs-12'>
+						<div class='row' style='background-color:#DDD; padding-top:10px; padding-bottom:10px;'>
+						<div class='col-md-6' style="padding-top:10px;padding-bottom:10px;">
+						<table class="cuadrototal" style='display:none;' border="0" cellpadding="0px" cellspacing="0px" width='100%'>
+							<tr>
+								<td class="" align='right' id='trans_label_33'>
+									 PAGADO
+								</td>
+								<td id="invoicePaid" class='' style='' align='right'>
+									0.00
+								</td>
+							
+								<td id="invoiceDebt" class="trans_change" style='' align='right'>
+									FALTANTE
+								</td>
+								<td id="changeFromPurchase" class='' style='' align='right'>
+									0
+								</td>
+								<td id="labelprop" class="trans_propina" style='' align='right'>
+									PROPINA
+								</td>
+								<td id="invoiceprop" class='' style='' align='right'>
+									0.00
+								</td>
+							</tr>
+						</table>
+						</div>
+						<div class="col-md-6">
+						<table align='right'>
+                            <tr>
+								<!---<td style='display:none;'>-->
+								<td>
+									<button class='btn btn-success btn-lg' type='button' onclick='UsarBwise();' style='margin-right:3px;' >Usar MPos</button>
+								</td>
+								<td>
+									 <button class='btn btn-default btn-lg' id='pagoavan' style='margin-right:3px;' onclick='PagoAvanzado();'><span class='trans_advance'>Pago Avanzado</span></button>
+								</td>
+								<td>
+									  <button  class='btn btn-default btn-lg trans_pagosimple' id='lisimple' style='display:none; margin-right:3px;' onclick='PagoSimple();' style='display:none;'>Pago Simple</button>
+								</td>
+								<td>
+    							    <button id="cancelButton" class='btn btn-default btn-lg trans_cancel' onclick="cancelPayment(); return false;" style='margin-right:5px;'>Cancelar</button>
+                                </td>
+								<td>
+									<button id="nombre_orden" class='btn btn-lg btn-default trans_ordern' onclick="$('#popupNameorder').modal('show');" style='margin-right:5px;display: none;' type='button'>Nombre Orden</button>
+								</td>
+                                <td>
+        						<button style="float:right; margin-right:3px; display:none;" id="payButton" class="btn btn-success btn-lg trans_pay" onclick="VerificarComandas();"><span class='trans_pay'>PAGAR</span></button>
+								</td>
+    						</tr>
+						</table>
+						 </div>
+						 </div>
+					</div>
+					</div>
+					</div>
+				</div>
+			</div>
+			<div class='row' id='clientever' style='display:none; min-height:100%;'>
+				<div class='col-lg-12 col-md-12 col-xs-12'>
+					<div id='newCliente' class='container-fluid' style='padding-bottom:250px;'></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+ 
+ 
+ 
+<!--pop up discount --->
+<div  class="modal fade" id="popupDiscount" role="dialog" data-backdrop="static">
+	<div class="modal-dialog modal-sm">
+	<div class='modal-content text-center'>
+		<div style='width:100%; text-align:right; padding-right:5px; padding-top:15px;cursor:pointer;color:#1495C0; position:absolute; top:10px; right:12px; cursor:pointer;' ><i class="fa fa-chevron-circle-left fa-2x"  onclick='$("#popupDiscount").modal("hide");' title='Volver...'></i></div>
+		<div class='modal-header'><h2 class='trans_desc'>DESCUENTO</h2></div>
+		<span id='msjDescuentoError'></span>
+		<div class="modal-body divdescuento" style='color:#404041; position:relative;'>
+			<!--<div id="discountAdded" style="display: none; text-align: center; color: green">OK!</div>
+			<div class="input-group" style='width:80%; margin-left:auto; margin-right:auto;'>
+			<span class="input-group-addon" id='labeladdDiscount'>$ Total Descuento</span>-->
+			<!--<input class='form-control input-lg' type="number" min='0' onkeypress='soloNumerost(event);'  id="addDiscount" value="0.00" onclick='this.select();'/>-->
+		    <!--</div>-->
+			
+			<div class='row'>
+						<div class='col-xs-12'>
+							<div class='cantidadd' id='addDiscount'>0</div>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerod btn btn-default btn-lg' cual='1'>1</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerod btn btn-default btn-lg' cual='2'>2</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerod btn btn-default btn-lg' cual='3'>3</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerod btn btn-default btn-lg' cual='4'>4</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerod btn btn-default btn-lg' cual='5'>5</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerod btn btn-default btn-lg' cual='6'>6</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerod btn btn-default btn-lg' cual='7'>7</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerod btn btn-default btn-lg' cual='8'>8</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerod btn btn-default btn-lg' cual='9'>9</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerod btn btn-default btn-lg' cual='0'>0</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerod btn btn-default btn-lg' cual='p'>.</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerod btn btn-default btn-lg' cual='d'><span class='fa fa-long-arrow-left'></span></button>
+						</div>
+			</div>
+			<div class='btn btn-default trans_cancel' onclick="closePopup(); return false;" id='btn_cancelar' style='margin:10px;'>Cancelar</div>
+			<div id='btn_agregar' class='btn btn-success  trans_desc' onclick='addDiscount(); return false;' style='margin:10px;'>Descontar</div>
+			
+		</div>
+	</div>
+	</div>
+</div>
+
+<!--pop up agregados--->
+<div  class="modal fade" id="popupModificadores" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+	<div class='modal-content text-center'>
+		<!--<div style='width:100%; text-align:right; padding-right:5px; padding-top:15px;cursor:pointer;color:#1495C0; position:absolute; top:10px; right:12px; cursor:pointer;' onclick='$("#popupModificadores").modal("hide");'><i class="fa fa-chevron-circle-left fa-2x" title='Volver...'></i></div>-->
+		<div class='modal-header'>
+		<div style='width:100%; text-align:right; padding-right:5px; padding-top:10px;cursor:pointer;color:#1495C0; position:absolute; top:10px; right:12px; cursor:pointer;'><i onclick='$("#popupModificadores").modal("hide");' class="fa fa-chevron-circle-left fa-2x" title='Volver...'></i></div>
+		<h4 id='titlemodificador'>Modificadores</h4></div>
+		<span id='msjDescuentoError'></span>
+		<input type='hidden' style='display:none;' id='id_formulado_modificadores'/>
+		<div class="modal-body" style='color:#404041; position:relative;'>
+			<div class='row'>
+				<div class='col-lg-12' id='divmodificadores'>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+
+
+<!--pop up propina--->
+<div  class="modal fade" id="popupPropina" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+	<div class='modal-content text-center'>
+		<!--<div style='width:100%; text-align:right; padding-right:5px; padding-top:15px;cursor:pointer;color:#1495C0; position:absolute; top:10px; right:12px; cursor:pointer;' onclick='$("#popupModificadores").modal("hide");'><i class="fa fa-chevron-circle-left fa-2x" title='Volver...'></i></div>-->
+		<div class='modal-header'><h4 id='titlemodificador' class='trans_propina'>Propinas</h4></div>
+		<span id='msjpropinasError'></span>
+		<div class="modal-body" style='color:#404041; position:relative;'>
+			<div class='row'>
+				<div class='col-lg-12' id='divpropinas'>
+				</div>
+				<button style='margin-top:10px;' type="button" class="btn btn-primary btn-lg trans_save" onclick="GuardarPropina();">Guardar</button>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+<!--- ---->
+
+<!---pop up order name ------>
+<div  class="modal fade" id="popupNameorder" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+	<div class='modal-content text-center'>
+		<!--<div style='width:100%; text-align:right; padding-right:5px; padding-top:15px;cursor:pointer;color:#1495C0; position:absolute; top:10px; right:12px; cursor:pointer;' onclick='$("#popupModificadores").modal("hide");'><i class="fa fa-chevron-circle-left fa-2x" title='Volver...'></i></div>-->
+		<div class='modal-header'><h4 id='titlemodificador'>Nombre para la Orden</h4></div>
+		<span id='msjnombreError'></span>
+		<div class="modal-body" style='color:#404041; position:relative;'>
+			<div class='row'>
+				<div class='col-lg-10'>
+					<input class='form-control input-lg' id='ordername' placeholder='Ingrese el nombre...'/>
+				</div>
+				<div class='col-lg-2'>
+					<button type='button' class='btn btn-lg btn-primary' onclick="AsignarNombre();">Listo</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+
+<!--- ---->
+
+<!---pop up Nota------>
+<div  class="modal fade" id="popupNota" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+	<div class='modal-content text-center'>
+		<!--<div style='width:100%; text-align:right; padding-right:5px; padding-top:15px;cursor:pointer;color:#1495C0; position:absolute; top:10px; right:12px; cursor:pointer;' onclick='$("#popupModificadores").modal("hide");'><i class="fa fa-chevron-circle-left fa-2x" title='Volver...'></i></div>-->
+		<div class='modal-header'><h4><span id='trans_label_53'>Nota para </span><span id='itemnota'></span></h4></div>
+		<span id='msjnotaError'></span>
+		<input class='form-control input-lg' id='notaid' style='display:none;'/>
+		<div class="modal-body" style='color:#404041; position:relative;'>
+			<div class='row'>
+				<div class='col-lg-10'>
+					<textarea class='form-control input-lg trans_note' autofocus='true' id='textonota' placeholder='Ingrese la nota...'></textarea>
+				</div>
+				<div class='col-lg-2'>
+					<button type='button' style='margin-top:10px;' class='btn btn-primary trans_save' onclick="AgregarNota();">Listo</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+
+<!--- ---->
+
+<!---pop up Empleados------>
+<div  class="modal fade" id="popupEmpleados" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+	<div class='modal-content text-center'>
+		<div class='modal-header'>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4><span id='trans_label_113'>Escoja Mesero</span></h4>
+        </div>
+		<span id='msjempleadoError'></span>
+		<input class='form-control input-lg' id='empleadoid' style='display:none;'/>
+		<div class="modal-body" style='color:#404041; position:relative;'>
+			<div class='row'>
+				<div id="listaempleados" class='col-md-9'>
+
+				</div>
+				<div class='col-md-3'>
+					<button type='button' class='btn btn-primary trans_continue' onclick="SaveMesaLocal();">Continuar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+
+<!--- ---->
+
+<!---pop up Activar Mesa------>
+<div  class="modal fade" id="popupActivarMesa" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+	<div class='modal-content text-center'>
+		<!--<div style='width:100%; text-align:right; padding-right:5px; padding-top:15px;cursor:pointer;color:#1495C0; position:absolute; top:10px; right:12px; cursor:pointer;' onclick='$("#popupModificadores").modal("hide");'><i class="fa fa-chevron-circle-left fa-2x" title='Volver...'></i></div>-->
+		<div class='modal-header'><h4><span id='trans_label_59'>Activar Mesa: </span><span id='itemmesa'></span></h4></div>
+		<span id='msjmesaError'></span>
+		<input class='form-control input-lg' id='mesaid' style='display:none;'/>
+		<div class="modal-body" style='color:#404041; position:relative;'>
+			<div class='row'>
+				<div class='col-lg-12' style='text-align:left;'>
+					<label id='trans_label_60'>Número de PAX:</label>
+				</div>
+				<div class='col-lg-12'>
+					<div class='row'>
+						<div class='col-xs-12'>
+							<div class='cantidadm' id='addPax' cambio='false'>1</div>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerom btn btn-default btn-lg' cual='1'>1</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerom btn btn-default btn-lg' cual='2'>2</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerom btn btn-default btn-lg' cual='3'>3</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerom btn btn-default btn-lg' cual='4'>4</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerom btn btn-default btn-lg' cual='5'>5</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerom btn btn-default btn-lg' cual='6'>6</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerom btn btn-default btn-lg' cual='7'>7</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerom btn btn-default btn-lg' cual='8'>8</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerom btn btn-default btn-lg' cual='9'>9</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numerom btn btn-default btn-lg' cual='d'><span class='fa fa-long-arrow-left'></span></button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='row'>
+				<div class='col-lg-12'>
+					<button type='button' style='margin-top:10px; text-transform:uppercase;' class='btn btn-success btn-lg trans_active' onclick="ActivarMesa();">ACTIVAR</button>
+					<button type='button' style='margin-top:10px; text-transform:uppercase;' class='btn btn-default btn-lg trans_cancel' onclick="$('#addPax').attr('cambio','false'); $('#popupActivarMesa').modal('hide');">CANCELAR</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+
+<!--- ---->
+
+<!---pop up cantidad ---->
+	<div  class="modal fade" id="popupCantidad" role="dialog" data-backdrop="static">
+		<div class="modal-dialog modal-sm">
+			<div class='modal-content text-center'>
+				<div class='modal-header'>
+						<div style='width:100%; text-align:right; padding-right:5px; padding-top:15px;cursor:pointer;color:#1495C0; position:absolute; top:10px; right:12px; cursor:pointer;' ><i onclick='$("#popupCantidad").modal("hide");' class="fa fa-chevron-circle-left fa-2x" title='Volver...'></i></div>
+					<h3 class='trans_cantc'>Nueva Cantidad</h3>
+				</div>
+				<span id='msjCantidadError'></span>
+				<div class="modal-body divcalculadora" style='color:#404041; position:relative;'>
+					<!--<div class="input-group" style='width:80%; margin-left:auto; margin-right:auto;'>
+						<span class="input-group-addon" id='labeladdDiscount'>Cantidad</span>
+						<input class='form-control input-lg' type="number" min='0' onkeypress='soloNumerost(event);'  id="modificaCantidadActual" value="0" onclick='this.select();'/>
+					</div>-->
+					<div class='row'>
+						<div class='col-xs-12'>
+							<div class='cantidad' id='modificaCantidadActual'>0</div>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col-lg-4 col-md-4 col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='1'>1</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='2'>2</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='3'>3</button>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='4'>4</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='5'>5</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='6'>6</button>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='7'>7</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='8'>8</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='9'>9</button>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='0'>0</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='p'>.</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='d'><span class='fa fa-long-arrow-left'></span></button>
+						</div>
+					</div>
+				</div>
+					<input type='hidden' id='recibeIdentificadorTr' />
+					<input type='hidden' id='productoIDAcambiar'  />
+					<div class='btn btn-default trans_cancel' onclick="closePopup2(); return false;" id='btn_cancelar' style='margin:10px;'>Cancelar</div>
+					<div id='btn_agregar1' class='btn btn-success trans_cantchange' onclick='cambiarCantidad()' style='margin:10px;'>Cambiar</div>
+					<div id='btn_agregar2' class='btn btn-success trans_cantchange' onclick='cambiarCantidad2()' style='margin:10px;display:none;'>Cambiar</div>
+
+				</div>
+			</div>
+		</div>
+<!--- ---->
+
+<!---pop up cantidad profesional---->
+	<div  class="modal fade" id="popupCantidadProf" role="dialog" data-backdrop="static">
+		<div class="modal-dialog modal-sm">
+			<div class='modal-content text-center'>
+				<div class='modal-header'>
+						<div style='width:100%; text-align:right; padding-right:5px; padding-top:15px;cursor:pointer;color:#1495C0; position:absolute; top:10px; right:12px; cursor:pointer;' ><i onclick='$("#popupCantidad").modal("hide");' class="fa fa-chevron-circle-left fa-2x" title='Volver...'></i></div>
+					<h3 class='trans_cantc'>Nueva Cantidad</h3>
+				</div>
+				<span id='msjCantidadErrorProf'></span>
+				<div class="modal-body divcalculadora" style='color:#404041; position:relative;'>
+					<div class='row'>
+						<div class='col-xs-12'>
+							<div class='cantidad' id='modificaCantidadActualProf'>0</div>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col-lg-4 col-md-4 col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='1'>1</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='2'>2</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='3'>3</button>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='4'>4</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='5'>5</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='6'>6</button>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='7'>7</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='8'>8</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='9'>9</button>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='0'>0</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='p'>.</button>
+						</div>
+						<div class='col-xs-4' align='center'>
+							<button class='numeroc btn btn-default btn-lg' cual='d'><span class='fa fa-long-arrow-left'></span></button>
+						</div>
+					</div>
+				</div>
+					<div class='btn btn-default trans_cancel' onclick="$('#popupCantidadProf').modal('hide');" id='btn_cancelar' style='margin:10px;'>Cancelar</div>
+					<div class='btn btn-success trans_cantchange' onclick='cambiarCantidadProf();' style='margin:10px;'>Cambiar</div>
+				</div>
+			</div>
+		</div>
+<!--- ---->
+	
+<input type='hidden' style='display:none;' value='001-001-000050' id='nextnumber'/>
+<div id="factura" style='display:none;'>
+		<input type="hidden" id="subtotalSinIva" value="0"/>
+		<input type="hidden" id="subtotalIva" value="0"/>
+		<input type="text" id="descuentoFactura" value="0"/>
+		<input type="hidden" id="totalmiFactura" value="0"/>
+		<input type="hidden" id="timespanFactura" value="0"/>
+		<input type="hidden" id="propinaFactura" value="0"/>
+</div>
+<div id="controller" style='display:none;'>
+		<input type="hidden" id="pager" value="1"/>
+		<input type="hidden" id="category" value="1"/>
+		<input type="hidden" id="maxPage" value="1"/>
+</div>
+
+<!--div para diseño de mesas---->
+<div id='divmesas' class='divmesas'>
+	<div class='row'  style='background-color:white;'>
+		<div class='col-lg-12'>
+		<!-- Centered Tabs -->
+		<ul class="nav nav-tabs nav-left">
+		  <li class="active" id="litab1"><a href="#contentmesas_1" data-toggle="tab" >Area 1</a></li>
+		  <li id="litab2"><a href="#contentmesas_2" data-toggle="tab" >Area 2</a></li>
+		  <li id="litab3"><a href="#contentmesas_3" data-toggle="tab" >Area 3</a></li>
+		  <li id="litab4"><a href="#contentmesas_4" data-toggle="tab" >Area 4</a></li>
+		</ul>
+		</div>
+	</div>
+	<div class='row'>
+		<div class='col-lg-12' style='position:relative; background-image:url("images/piso.jpg");' id='colmesas'>
+		<div class="tab-content">
+		<div id='contentmesas_1' class='contentmesas tab-pane fade in active'>
+		</div>
+		<div id='contentmesas_2' class='contentmesas tab-pane fade'>
+		</div>
+		<div id='contentmesas_3' class='contentmesas tab-pane fade'>
+		</div>
+		<div id='contentmesas_4' class='contentmesas tab-pane fade'>
+		</div>
+		</div>
+		</div>
+	</div>
+</div>
+<!---fin diseno mesas ---->
+
+<!---pop up Categoria------>
+<div  class="modal fade" id="popupCat" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+	<div class='modal-content text-center'>
+		<div class='modal-header'><h4><span id='titulo_cat'>Nueva Categoría</span></h4></div>
+		<span id='msjcatError'></span>
+		<input class='form-control input-lg' id='notaid' style='display:none;'/>
+		<div class="modal-body" style='color:#404041; position:relative;'>
+			<div class='row'>
+                <div class='col-xs-2'>
+				</div>
+				<div class='col-lg-8'>
+					<input class="form-control input-lg" name='nombre_categoria' id='nombre_categoria' type='text' value=''/>
+				</div>
+                <div class='col-xs-2'>
+				</div>
+			</div>
+            <div style="width: 100%;height: 8px;"></div>
+            <div class='row'>
+				<div class='col-lg-12'>
+					<button type='button' style='margin-top:10px;' class='btn btn-lg btn-default trans_cancell' onclick="$('#popupCat').modal('hide');">Cancelar</button>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type='button' style='margin-top:10px;' class='btn btn-lg btn-success trans_save' onclick="AgregarCategoria();"></button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+<!--- ---->
+
+
+<!---pop up cupo insuficiente--->
+<div id='popupinsuficiente' class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+		<div style='padding:20px;'>
+			<h1 style='color:#202021;'>Su cupo es insuficiente para realizar la compra.</h1>
+			<div style='font-size:28px; color:gray;'>Su saldo actual es: US <span id='cupoactual'></span></div>
+		</div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!---fin popup cupo--->
+
+<!---pop up cupo insuficiente--->
+<div id='popupquitarimpuestos' class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+		<div class='modal-header'>
+			<h3>Personalizar impuestos</h3>
+		</div>
+      <div class="modal-body">
+		<div style='padding:20px;'>
+			Lista de impuestos activos:
+			<div>
+			</div>
+		</div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!---fin popup cupo--->
+
+<div id='jsonproductos' style='display:none;'></div>
+<audio id="beep1" src="views/nubepos/sonidos/blip7.mp3" preload="auto"></audio>
+<div style='display:none;' id='jsonclientes'></div>
+<script type="text/javascript" src="js/funciones.js"></script>
+<script type="text/javascript" src="js/payment.js"></script>
+
+<script type="text/javascript">
+/*$("#inputbuscnew").on("keypress", function(event){
+  if(event.which==138){
+    var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(
+	function (tx){
+	  var codigo = $('#inputbuscnew').val();
+        tx.executeSql("SELECT timespan from PRODUCTOS WHERE codigo = ? order by codigo",[codigo],function(tx,results2){
+    		if(results2.rows.length>0){
+    			//alert(results2.rows.item(0).timespan+'**RV'+codigo);
+                VerificarAgregadosnew(document.getElementById('busc_'+results2.rows.item(0).timespan),2)
+                //alert(event.which+'**RV');
+    		}
+    	});
+	},errorCB,successCB);
+  }
+});*/
+
+$("#inputbusc").on("change",function(){
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(
+	function (tx){
+	    var codigo = $('#inputbusc').val();
+        tx.executeSql("SELECT * from PRODUCTOS WHERE codigo like ? and productofinal=1 and estado=1 order by codigo",[codigo],function(tx,results2){
+    		if(results2.rows.length>0){
+				var item=results2.rows.item(0);
+				if(codigo==item.codigo){
+					var midiv=document.createElement('div');
+					var impuestos='';
+					var impuestosid='';
+					if(item.tieneimpuestos=="true"){
+						impuestos=$('#impuestosactivos').html();
+						impuestosid=$('#impuestosactivosid').html();
+					}
+
+					midiv.id="busc_"+item.timespan;
+					midiv.setAttribute("data-precio",item.precio);
+					midiv.setAttribute("data-impuestos",impuestos);
+					midiv.setAttribute("data-impuestosindexes",impuestosid);
+					midiv.setAttribute("data-formulado",item.formulado);
+					midiv.setAttribute("data-id_local",item.id_local);
+					console.log(midiv);
+					VerificarAgregados($(midiv),2);
+				}
+    		}else{
+				 $('#inputbusc').val('');
+			}
+    	});
+	},errorCB,successCB);
+
+});
+
+$("#inputbuscnew").on("change", function(event){
+  BuscarSugerencias2newbarra($('#inputbuscnew').val());
+  //alert('rr');
+    var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(
+	function (tx){
+	  var codigo = $('#inputbuscnew').val();
+        tx.executeSql("SELECT timespan from PRODUCTOS WHERE codigo = ? order by codigo",[codigo],function(tx,results2){
+    		if(results2.rows.length>0){
+    			//alert(results2.rows.item(0).timespan+'**RV'+codigo);
+                VerificarAgregadosnew(document.getElementById('busc_'+results2.rows.item(0).timespan),2)
+                //alert(event.which+'**RV');
+    		}
+    	});
+	},errorCB,successCB);
+});
+function BuscarSugerencias2newbarra(filtro){
+
+		var buscar = $('#inputbuscnew').val();
+		//alert(buscar+'rv45');
+
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+		db.transaction(function(tx){
+			tx.executeSql("SELECT * FROM PRODUCTOS WHERE codigo = '"+buscar+"' and productofinal=1 and estado=1",[],function(tx,results){
+				//console.log(results);
+				if(results.rows.length>0){
+					var res1=new Object();
+					for(var n=0;n<results.rows.length;n++){
+						var itemr=results.rows.item(n);
+						//console.log(itemr);
+						var productodata=new Object();
+						productodata.id_local=itemr.id_local;
+						productodata.formulado=itemr.formulado;
+						productodata.codigo=itemr.codigo;
+						productodata.precio=itemr.precio;
+						productodata.id=itemr.timespan;
+						productodata.categoria=itemr.categoriaid;
+						var impuestos='';
+    					var impuestosid='';
+    					if(itemr.tieneimpuestos=="true"){
+    						impuestos=$('#impuestosactivos').html();
+    						impuestosid=$('#impuestosactivosid').html();
+    					}
+
+                        productodata.formulado_impuestos=impuestos;
+  						productodata.formulado_tax_id=impuestosid;
+						res1[n]=productodata;
+					}
+					/*var productodata=new Array();
+					productodata.formulado = results.rows.item(0);
+					var id = row.id*/
+					$('#jsonproductos').html(JSON.stringify(res1));
+					console.log(JSON.stringify(res1));
+
+                    if(filtro!=''){
+				$('#resultBuscadornew').fadeIn('slow');
+				$('#tableresultsnew').html('');
+				var jsonf = $('#jsonproductos').html().toString();
+                //alert(jsonf);
+				console.log(jsonf);
+				var mijson = JSON.parse(jsonf);
+				console.log(mijson);
+				for(var j in mijson){
+					var item = mijson[j];
+					var suger='';
+					if(item.formulado.toLowerCase().indexOf(filtro.toLowerCase())>-1)
+						suger=item.formulado;
+					else if(item.codigo.toLowerCase().indexOf(filtro.toLowerCase())>-1)
+						suger=item.codigo;
+
+					if(suger!='')
+					{
+						if(document.getElementById('tableresultsnew').rows.length<4){
+						$('#tableresultsnew').append("<tr id='busc_"+ item.id +"' data-id_local = '"+item.id_local+"' data-precio='"+ item.precio +"' data-impuestos='"+ item.formulado_impuestos +"' data-impuestosindexes='"+ item.formulado_tax_id +"' data-formulado='"+ item.formulado+"'><td class='sugerencia' enfocada='0'><div id='busc_"+ item.id +"' data-precio='"+ item.precio +"' data-impuestos='"+ item.formulado_impuestos +"' data-impuestosindexes='"+ item.formulado_tax_id +"' data-formulado='"+ item.formulado+"' data-id_local = '"+item.id_local+"' onclick='VerificarAgregadosnew(this,2)'>"+suger.toUpperCase()+"</div></td></tr>");
+						}
+
+					}
+
+				}
+			}
+				}else{
+                    $('#inputbuscnew').val('');
+                }
+			},errorCB,successCB);
+		});
+}
+function ListarCategorias(){
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+	tx.executeSql('SELECT * FROM CATEGORIAS where timespan != "0" ORDER BY categoria asc;',[],function(tx,results){
+		//console.log(results.rows.length);
+		var inhtml='';
+		for (var i=0; i < results.rows.length; i++){
+			var row=results.rows.item(i);
+            if(i == 0){
+              $('#idcategoria').val(row.timespan);
+            }
+			inhtml+='<option value="'+row.timespan+'">'+row.categoria+'</option>';
+		}
+        inhtml+='<option value="0">Nueva Categoría</option>';
+
+		 LlenarComboCat(inhtml);
+
+	});
+	});
+}
+function LlenarComboCat(options){
+	$('#listacategoriasprof').append(options);
+}
+function AgregarCategoria(){
+  var cat = document.getElementById('nombre_categoria').value;
+  var timeSpanCat = getTimeSpan();
+  if(cat == ''){
+    alert('Debe ingresar el nombre de la categoría para poder guardar.');
+  }else{
+
+  var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+	tx.executeSql('INSERT INTO CATEGORIAS(categoria,activo,existe,timespan) SELECT "'+cat+'",1,0,"'+timeSpanCat+'" WHERE NOT EXISTS(SELECT 1 FROM CATEGORIAS WHERE categoria = "'+cat+'");',[],function(tx,results){
+	    var idInsertCatNew = timeSpanCat;
+		//console.log(results.rows.length);
+        ListarCategoriasNew(idInsertCatNew);
+
+	});
+	});
+
+  }
+}
+function ListarCategoriasNew(idInsertCatNew){
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+	tx.executeSql('SELECT * FROM CATEGORIAS where timespan != "0" ORDER BY categoria asc;',[],function(tx,results){
+		//console.log(results.rows.length);
+		var inhtml='';
+		for (var i=0; i < results.rows.length; i++){
+			var row=results.rows.item(i);
+			inhtml+='<option value="'+row.timespan+'">'+row.categoria+'</option>';
+		}
+        inhtml+='<option value="0">Nueva Categoría</option>';
+
+		 LlenarComboCatNew(inhtml,idInsertCatNew);
+
+	});
+	});
+}
+function LlenarComboCatNew(options,idInsertCatNew){
+	$('#listacategoriasprof').html(options);
+    alert('Categoria creada con exito!.');
+    $('#listacategoriasprof > option[value="'+idInsertCatNew+'"]').attr('selected', 'selected');
+    $('#idcategoria').val(idInsertCatNew);
+    $('#popupCat').modal('hide');
+}
+function sacaidcatprof(){
+  var timecat = document.getElementById('listacategoriasprof').value;
+  if(timecat == '0'){
+   $('#idcategoria').val(0);
+   $('#popupCat').modal("show");
+  }else{
+   $('#idcategoria').val(timecat);
+  }
+}
+function modificarCantidadProf(){
+	$('#popupCantidadProf').modal("show");
+	$('#modificaCantidadActualProf').html('1');
+}
+function cambiarCantidadProf(){
+	var cantidadActual = $('#modificaCantidadActualProf').html();
+    $('#cantidadprof').val(cantidadActual);
+	$('#popupCantidadProf').modal('hide');
+    calculaProdProf();
+}
+function calculaProdProf(){
+  var cual = $('#queprecioaux').val();
+
+  if(cual == 0){
+
+    var precioprof = parseFloat($('#precioprof').val());
+    var cantidadprof = parseFloat($('#cantidadprof').val());
+    //impuestos start
+          var productoImpuestos=$('#impuestosactivos').html();
+          var productoimpuesto = 0;
+          var conimpuestos = document.getElementById('ivaprof').checked;
+          if(conimpuestos){
+          	var porcentajes=productoImpuestos.split('@');
+          	for(var l in porcentajes){
+          		if(porcentajes[l]!=null&&porcentajes[l]!=""&&porcentajes[l]!='undefined')
+          			productoimpuesto+=parseFloat(porcentajes[l]);
+          	}
+          }
+  	//impuestos end
+      productoimpuesto = productoimpuesto+1;
+    var totalprof = (precioprof*cantidadprof)*productoimpuesto;
+    $('#totalprof').val(totalprof.toFixed(4));
+
+  }else if(cual == 1){
+
+    var precioprof = parseFloat($('#totalprof').val());
+    var cantidadprof = parseFloat($('#cantidadprof').val());
+    //impuestos start
+          var productoImpuestos=$('#impuestosactivos').html();
+          var productoimpuesto = 0;
+          var conimpuestos = document.getElementById('ivaprof').checked;
+          if(conimpuestos){
+          	var porcentajes=productoImpuestos.split('@');
+          	for(var l in porcentajes){
+          		if(porcentajes[l]!=null&&porcentajes[l]!=""&&porcentajes[l]!='undefined')
+          			productoimpuesto+=parseFloat(porcentajes[l]);
+          	}
+          }
+  	//impuestos end
+      productoimpuesto = productoimpuesto+1;
+    var totalprof = (precioprof*cantidadprof)/productoimpuesto;
+    $('#precioprof').val(totalprof.toFixed(4));
+
+  }
+
+  $('#queprecioaux').val('0');
+
+}
+function agregarCompraProf(){
+
+    if($('#productoprof').val() == '' || parseFloat($('#totalprof').val()) == '0'){
+      if(localStorage.getItem("idioma")==2){
+        alert('You must enter the description and price to add invoice.');
+      }else{
+        alert('Debe ingresar la descripción y precio para poder agregar a factura.');
+      }
+
+    }else{
+	var i = 1;
+	$('#descuentoFactura').val(0);
+	$('#resultBuscador').fadeOut('slow');
+	//variables facturacion
+	var subtotalSinIva = $('#subtotalSinIva').val();
+	var subtotalIva = $('#subtotalIva').val();
+
+	//variables compra
+	var total = 0;
+	var sumTotal = 0;
+	var taxTotal = 0;
+	var productoCantidad = parseFloat($('#cantidadprof').val());
+	if(currentCantidad != 0 && currentAction=='+') {
+		productoCantidad = currentCantidad;
+		currentAction='';
+		currentCantidad=0;
+
+	}
+
+	var productoID = -14;
+	var productoNombre = $('#productoprof').val();
+	var id_local = -14;
+	var productoPrecio = parseFloat($('#precioprof').val());
+	var subtotalSinIvaCompra = 0;
+	var subtotalIvaCompra = 0;
+    var productoImpuestosIndexes = '';
+	var productoImpuestos='';
+    var productoImpuestosaux='';
+    var sumaagregados = 0;
+    var productoAgregados = '';
+
+	//impuestos start
+        var productoimpuesto = 0;
+        var conimpuestos = document.getElementById('ivaprof').checked;
+        var cont = 0;
+        if(conimpuestos){
+          productoImpuestosIndexes=$('#impuestosactivosid').html();
+            $("#taxes input").each(function (index){
+
+              subtotalIvaCompra = (parseFloat(productoCantidad) * (parseFloat(productoPrecio)));
+
+                productoImpuestosaux=$('#'+$(this).attr("id")).val();
+            	var porcentajes = productoImpuestosaux.split('|');
+                if(porcentajes[2]!=null&&porcentajes[2]!=""&&porcentajes[2]!='undefined'){
+                  productoImpuestos += porcentajes[2]+'@';
+                    productoimpuesto += parseFloat(porcentajes[2]);
+                    if($('#impuestoFactura-'+ porcentajes[0]).length == 0){
+                        var currentimp=(parseFloat(productoCantidad) *( parseFloat(productoPrecio)+sumaagregados) * parseFloat(porcentajes[2]));
+                        $('#factura').append('<input type="hidden" id="impuestoFactura-'+ porcentajes[0] +'" class="esImpuesto" data-id="'+ porcentajes[0] +'" data-nombre="'+ porcentajes[1] +'" data-valor="'+ porcentajes[2] +'" value="'+ currentimp +'"/>');
+                    }else{
+    					//var impuestoDetalles = $('#impuesto-'+ value).val().split('|');
+    					var currentTax = $('#impuestoFactura-'+ porcentajes[0]).val();
+    					var calcimp=((parseFloat(productoCantidad) * (parseFloat(productoPrecio)+sumaagregados)) * parseFloat(porcentajes[2]));
+    					$('#impuestoFactura-'+ porcentajes[0]).val(parseFloat(currentTax) + parseFloat(calcimp));
+					}
+                }
+            });
+        }else{
+            subtotalSinIvaCompra = (parseFloat(productoCantidad) * (parseFloat(productoPrecio)));
+        }
+			taxTotal+= ((parseFloat(productoCantidad) * (parseFloat(productoPrecio))) * productoimpuesto);
+	//impuestos end
+
+	var max=0;
+	$('#tablaCompra tr').each(function(){
+		var idtr=$(this).attr("id");
+		//alert(idtr);
+		if(idtr!=null){
+			var dataid=idtr.split('_');
+			if(parseInt(dataid[1])>=max)
+				max=parseInt(dataid[1])+1;
+		}
+
+	});
+
+	var innerlinea="";
+	if(localStorage.getItem("con_notas")=="true"){
+		innerlinea=' onclick="MostrarNota(this)"; ';
+	}
+
+	var total = productoCantidad * (productoPrecio) + taxTotal;//YAESTA
+
+    productoImpuestos = productoImpuestos.substr(0,productoImpuestos.length -1);
+	$('#tablaCompra').append('<tr id="cant_'+max+'"><td class="lineadetalle" data-borrarcantidad="'+ productoCantidad +'" data-borrarimpuesto="'+ productoImpuestos +'" data-borrarimpuestoindexes="'+ productoImpuestosIndexes +'" data-borrarprecio="'+ productoPrecio +'" data-agregados="'+sumaagregados+'" onclick="borrarCompra(this); return false;" style="width: 5%;"><button type="button" class="btn btn-danger btn-xs product_del"><span class="glyphicon glyphicon-remove" ></span></button><input type="hidden" class="totales" value="'+ total +'"/></td><td onclick="modificarCantidad('+max+' , -14)" style="border-right:1px solid #909192; text-align: center; width:20%;" class="lineadetalle" "><input type="hidden" class="productDetails" value="'+ productoID +'|'+ productoNombre +'|'+ productoCantidad +'|'+ productoPrecio +'|'+ productoPrecio +'|'+ productoImpuestos +'|'+ (productoCantidad * (productoPrecio+sumaagregados) + taxTotal) +'|'+productoImpuestosIndexes+'|'+sumaagregados+'" data-detagregados="'+productoAgregados+'"  data-id_real="'+id_local+'"  /><input type="hidden" class="cantidadproductoscomandados" value="'+productoCantidad+'"/>'+productoCantidad +'</td><td style="border-right:1px solid #909192; padding:5px;text-align: left; width:50%; text-transform:capitalize;" class="lineadetalle"><span class="lineanota" data-id="'+max+'" '+innerlinea+'>'+productoNombre+'</span></td><td style="padding-right:20px; text-align: right;" class="lineadetalle">'+ (total).toFixed(4) +'</td></tr>');
+	$('.totales').each(function(){
+		sumTotal += parseFloat($.trim($(this).val()));
+		i++;
+	});
+
+	console.log (i+'cantidad');
+	var sumcantidadComandada = 0;
+	$('.cantidadproductoscomandados').each(function(){
+		sumcantidadComandada += parseFloat($.trim($(this).val()));
+	});
+	console.log('los items facturados son'+sumcantidadComandada);
+	$('#itemsVendidos').html(sumcantidadComandada);
+	$('#menuSubNew2').html("Total - Ver "+sumcantidadComandada+" pedidos");
+
+	$('#totalmiFactura').val(sumTotal);
+	$('#total').html('$'+ parseFloat(sumTotal).toFixed(2));
+
+	if($('#total').html().toString().length==9)
+		$('#divtotal').css('font-size','26px');
+	else if($('#total').html().toString().length>9)
+		$('#divtotal').css('font-size','26px');
+	else
+		$('#divtotal').css('font-size','30px');
+
+	if($('#total').html().toString().length>7){
+		$('.den').css('width',4.5*parseFloat($('.producto').css('height')));
+	}else{
+		$('.den').css('width',3*parseFloat($('.producto').css('height')));
+	}
+
+	$('#payButton').html('PAGAR');
+	$('#invoiceTotal').html(parseFloat(sumTotal).toFixed(2));
+	$('#justo').html('$ '+sumTotal.toFixed(2));
+	$('#justo').attr('data-value',-1*sumTotal.toFixed(2));
+	$('#redondeado').html('$ '+Math.ceil(sumTotal).toFixed(2));
+	$('#redondeado').attr('data-value',-1*Math.ceil(sumTotal).toFixed(2));
+	var alta=0;
+	for( var t in misdenominaciones){
+		if(misdenominaciones[t]>sumTotal)
+		{
+			alta=misdenominaciones[t];
+			break;
+		}
+	}
+	$('#altaden').html('$ '+alta.toFixed(2));
+	$('#altaden').attr('data-value',-1*alta.toFixed(2));
+	if(alta!=sumTotal&&alta!=Math.ceil(sumTotal)&&alta!=0)
+		$('#altaden').parent().css('display','inline');
+	else
+		$('#altaden').parent().css('display','none');
+
+	var prox10=0;
+	var iter=1;
+	var p10=iter*10;
+	while(p10<sumTotal){
+		iter++;
+		p10=iter*10;
+	}
+	$('#prox10').html('$ '+p10.toFixed(2));
+	$('#prox10').attr('data-value',-1*p10.toFixed(2));
+
+	if(p10>0&&p10!=alta)
+		$('#prox10').parent().css('display','inline');
+	else
+		$('#prox10').parent().css('display','none');
+
+	var prox20=0;
+	var iter=1;
+	var p20=iter*20;
+	while(p20<sumTotal){
+		iter++;
+		p20=iter*20;
+	}
+	$('#prox20').html('$ '+p20.toFixed(2));
+	$('#prox20').attr('data-value',-1*p20.toFixed(2));
+	if(p20>0&&p20!=p10)
+		$('#prox20').parent().css('display','inline');
+	else
+		$('#prox20').parent().css('display','none');
+
+	$('#subtotalSinIva').val(parseFloat(subtotalSinIva) + parseFloat(subtotalSinIvaCompra));
+	$('#subtotalIva').val(parseFloat(subtotalIva) + parseFloat(subtotalIvaCompra));
+	$('.cantidad').html('0');
+	$('#tableresults').html('');
+	$('#inputbusc').val('');
+    $('.cantidadnew').html('0');
+	$('#tableresultsnew').html('');
+	$('#inputbuscnew').val('');
+	$('#contentdetalle').animate({
+		scrollTop: $('#contentdetalle')[0].scrollHeight
+		}, 1000).clearQueue();
+	$('#tablaCompra tr:last-child').effect('highlight',{},'normal');
+	celdaenfocada=-1;
+	PlaySound(0);
+	$('.product_del').on('click',function(){
+			PlaySound(4);
+	});
+
+	$('#btn_pagar').attr('class','btn btn-success btn-block btn-lg');
+
+	if(localStorage.getItem("con_mesas")=="true"){
+		if(localStorage.getItem("idioma")==1)
+			$('#btn_gpedidos').html('guardar');
+		else if(localStorage.getItem("idioma")==2)
+			$('#btn_gpedidos').html('save');
+		$('#btn_gpedidos').show();
+		$('#btn_pagar').hide();
+	}
+
+    $('#productoprof').val('');
+    $('#precioprof').val('0.0000');
+    $('#totalprof').val('0.0000');
+    $('#cantidadprof').val('1');
+
+    }
+
+}
+
+$('#precioprof,#totalprof').on("click",function(){
+	digitado=false;
+	if($(this).val()!='')
+		$('.cantidadn').val($(this).val());
+	else
+		$('.cantidadn').val('0.00');
+	$('#inputtarget').val($(this).attr('id'));
+	if($(this).attr('id')=='precioprof'){
+		$('#titlenumeric').html("Precio Sin impuestos");
+		$('#queprecioaux').val(0);
+	}
+	else if($(this).attr('id')=='totalprof'){
+		$('#titlenumeric').html("Precio Con impuestos");
+		$('#queprecioaux').val(1);
+	}
+	$('#popupprecios').modal('show');
+});
+
+/*function verprecioprof(quien){
+  if(quien == 0){
+    $('#titlenumeric').html('Precio Sin Imp.');
+    $('#popupprecios').modal('show');
+    $('#queprecioaux').val(quien);
+    $('.cantidadn').val($('#precioprof').val())
+  }else if(quien == 1){
+    $('#titlenumeric').html('Precio Con Imp.');
+    $('#popupprecios').modal('show');
+    $('#queprecioaux').val(quien);
+    $('.cantidadn').val($('#totalprof').val())
+  }
+}*/
+$(document).ready(function(){
+	if(localStorage.getItem('impuestos_personalizados')=='true'){
+		$('#divservicioquitar').css('display','');
+	}else{
+		$('#divservicioquitar').css('display','none');
+	}
+    ListarCategorias();
+});
+</script>

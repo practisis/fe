@@ -1,0 +1,145 @@
+﻿<style > .clientesInput{ width:100%;} </style>
+<div align="center">
+	<div class="row" style="width:95%;">
+		<div class="col-md-1"></div>
+		<div class="col-md-10" align="left">
+			<h2>Datos de Cliente</h2>
+			<br/>
+			<div class="row"> 
+				<div class="col-md-12">
+					<h4>Nombres y Apellidos(*)</h4>
+							<input style='display:none;' id='idcliente' name='idcliente'/>
+					<input class="form-control clientesInput" placeHolder="Ingrese aquí sus nombres" id="nombrecliente"/>
+					<h4>Número de Cédula(*)</h4>
+					<input class="form-control clientesInput"  placeHolder="Ingrese aquí su número de cédula" id="cedulacliente" />
+					<h4>Email(*)</h4>
+					<input class="form-control clientesInput" placeHolder="Ingrese su Email" id="email"/>
+					<h4>Número de Télefono (<small>Opcional</small>)</h4>
+					<input class="form-control clientesInput" id="telefono"/>
+					<h4> Dirección (<small>Opcional</small>)</h4>
+					<input class="form-control clientesInput" id="direccion"/>
+					<br/>
+					<iframe style="border:0px;padding:0px;margin:0px;width:200px;height:150px;overflow:hidden;" src="https://www.practisis.net/nubePOS-APIS/uploadImage.php" ></iframe>
+					<br/>
+					<button id="guardar" class="btn btn-primary btn-md" type="button" onclick="GuardaCliente();">Guardar</button>
+				
+				</div>
+			
+			</div>
+			<br/>
+		</div>
+	</div>
+</div>
+
+
+<script>
+//$("input").val("");
+
+if(editarClientesID){
+	$("#guardar").html("Actualizar");
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+	tx.executeSql('SELECT * FROM CLIENTES WHERE id=?',[editarClientesID],function(tx,results){
+		//console.log(results);
+		var inhtml='';
+		var inhtml2='';
+		for (var i=0; i < results.rows.length; i++){
+			var row = results.rows.item(i);
+			$("#nombrecliente").val(row.nombre);
+			$("#cedulacliente").val(row.cedula);
+			$("#email").val(row.email);
+			$("#direccion").val(row.direccion);
+			$("#telefono").val(row.telefono);
+		}
+		});
+	},errorCB,successCB);
+	
+}else{
+	
+	$("#nombrecliente").val('');
+			$("#cedulacliente").val('');
+			$("#email").val('');
+			$("#direccion").val('');
+			$("#telefono").val('');
+}
+function GuardaCliente(){
+	if(!editarClientesID){
+	var nombrep=$('#nombrecliente').val();
+	var cedulap=$('#cedulacliente').val();
+	var telefonop=$('#telefono').val();
+	var direccionp=$('#direccion').val();
+	var emailp=$('#email').val();
+	timespanCliente=getTimeSpan();
+	if(nombrep!=''&&cedulap!=''&&emailp!=''){
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			db.transaction(function(tx){
+			tx.executeSql('INSERT INTO CLIENTES(nombre,telefono,direccion,email,cedula,existe,timespan) SELECT "'+nombrep+'","'+telefonop+'","'+direccionp+'","'+emailp+'","'+cedulap+'",0 , "'+timespanCliente+'" WHERE NOT EXISTS(SELECT 1 FROM CLIENTES WHERE nombre = "'+nombrep+'" or cedula="'+cedulap+'" or email="'+emailp+'"  );',[],function(tx,results){
+				console.log("cliente:"+results.insertId);
+				});
+				$("input").val(" ");
+				alerta("Cliente Guardado con exito");
+			},errorCB,successCB);
+	}else{
+		alerta("Por favor complete los datos requeridos(*).");
+		/*$('#jsalert').html("Por favor complete los datos requeridos(*).");
+		setTimeout(function(){$('#jsalert').effect('highlight',{color:'white'},1000);},500);
+		setTimeout(function(){$('#jsalert').fadeOut('slow');},4000);*/
+	}
+	}else{
+		ActualizarCliente();
+	}
+	
+}
+
+function ActualizarCliente(){
+	var idcliente=editarClientesID;
+	editarClientesID=false;
+	var nombrep=$('#nombrecliente').val();
+	var telefonop=$('#telefono').val();
+	var emailp=$('#email').val();
+	var direccionp=$('#direccion').val();
+	var cedulap=$('#cedulacliente').val();
+	if(nombrep!=''&&emailp!=''&&cedulap!=''){
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+		db.transaction(function(tx){
+			tx.executeSql('UPDATE CLIENTES SET nombre="'+nombrep+'",telefono="'+telefonop+'",email="'+emailp+'",direccion="'+direccionp+'",cedula="'+cedulap+'" WHERE id="'+idcliente+'" AND NOT EXISTS(SELECT 1 FROM CLIENTES WHERE (cedula like "'+cedulap+'" or email like "'+emailp+'") and id!="'+idcliente+'");',[],function(tx,results){
+				console.log("cliente:"+idcliente);
+				VerDatosCliente(idcliente);
+				alerta("Datos actualizados con éxito.");
+				
+				envia("listadeclientes");
+				/*$('#jsalert').html("Datos actualizados con éxito.");
+				setTimeout(function(){$('#jsalert').effect('highlight',{color:'white'},1000);},500);
+				setTimeout(function(){$('#jsalert').fadeOut('slow');},4000);*/
+			});
+		},errorCB,successCB);
+	}else{
+		alerta("Por favor complete los datos requeridos(*).");
+		//$('#jsalert').html("Por favor complete los datos requeridos(*).");
+		/*setTimeout(function(){$('#jsalert').effect('highlight',{color:'white'},1000);},500);
+		setTimeout(function(){$('#jsalert').fadeOut('slow');},4000);*/
+	}
+}
+
+function soloNumerosprecio(e){
+	key = e.keyCode || e.which;
+    if(key==44){
+    document.getElementById('precioproducto').value=document.getElementById('precioproducto').value+'.';
+    }
+	tecla = String.fromCharCode(key).toLowerCase();
+	letras = "0123456789";
+	especiales = [8,9,37,39,46];
+
+	tecla_especial = false
+	for(var i in especiales){
+	    if(key == especiales[i]){
+		tecla_especial = true;
+		break;
+
+            }
+	}
+    if(letras.indexOf(tecla)==-1 && !tecla_especial){
+	    return false;
+	}
+}
+</script>

@@ -1,0 +1,434 @@
+<div id="mainDiv" class="row" style="padding-bottom:150px;">
+	<div class='panel-default'>
+	<div class='panel-body'>
+	<div class="col-sm-12" align="left" id="contentAll">
+		<table width='100%'>
+			<tr>
+				<td width='90%'>
+					<h2 style='text-align:center;'><span>Modificadores</span> <span id='titulonuevopr'></span></h2>
+				</td>
+				<td width='10%'>
+					<div style='width:100%;text-align:right;padding-right:30px;padding-top:15px;cursor:pointer;color:#1495C0;'>
+						<i class="fa fa-chevron-circle-left fa-3x" title='Volver...' onclick="envia('nuevoproducto')"></i>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<hr/>
+		<div class="row">
+			<div class='container-fluid'>
+			<div class="col-lg-12 col-md-12 col-sm-12">
+				<input type='hidden' style='display:none;' id='modifactual' value='1'/>
+				 <!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a onclick='$("#modifactual").val("1");' href="#mod1" aria-controls="mod1" role="tab" data-toggle="tab">Modificador 1</a></li>
+					<li role="presentation"><a onclick='$("#modifactual").val("2");' href="#mod2" aria-controls="mod2" role="tab" data-toggle="tab">Modificador 2</a></li>
+					<li role="presentation"><a onclick='$("#modifactual").val("3");' href="#mod3" aria-controls="mod3" role="tab" data-toggle="tab">Modificador 3</a></li>
+					<li role="presentation"><a onclick='$("#modifactual").val("4");' href="#mod4" aria-controls="mod4" role="tab" data-toggle="tab">Modificador 4</a></li>
+					<li role="presentation"><a onclick='$("#modifactual").val("5");' href="#mod5" aria-controls="mod5" role="tab" data-toggle="tab">Modificador 5</a></li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content" style='background-color:white;'>
+					<div role="tabpanel" class="tab-pane active" id="mod1">
+						<div class='panel-default'>
+							<div class='panel-body'>
+								<div class='row'>
+								<div class='container-fluid'>
+									<table class='table table-hovered table-condensed' id='tablemodif1' style='margin-top:30px;'>
+										<thead>
+											<tr>
+												<th width='35%'>Nombre</th><th width='35%'>Precio Sin Imp. US</th><th  width='15%' style='text-align:center;'>Activo</th>
+												<th style='text-align:right;'><button onclick='AgregarLinea();' style='display:none;' type='button' class='btn btn-success' id='btnagregar1'><span class='glyphicon glyphicon-plus'></span>&nbsp;Agregar</button></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class='origLine'>
+											<td style=''>
+											<input type='text' class='form-control' id='nombremod_1_0' onchange='EditarLinea(this)'/>
+											</td>
+											<td style=''><input type='text' class='form-control precios precioeditable' id='preciomod_1_0' value='0.00' style='text-align:right; ' readonly /><input type='hidden' id='idmod_1_0' value='0'/></td>
+											<td style='text-align:center; '><input type='checkbox' id='activomod_1_0' class='checkactivomod' data-size='mini'/></td>
+											<td style='text-align:right; '><button id='btnsave_1_0' style='display:none; margin-right:2px;' onclick='GuardarLinea(this);' type='button' class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span></button><button id='btncancel_1_0' style='display:none;' onclick='CancelarLinea(this);' type='button' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button><button id='btnedit_1_0' onclick='EditarLinea(this);' type='button' class='btn btn-primary' style='display:none;'>Edit</button></td>
+											</tr>
+										</tbody>
+									</table>
+									<br/><br/><br/><br/><br/><br/>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="mod2">
+						<div class='panel-default'>
+							<div class='panel-body'>
+								<div class='row'>
+								<div class='container-fluid'>
+									<table class='table table-condensed' id='tablemodif2' style='margin-top:30px;'>
+										<thead>
+											<tr>
+												<th width='35%'>Nombre</th><th width='35%'>Precio Sin Imp. US</th><th width='15%' style='text-align:center;'>Activo</th>
+												<th style='text-align:right;'><button onclick='AgregarLinea();' style='display:none;' type='button' class='btn btn-success' id='btnagregar2'><span class='glyphicon glyphicon-plus'></span>&nbsp;Agregar</button></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class='origLine'>
+											<td style=''>
+											<input type='text' class='form-control' id='nombremod_2_0' onchange='EditarLinea(this);'/>
+											</td>
+											<td style=''><input type='text' class='form-control precios precioeditable' id='preciomod_2_0' value='0.00' style='text-align:right;' readonly /><input type='hidden' id='idmod_2_0' value='0'/></td>
+											<td style='text-align:center; '><input type='checkbox' id='activomod_2_0' class='checkactivomod' data-size='mini'/></td>
+											<td style='text-align:right; '><button id='btnsave_2_0' style='display:none; margin-right:2px;' onclick='GuardarLinea(this);' type='button' class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span></button><button id='btncancel_2_0' style='display:none;' onclick='CancelarLinea(this);' type='button' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button><button id='btnedit_2_0' onclick='EditarLinea(this);' type='button' class='btn btn-primary' style='display:none;'>Edit</span></button></td>
+											</tr>
+										</tbody>
+									</table>
+									<br/><br/><br/><br/><br/><br/>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="mod3">
+						<div class='panel-default'>
+							<div class='panel-body'>
+								<div class='row'>
+								<div class='container-fluid'>
+									<table class='table table-hovered table-condensed' id='tablemodif3' style='margin-top:30px;'>
+										<thead>
+											<tr>
+												<th width='35%'>Nombre</th><th width='35%'>Precio Sin Imp. US</th><th  width='15%' style='text-align:center;'>Activo</th>
+												<th style='text-align:right;'><button onclick='AgregarLinea();' style='display:none;' type='button' class='btn btn-success' id='btnagregar3'><span class='glyphicon glyphicon-plus'></span>&nbsp;Agregar</button></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class='origLine'>
+											<td style=''>
+											<input type='text' class='form-control' id='nombremod_3_0' onchange='EditarLinea(this);' style=''/>
+											</td>
+											<td style=''><input type='text' class='form-control precios precioeditable' id='preciomod_3_0' value='0.00' style='text-align:right; ' readonly /><input type='hidden' id='idmod_3_0' value='0'/></td>
+											<td style='text-align:center; '><input type='checkbox' id='activomod_3_0' class='checkactivomod' data-size='mini'/></td>
+											<td style='text-align:right; '><button id='btnsave_3_0' style='display:none; margin-right:2px;' onclick='GuardarLinea(this);' type='button' class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span></button><button id='btncancel_3_0' style='display:none;' onclick='CancelarLinea(this);' type='button' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button><button id='btnedit_3_0' onclick='EditarLinea(this);' type='button' class='btn btn-primary' style='display:none;'>Edit</button></td>
+											</tr>
+										</tbody>
+									</table>
+									<br/><br/><br/><br/><br/><br/>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="mod4">
+						<div class='panel-default'>
+							<div class='panel-body'>
+								<div class='row'>
+								<div class='container-fluid'>
+									<table class='table table-hovered table-condensed' id='tablemodif4' style='margin-top:30px;'>
+										<thead>
+											<tr>
+												<th width='35%'>Nombre</th><th width='35%'>Precio Sin Imp. US</th><th  width='15%' style='text-align:center;'>Activo</th>
+												<th style='text-align:right;'><button onclick='AgregarLinea();' style='display:none;' type='button' class='btn btn-success' id='btnagregar4'><span class='glyphicon glyphicon-plus'></span>&nbsp;Agregar</button></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class='origLine'>
+											<td style=''>
+											<input type='text' class='form-control' id='nombremod_2_0' onchange='EditarLinea(this);' />
+											</td>
+											<td style=''><input type='text' class='form-control precios precioeditable' id='preciomod_4_0' value='0.00' style='text-align:right;' readonly /><input type='hidden' id='idmod_4_0' value='0'/></td>
+											<td style='text-align:center; '><input type='checkbox' id='activomod_4_0' class='checkactivomod'  data-size='mini'/></td>
+											<td style='text-align:right; '><button id='btnsave_4_0' style='display:none; margin-right:2px;' onclick='GuardarLinea(this);' type='button' class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span></button><button id='btncancel_4_0' style='display:none;' onclick='CancelarLinea(this);' type='button' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button><button id='btnedit_4_0' onclick='EditarLinea(this);' type='button' class='btn btn-primary' style='display:none;'>Edit</button></td>
+											</tr>
+										</tbody>
+									</table>
+									<br/><br/><br/><br/><br/><br/>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="mod5">
+						<div class='panel-default'>
+							<div class='panel-body'>
+								<div class='row'>
+								<div class='container-fluid'>
+									<table class='table table-hover table-condensed' id='tablemodif5' style='margin-top:30px;'>
+										<thead>
+											<tr>
+												<th width='35%'>Nombre</th><th width='35%'>Precio Sin Imp. US</th><th width='15%' style='text-align:center;'>Activo</th>
+												<th style='text-align:right;'><button onclick='AgregarLinea();' style='display:none;' type='button' class='btn btn-success' id='btnagregar5'><span class='glyphicon glyphicon-plus'></span>&nbsp;Agregar</button></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class='origLine'>
+											<td style=''>
+											<input type='text' class='form-control' id='nombremod_5_0' onchange='EditarLinea(this)'/>
+											</td>
+											<td style=''><input type='text' class='form-control precios precioeditable' id='preciomod_5_0' value='0.00' style='text-align:right;' readonly /><input type='hidden' id='idmod_5_0' value='0'/></td>
+											<td style='text-align:center; '><input type='checkbox' id='activomod_5_0' class='checkactivomod'  data-size='mini'/></td>
+											<td style='text-align:right; '><button id='btnsave_5_0' style='display:none; margin-right:2px;' onclick='GuardarLinea(this);' type='button' class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span></button><button id='btncancel_5_0' style='display:none;' onclick='CancelarLinea(this);' type='button' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button><button id='btnedit_5_0' onclick='EditarLinea(this);' type='button' class='btn btn-primary' style='display:none;'>Edit</button></td>
+											</tr>
+										</tbody>
+									</table>
+									<br/><br/><br/><br/><br/><br/>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+			</div>
+        </div>
+	</div>
+	</div>
+	</div>
+	<br/>
+</div>
+<!--</div>
+</div>-->
+<script>
+	var digitado=false;
+	$(document).ready(function(){
+	//alert(editarProductoID);
+	$(".checkactivomod").bootstrapSwitch();
+	$(".checkactivomod").on('switchChange.bootstrapSwitch', function(event, state){EditarLinea($(this));});
+    var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(
+	function (tx){
+		//console.log('SELECT * FROM PRODUCTOS WHERE categoriaid='+categoria+' and productofinal=1 and estado=1 ORDER BY formulado asc');
+		tx.executeSql("SELECT formulado FROM productos WHERE timespan=?",[editarProductoID.toString()],function(tx,results3){
+			if(results3.rows.length>0){
+				$('#titulonuevopr').html(results3.rows.item(0).formulado);
+			}
+		});
+		
+		//lee los modificadores del producto
+		tx.executeSql("SELECT * FROM modificadores WHERE id_formulado=? order by no_modificador",[editarProductoID.toString()],function(tx,results3){
+			if(results3.rows.length>0){
+				
+				var mihtml='';
+				var iter=0;
+				for (var i=0; i < results3.rows.length; i++){
+					var item=results3.rows.item(i);
+					var elmodif=item.no_modificador;
+					//$('#tablemodif'+elmodif+' tbody').html('');
+					var laclass='';
+					if(parseInt(item.no_modificador)!=iter){
+						$('#btnagregar'+elmodif).fadeIn('slow');
+						laclass='origLine';
+						//alert(elmodif+'/'+iter+'/'+item.no_modificador);
+						$('#tablemodif'+elmodif+' tbody').html('');
+						iter=parseInt(item.no_modificador);
+					}
+					var esactivo="";
+					if(item.activo=='true')
+						esactivo=" checked";
+						
+					mihtml+="<tr class='"+laclass+"'><td style=''><input type='text' class='form-control' id='nombremod_"+elmodif+"_"+i+"' value='"+item.nombre+"'  onchange='EditarLinea(this);'/></td><td style=''><input type='text' class='form-control precios precioeditable' id='preciomod_"+elmodif+"_"+i+"' value='"+item.valor+"' style='text-align:right;' readonly onchange='EditarLinea(this)' /><input type='hidden' id='idmod_"+elmodif+"_"+i+"' value='"+item.timespan+"'/></td><td style='text-align:center;'><input type='checkbox' id='activomod_"+elmodif+"_"+i+"' class='checkactivomod' data-size='mini' "+esactivo+" /></td><td style='text-align:right; '><button id='btnsave_"+elmodif+"_"+i+"' style='display:none; margin-right:2px;' onclick='GuardarLinea(this);' type='button' class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span></button><button id='btncancel_"+elmodif+"_"+i+"' style='display:none;' onclick='CancelarLinea(this);' type='button' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button><button style='display:none;' id='btnedit_"+elmodif+"_"+i+"' onclick='EditarLinea(this);' type='button' class='btn btn-primary'>Edit</button></td></tr>";
+					
+				}
+				$('#tablemodif'+elmodif+' tbody').append(mihtml);
+				
+				$('.precios').on("click",function(){
+				if($(this).hasClass("precioeditable")){
+						digitado=false;
+						if($(this).val()!='')
+							$('.cantidadn').val($(this).val());
+						else
+							$('.cantidadn').val('0.00');
+							
+						$('#inputtarget').val($(this).attr('id'));
+						$('#titlenumeric').html("Precio Sin impuestos");
+						$('#popupprecios').modal('show');
+					}
+				});
+			}
+		});
+	},function(){},function(){$(".checkactivomod").bootstrapSwitch(); $(".checkactivomod").on('switchChange.bootstrapSwitch', function(event, state){EditarLinea($(this));});});
+	});
+	
+	var jsonanterior=new Array();
+	function EditarLinea(element){
+		var miid=$(element).attr('id');
+		var parts=miid.split("_");
+		var id=parts[2];
+		var m=$('#modifactual').val();
+		$('#btnedit_'+m+'_'+id).css('display','none');
+		$('#btnsave_'+m+'_'+id+',#btncancel_'+m+'_'+id).css('display','');
+		var miid=$('#idmod_'+m+'_'+id).val();
+		if(miid==null||miid==''||miid==0){
+			jsonanterior=['',0,false];
+		}else{
+			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			db.transaction(
+			function (tx){
+				tx.executeSql("SELECT *  FROM modificadores WHERE timespan=?",[miid],function(tx,results3){
+					if(results3.rows.length>0){
+						var item=results3.rows.item(0);
+						jsonanterior=[item.nombre,item.valor,item.activo];
+						/*$('nombremod_'+m+'_'+id).val(item.nombre);
+						$('preciomod_'+m+'_'+id).val(item.valor);
+						$('activomod_'+m+'_'+id).bootstrapSwitch('state',item.activo);*/
+					}
+				});
+			});
+		}
+		
+		/*$('#nombremod_'+m+'_'+id).removeAttr("readonly");
+		$('#preciomod_'+m+'_'+id).attr("class","form-control precios precioeditable");*/
+		//jsonanterior=[$('#nombremod_'+m+'_'+id).val(),$('#preciomod_'+m+'_'+id).val(),$('#activomod_'+m+'_'+id).bootstrapSwitch('state')];
+		//console.log(jsonanterior);
+		//$('#activomod_'+m+'_'+id).bootstrapSwitch('readonly',false);
+		//$('#nombremod_'+m+'_'+id).focus();
+		//alert("si");
+	}
+	
+	function GuardarLinea(element){
+		var miid=$(element).attr('id');
+		var parts=miid.split("_");
+		var id=parts[2];
+		var modif=$('#modifactual').val();
+		var nombre=$('#nombremod_'+modif+'_'+id).val();
+		var valor=$('#preciomod_'+modif+'_'+id).val();
+		var idmodif=$('#idmod_'+modif+'_'+id).val();
+		if(nombre==''||nombre==null){
+			showalertred("Ingrese un nombre válido para el modificador.");
+		}else{
+			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			db.transaction(
+			function (tx){
+				var continuar='true';
+				//alert(editarProductoID.toString()+'/'+idmodif);
+				tx.executeSql("SELECT ID FROM modificadores WHERE nombre like ? and activo='true' and id_formulado=? and timespan!=?",[nombre,editarProductoID.toString(),idmodif],function(tx,res1){
+					if(res1.rows.length>0){
+						showalertred("Ya existe un modificador con ese nombre, por favor ingrese otro.");
+						continuar='false';
+					}
+					if(continuar=='true'){
+						if(idmodif==0){
+							var mitimespan=getTimeSpan();
+							if(valor==null||valor==''){
+								valor=0;
+							}
+							tx.executeSql("INSERT INTO modificadores (no_modificador,id_formulado,nombre,valor,id_formulado_descuento,activo,timespan,sincronizar) values (?,?,?,?,?,?,?,?)",[modif,editarProductoID.toString(),nombre,valor,0,'true',mitimespan,'true'],function(tx,results3){
+								$('#btnagregar'+modif).fadeIn();
+								//$('#activomod_'+modif+'_'+id).bootstrapSwitch("readonly",true);
+								//console.log($('#idmod_'+modif+'_'+id));
+								$('#idmod_'+modif+'_'+id).val(mitimespan);
+							});
+						}else{
+							var esactivo=$('#activomod_'+modif+'_'+id).bootstrapSwitch('state');
+							tx.executeSql("UPDATE modificadores set nombre=?,valor=?,activo=?,sincronizar=? where timespan=?",[nombre,valor,esactivo,'true',idmodif],function(tx,results3){
+								$('#btnagregar'+modif).fadeIn();
+								//$('#activomod_'+modif+'_'+id).bootstrapSwitch("readonly",true);
+							});
+						}
+						$('#preciomod_'+modif+'_'+id).attr('class','form-control precios precioeditable');
+						//$('#nombremod_'+modif+'_'+id).attr("readonly",true);
+						//$('#activomod_'+m+'_'+id).bootstrapSwitch('readonly',true);
+						//$('#btnedit_'+modif+'_'+id).css('display','');
+						$('#btnsave_'+modif+'_'+id+',#btncancel_'+modif+'_'+id).css('display','none');
+					}else{
+						$('#nombremod_'+modif+'_'+id).focus();
+					}
+					
+				});
+			},errorCB,function(){
+				
+			});
+		}
+	}
+	
+	$('.precios').on("click",function(){
+		if($(this).hasClass("precioeditable")){
+			digitado=false;
+			if($(this).val()!='')
+				$('.cantidadn').val($(this).val());
+			else
+				$('.cantidadn').val('0.00');
+				
+			$('#inputtarget').val($(this).attr('id'));
+			$('#titlenumeric').html("Precio Sin impuestos");
+			$('#popupprecios').modal('show');
+		}
+	});
+	
+	
+	function CancelarLinea(element){
+		var miid=$(element).attr('id');
+		var parts=miid.split("_");
+		var id=parts[2];
+		var modif=$('#modifactual').val();
+		//$('#btnedit_'+modif+'_'+id).css('display','');
+		//$('#btnsave_'+modif+'_'+id+',#btncancel_'+modif+'_'+id).css('display','none');
+		//$('#preciomod_'+modif+'_'+id).attr('class','form-control precios');
+		$('#preciomod_'+modif+'_'+id).val(jsonanterior[1]);
+		$('#nombremod_'+modif+'_'+id).val(jsonanterior[0]);
+		//alert(jsonanterior[2]);
+		$('#activomod_'+modif+'_'+id).bootstrapSwitch('state',jsonanterior[2]);
+		$('#btnsave_'+modif+'_'+id+',#btncancel_'+modif+'_'+id).css('display','none');
+		jsonanterior=[];
+		//$('#nombremod_'+modif+'_'+id).attr("readonly",true);
+		//$('#activomod_'+modif+'_'+id).bootstrapSwitch("readonly",true);
+	}
+	
+	function AgregarLinea(){
+		var modif=$('#modifactual').val();
+		var filao=$('#tablemodif'+modif+' .origLine').clone();
+		$(filao).attr('class','');
+		$('#tablemodif'+modif).append(filao);
+		var maxfila=0;
+		$('.precios').each(function(){
+			var attrid=$(this).attr('id');
+			var vattr=attrid.split("_");
+			if(maxfila<parseInt(vattr[2])){
+				maxfila=parseInt(vattr[2]);		
+			}
+		});
+		
+		maxfila=maxfila+1;
+		//alert(maxfila);
+		
+		$(filao).find('td input').each(function(){
+			//console.log($(this).attr('id'));
+			var attrid=$(this).attr('id');
+			var vattr=attrid.split("_");
+			if(vattr[0]=='preciomod')
+				$(this).val("0.00");
+			else
+				$(this).val("");
+			$(this).attr("id",vattr[0]+"_"+vattr[1]+"_"+maxfila);
+		});
+		
+		$(filao).find('td button').each(function(){
+			//console.log($(this).attr('id'));
+			var attrid=$(this).attr('id');
+			var vattr=attrid.split("_");
+			$(this).attr("id",vattr[0]+"_"+vattr[1]+"_"+maxfila);
+		});
+		
+		$(filao).find('td:eq(2)').each(function(){
+			$(this).html('');
+			$(this).html("<input type='checkbox' id='activomod_"+modif+"_"+maxfila+"' class='checkactivomod' data-size='mini' />");
+			$("#activomod_"+modif+"_"+maxfila).bootstrapSwitch();
+		});
+		
+		$('.precios').on("click",function(){
+		if($(this).hasClass("precioeditable")){
+			digitado=false;
+			if($(this).val()!='')
+				$('.cantidadn').val($(this).val());
+			else
+				$('.cantidadn').val('0.00');
+				
+			$('#inputtarget').val($(this).attr('id'));
+			$('#titlenumeric').html("Precio Sin impuestos");
+			$('#popupprecios').modal('show');
+		}
+		
+		EditarLinea($('#btnedit_'+modif+'_'+maxfila));
+	});
+	}
+	
+	
+</script>

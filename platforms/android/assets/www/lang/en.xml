@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<estructura>
+	<menu>
+		<item>Dashboard</item>
+		<item>Sales</item>
+		<item>Sales Register</item>
+		<item>Products</item>
+		<item>Cloud</item>
+		<item>Config</item>
+		<item>Printers</item>
+		<item>Configuration</item>
+		<item>Company</item>
+		<item>Log</item>
+	</menu>
+	<botones>
+		<item name="trans_filter">Filter</item>
+		<item name="trans_search">Search</item>
+		<item name="trans_desc">DISCOUNT</item>
+		<item name="trans_pay">PAY</item>
+		<item name="trans_drawer">Print Drawer Close</item>
+		<item name="trans_new_prod">New Product</item>
+		<item name="trans_save">Save</item>
+		<item name="trans_cloud">Go to Cloud</item>
+		<item name="trans_null">Cancel Invoice</item>
+		<item name="trans_print">Print Invoice</item>
+		<item name="trans_update">Update</item>
+		<item name="trans_cancel">Cancel</item>
+		<item name="trans_change">Change</item>
+		<item name="trans_ordern">Order Name</item>
+		<item name="trans_cliente">Other Client</item>
+	</botones>
+	<labels>
+		<item name='trans_label_1'>Sales</item>
+		<item name='trans_label_2'>Average Ticket $US</item>
+		<item name='trans_label_3'>Transactions</item>
+		<item name='trans_label_4'>% Accomplishment - Estimate $US</item>
+		<item name='trans_label_5'>Sales per Category</item>
+		<item name='trans_label_6'>Product Ranking</item>
+		<item name='trans_label_7'>Results</item>
+		<item name='trans_label_8'>Invoices</item>
+		<item name='trans_label_9'>Products</item>
+		<item name='trans_label_10'>Product Details</item>
+		<item name='trans_label_11'>Name</item>
+		<item name='trans_label_12'>Code</item>
+		<item name='trans_label_13'>For Sale? </item>
+		<item name='trans_label_14'>Successfully Synchronized!</item>
+		<item name='trans_label_15'>Go to your PractiPOS account in the cloud</item>
+		<item name='trans_label_16'>Your account is active for </item>
+		<item name='trans_label_17'>days</item>
+		<item name='trans_label_18'>Synced</item>
+		<item name='trans_label_19'>Printers Configuration</item>
+		<item name='trans_label_20'>Choosen</item>
+		<item name='trans_label_21'>Preferences</item>
+		<item name='trans_label_22'>Header Size</item>
+		<item name='trans_label_23'>Invoice Size</item>
+		<item name='trans_label_24'>General Configuration</item>
+		<item name='trans_label_25'>Dispositive Name</item>
+		<item name='trans_label_26'>Menu Mode</item>
+		<item name='trans_label_27'>Version</item>
+		<item name='trans_label_28'>Company ID</item>
+		<item name='trans_label_29'>Account/Username</item>
+		<item name='trans_label_30'>Company Data</item>
+		<item name='trans_label_31'>Public Name</item>
+		<item name='trans_label_32'>Payments</item>
+		<item name='trans_label_33'>PAID</item>
+		<item name='trans_label_34'>Choose your cash payment</item>
+		<item name='trans_label_35'>Choose one card to pay</item>
+		<item name='trans_label_36'>Write the check ammount</item>
+		<item name='trans_label_37'>Write the ammount</item>
+		<item name='trans_label_38'>Sign Up! Enter your information and create your PractiPOS account.</item>
+	</labels>
+	<placeholder>
+		<item name='trans_buscar'>Search</item>
+	</placeholder>
+	<titles>
+		<item name='trans_cant'>Quant.</item>
+		<item name='trans_cantc'>Quantity</item>
+		<item name='trans_prod'>Product</item>
+		<item name='trans_fecha'>Date</item>
+		<item name='trans_cliente'>Client</item>
+		<item name='trans_nfact'>Invoice No.</item>
+		<item name='trans_anulada'>Canceled</item>
+		<item name='trans_historial'>Sales Register</item>
+		<item name='trans_products'>Product List</item>
+		<item name='trans_categ'>Category</item>
+		<item name='trans_precio'>Price</item>
+		<item name='trans_imp'>Taxes</item>
+		<item name='trans_conimp'>With Taxes</item>
+		<item name='trans_sinimp'>Without Taxes</item>
+		<item name='trans_items'>Total Items</item>
+		<item name='trans_formspay'>Payment Methods</item>
+		<item name='trans_value'>Ammount</item>
+		<item name='trans_descr'>Description</item>
+		<item name='trans_detail'>Details</item>
+		<item name='trans_tel'>Phone</item>
+		<item name='trans_serie'>Series</item>
+		<item name='trans_dir'>Address</item>
+		<item name='trans_est'>Establishment</item>
+		<item name='trans_block'>Your PractiPOS account is blocked, your license is invalid.</item>
+		<item name='trans_inactive'>This PractiPOS terminal is inactive.</item>
+		<item name='trans_advance'>Advanced Payment</item>
+		<item name='trans_Efectivo'>Cash</item>
+		<item name='trans_Tarjetas'>Cards</item>
+		<item name='trans_Cheques'>Check</item>
+		<item name='trans_change'>CHANGE</item>
+		
+	</titles>
+</estructura>

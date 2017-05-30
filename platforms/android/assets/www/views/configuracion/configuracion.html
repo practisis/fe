@@ -1,0 +1,3369 @@
+<script src="js/sync.js" ></script>
+<!---divs generales--->
+<div class='row'  id="bloqueo" style="display: none;">
+	<div class="col-lg-12">
+		<h1>Licencia Caducada!</h1>
+		<div class='alert alert-danger trans_block' style='margin-top:30px;'>Su cuenta PractiPOS se encuentra bloqueada, ya que se ha terminado la validez de la licencia.</div>
+		<center style='margin-top:20px; margin-bottom:20px;'><button link="" onclick='IraNube(this);'  id="linkloginb" class="btn btn-primary" type="button">Abrir PractiPOS en la nube</button></center>
+	</div>
+</div>
+
+<div class='row'  id="desactivo" style="display: none;">
+	<div class="col-lg-12">
+		<h1>Terminal Desactivado!</h1>
+		<div class='alert alert-danger trans_inactive' style='margin-top:30px;'>Su terminal esta desactivado de PractiPOS.</div>
+	</div>
+</div>
+
+<div class="row" style="display:none; padding:20px;" id="fadeRow">
+	<div class='col-md-2'></div>
+	<div class="col-md-8">
+	<div class="text-center" id="contentLogin" style="min-height: 263px;">
+		<div class="modal-body" style="min-height: 266px;">
+		 <div id="divdatoslogin" style="overflow:auto;">
+		 <h1 style='vertical-align:bottom; font-size:45px;'><img style='margin-top:-40px;' src='img/logoava.png' width='150px;'/></h1>
+		  <h3 style="-webkit-margin-before: 1em; -webkit-margin-after: 1em; -webkit-margin-start: 0px; -webkit-margin-end: 0px;" id="trans_label_40">Ingresa a tu sistema y <span style="color:#0893d2;">Empecemos!</span></h3>
+		  <form method="post" class="contact-form form-validate4" id="myloginform" novalidate="novalidate">
+			<div class="form-group">
+			  <input class="form-control input-lg trans_user" type="text" id="user2" name="usuario" placeholder="Usuario" required="" value="" tabindex='1' autocomplete="off" aria-required="true">
+			</div>
+			<div class="form-group">
+			  <input type="password" id="pass2" name="mipass" value="" class="form-control input-lg trans_pass" placeholder="Password" required="" tabindex='2' autocomplete="off" aria-required="true">
+			</div>
+			<div class="form-group">
+				<a id='trans_label_83' data-toggle="modal" onclick="quitarSignIn();" href="">¿No tienes una cuenta en AvaPOS? Créala aquí.</a><br/>
+			</div>
+		   <button class="btn btn-lg btn-success" tabindex='3'  id="btnvalida2" type="button" onclick="UserLogin();">Login</button>
+		  </form>
+		  </div>
+		  <div id="varias">
+		  </div>
+		</div>
+	</div>
+	</div>
+	<div class='col-md-2'></div>
+	<div id="mensaje2"></div>
+	<input id="user" type="hidden" />
+	<input id="pass" type="hidden" />
+	<br><br><br><br><br><br><br><br><br>
+</div>
+
+<div class="row" style="display:none; padding:20px;" id="noplan" >
+	<div class='col-sm-1'></div>
+	<div class="col-sm-10">
+	<div class="text-center" style="min-height: 263px;">
+		<div class="modal-body" style="min-height: 266px;">
+		 <div id="divdatoslogin" style="overflow:auto;">
+		 <h1 style='vertical-align:bottom; font-size:45px;'><img style='margin-top:-40px;' src='img/logoava.png' width='150px;'/></h1>
+		  <h3 style="-webkit-margin-before: 1em;-webkit-margin-after: 1em;-webkit-margin-start: 0px;-webkit-margin-end: 0px;font-size: 45px;" id="trans_label_94">Su plan actual no permite tener más de un dispositivo activo.</h3>
+		  <ul style="text-align: left;">
+		    <li style="font-size: 35px;" id="trans_label_95">Puedes realizar una actualización de tu plan actual <a href="javascript:void(0);" onclick="verplanes();">aquí</a>.</li>
+            <br>
+            <li style="font-size: 25px;" id="trans_label_96">O puede desactivar la tablet que esta en uso desde <a href="javascript:void(0);" onclick="desactivarterminal();">aquí</a>.</li>
+		  </ul>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	<div class='col-sm-1'></div>
+</div>
+
+<div class="row" style="display:none; padding:20px; color:#404041;" id="escojeIdioma" >
+	<br>
+	<div class="col-sm-12" style="text-align: center;">
+		<img src="img/logoava.png" width="150" alt="">
+	</div>
+	<br><br><br>
+	<div class="col-sm-12" style="text-align: center;font-weight: bold;font-size: 24px;">
+		Select your language / Seleccione su idioma
+	</div>
+				  <br><br><br>
+					<div class="row">
+					<div class="col-xs-1"></div>
+						<div class="col-xs-5">
+						  <div id="selIngles" class="thumbnail" style="padding: 20px; padding-top:40px;" onclick="activaidioma(2);">
+							<img src="img/banderaen.png" alt="...">
+							<div class="caption">
+							  <h3>English</h3>
+							</div>
+						  </div>
+						</div>
+						<div class="col-xs-5">
+						  <div id="selEspaniol" class="thumbnail" style="padding: 20px; padding-top:40px;" onclick="activaidioma(1);">
+							<img src="img/banderaes.png" alt="...">
+							<div class="caption">
+							  <h3>Español</h3>
+							</div>
+						  </div>
+						</div>
+					</div>
+					<div class="col-xs-1"></div>
+</div>
+
+<!-- Registro -->
+<div class="row" style="display:block; padding:20px; color:#404041;" id="demoGratis" >
+					<form>
+					<!--<div class="col-md-3" >
+					</div>-->
+					  <h1 style='vertical-align:bottom; font-size:45px;'><img style='margin-top:-10px;' src='img/logoava.png' width='150px;'/></h1>
+					<div class="col-md-2"></div>
+					<div class="col-md-8" style="position:relative;min-height: 300px;overflow:hidden;">
+						 <div id="divdatoslogin" style="overflow:auto;">
+						  <h4 style="text-align:left; margin-top:40px; margin-bottom:30px;" id='trans_label_38'>Regístrate! Ingresa tus datos y crea tu cuenta AvaPOS.</h4>
+						<div class="form-group">
+						  <input onkeydown="isalphanumeric(event);" type="form-control input-lg" name="empresa"  class="form-control input-lg trans_companyname" id="newEmpresa" placeholder="Nombre de tu Negocio" tabindex="1" required="" autocomplete="off">
+						</div>
+						<div class="form-group">
+						  <select class="form-control input-lg" id="newPais" name="pais" size="1" required="" placeholder="País">
+							  <option id="trans_label_82" value="0" style="color: #E0DEDE">País</option>
+							  <option value="3">Antigua y Barbuda</option>
+							  <option value="4">Argentina</option>
+							  <option value="5">Bahamas</option>
+							  <option value="6">Barbados</option>
+							  <option value="7">Bélice</option>
+							  <option value="8">Bolivia</option>
+							  <option value="9">Brasil</option>
+							  <option value="10">Canadá</option>
+							  <option value="11">Chile</option>
+							  <option value="12">Colombia</option>
+							  <option value="13">Costa Rica</option>
+							  <option value="14">Cuba</option>
+							  <option value="15">Dominica</option>
+							  <option value="1">Ecuador</option>
+							  <option value="16">El Salvador</option>
+							  <option value="2">Estados Unidos</option>
+							  <option value="17">Granada</option>
+							  <option value="18">Guatemala</option>
+							  <option value="19">Guyana</option>
+							  <option value="20">Haití</option>
+							  <option value="21">Honduras</option>
+							  <option value="22">Jamaica</option>
+							  <option value="23">México</option>
+							  <option value="24">Nicaragua</option>
+							  <option value="25">Panamá</option>
+							  <option value="26">Paraguay</option>
+							  <option value="27">Perú</option>
+							  <option value="28">Puerto Rico</option>
+							  <option value="29">República Dominicana</option>
+							  <option value="30">San Cristóbal y Nevis</option>
+							  <option value="31">San Vicente y las Granadinas</option>
+							  <option value="32">Santa Lucía</option>
+							  <option value="33">Surinam</option>
+							  <option value="34">Trinidad y Tobago</option>
+							  <option value="35">Uruguay</option>
+							  <option value="36">Venezuela</option>
+						  </select>
+						</div>
+						<div class="form-group">
+						  <input class="form-control input-lg trans_email" type="email" tabindex="2" name="email" id="newEmail" placeholder="E-mail" required="" onkeydown="isalphanumeric(event);" autocomplete="off">
+						</div>
+					 <div class="form-group">
+						  <input type="password" name="pass" id="newPass" tabindex="3"  class="form-control input-lg trans_pass" placeholder="Ingresa una contraseña" required="" autocomplete="off">
+						</div>
+						 <div class="form-group">
+						  <input type="password" name="pass" id="newConfirm"  class="form-control input-lg trans_confpass" placeholder="Confirma tu contraseña" required="" tabindex="4" autocomplete="off">
+						</div>
+
+                        <div class="form-group" style="text-align: left;font-size: 18px;">
+								<input id="terminos" name="terminos" type="checkbox" style="width: 25px;height: 25px;">
+                                <span id='trans_label_97'>Acepto los <a href="https://www.practisis.net/avapos/terminosycondiciones.php" target="_blank">términos y condiciones</a>.</span>
+						</div>
+
+						<div class="form-group">
+								<a id='trans_label_39' data-toggle="modal" data-target="#recuperarPass" onclick="mostrarSignIn();" href="">¿Ya tienes cuenta AvaPOS haz click aquí?</a><br/>
+						</div>
+
+
+			<button class="btn btn-lg btn-success btn-center trans_create" type="button" id="btnNewEmp" onclick="registrarUser();">Crear Cuenta</button>
+						  </div>
+
+						  <div id="varias">
+						  </div>
+						  <br/>
+						  <br/>
+						  <br/>
+						  <br/>
+						  <br/>
+						  <br/>
+						  <br/>
+						  <br/>
+						  <br/>
+						  <br/>
+						  <br/>
+						  <br/>
+						  <br/>
+						  <br/>
+						  <br/>
+						  <br/>
+						  <br/>
+					</div>
+					<div class="col-md-2"></div>
+
+
+					<div id="mensaje2"></div>
+					<input id="user" type="hidden" />
+					<input id="pass" type="hidden" />
+					<input id="id_idioma" name="id_idioma" type="hidden" value="2">
+					</form>
+
+</div> <!--End row -->
+<input type="hidden" style='display:none;' id="idcategoria" />
+
+<div class='row' id='pide_telefono' style='display:none;'>
+<div class='container-fluid'>
+<div class='col-lg-12'>
+			<div style='padding-top:40px; padding-bottom:20px; text-align:center;'>
+			<img src="img/logoava.png" width="150" alt="" />
+			</div>
+    		<div class='row' style="padding-top: 15px;">
+    			<div class="col-lg-12" id="trans_label_68" style="text-align: center;font-weight: bold;font-size: 40px;">
+    			    Activar Inteligencia Artificial
+                </div>
+    		</div>
+            <div class='row'>
+                <div class="col-xs-2">
+                </div>
+    			<div class="col-xs-8" id='trans_label_70' style="text-align:justify; padding-top:20px;">
+				   Ava es un robot de inteligencia artificial. Puedes comunicarte con Ava por medio de Telegram.
+                </div>
+                <div class="col-xs-2">
+                </div>
+    		</div>
+            <br>
+			<div class='row' style='margin-bottom:30px;'>
+    			<center><button type="button" class="btn btn-lg btn-success trans_active_ava" onclick='guardatelefono()' style="font-size: 20px;">Start AvaPOS</button></center>
+				<!--<button class='btn btn-default btn-lg' id='trans_label_81' onclick='omitirtelefono();'>Omitir</button>&nbsp;-->
+			</div>
+            <div class='row'>
+                <div class="col-lg-5 col-md-5">
+                    <select style="visibility:hidden" class="form-control input-lg" style='margin-bottom:20px;' id="paiswhat" name="paiswhat" size="1"  placeholder="País" onchange="ponerCodigoPais();">
+                      <option id="trans_label_82" value="0" style="color: #E0DEDE">País</option>
+                      <!--<option value="1">Antigua y Barbuda</option>
+                      <option value="54">Argentina</option>
+                      <option value="1">Bahamas</option>
+                      <option value="1">Barbados</option>
+                      <option value="501">Bélice</option>
+                      <option value="591">Bolivia</option>
+                      <option value="55">Brasil</option>
+                      <option value="1">Canadá</option>
+                      <option value="56">Chile</option>
+                      <option value="57">Colombia</option>
+                      <option value="506">Costa Rica</option>
+                      <option value="53">Cuba</option>
+                      <option value="1">Dominica</option>
+                      <option value="593">Ecuador</option>
+                      <option value="503">El Salvador</option>
+                      <option value="1">Estados Unidos</option>
+                      <option value="1">Granada</option>
+                      <option value="502">Guatemala</option>
+                      <option value="592">Guyana</option>
+                      <option value="509">Haití</option>
+                      <option value="504">Honduras</option>
+                      <option value="1">Jamaica</option>
+                      <option value="52">México</option>
+                      <option value="505">Nicaragua</option>
+                      <option value="507">Panamá</option>
+                      <option value="595">Paraguay</option>
+                      <option value="51">Perú</option>
+                      <option value="1">Puerto Rico</option>
+                      <option value="1">República Dominicana</option>
+                      <option value="1">San Cristóbal y Nevis</option>
+                      <option value="1">San Vicente y las Granadinas</option>
+                      <option value="1">Santa Lucía</option>
+                      <option value="597">Surinam</option>
+                      <option value="1">Trinidad y Tobago</option>
+                      <option value="598">Uruguay</option>
+                      <option value="58">Venezuela</option>-->
+                  </select>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                    <input style="visibility:hidden" id="codigo_pais" name="codigo_pais" style='margin-bottom:20px;' type="number" class="form-control input-lg trans_code" placeholder="Código" readonly="readonly" style="text-align:center;">
+                </div>
+    			<div class="col-lg-5 col-md-5">
+                    <input style="visibility:hidden"  id="numero_telefonico" style='margin-bottom:20px;' name="numero_telefonico" type="tel" placeholder="Teléfono" class="form-control trans_phone input-lg" />
+                </div>
+    		</div>
+			
+	</div>
+	</div>
+</div>
+
+
+<div class='row' id="pide_local" style='display:none;'>
+<div class='container-fluid'>
+<div class='col-lg-12'>
+<div class='panel-default'>
+    <div>
+        <div class='row' style="padding-top: 25px;">
+          <div class="col-sm-12" style="text-align: center;">
+            <img src="img/logoava.png" width="150" alt="">
+          </div>
+        </div>
+        <div class='row' style="padding-top: 15px;">
+          <div class="col-lg-12" id="trans_label_100" style="text-align: center;font-weight: bold;font-size: 40px;">
+            Escoje tu Local
+          </div>
+        </div>
+        <div class='row'>
+          <div class="col-xs-2">
+          </div>
+          <div class="col-xs-8" id='trans_label_101' style="text-align: center;">
+            Aquí podras escoger a que local pertenece este dispositivo.
+          </div>
+          <div class="col-xs-2">
+          </div>
+        </div>
+        <div class='row'>
+          <div class="col-xs-2">
+          </div>
+	      <div class="col-xs-8" id='trans_label_102' style="text-align: center;font-weight: bold;font-size: 16px;">
+	        Para ingresar un nuevo local lo puedes hacer dando click aquí.
+          </div>
+          <div class="col-xs-2">
+          </div>
+  		</div>
+        <br><br>
+        <div class='row'>
+          <div class="col-xs-3">
+          </div>
+          <div class="col-xs-6">
+            <select class="form-control input-md" id="idlocales" name="idlocales" size="1" required="">
+            </select>
+          </div>
+          <div class="col-xs-3">
+          </div>
+        </div>
+    </div>
+    <br/>
+    <div>
+    <center><button type="button" class="btn btn-lg btn-success trans_continue" onclick='guardalocal()' style="font-size: 20px;">Continuar</button></center>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+<div class='row'  id="terminos_condiciones" style='display:none;'>
+	<div class='container-fluid'>
+		<div class='col-lg-12'>
+			<!--terminos y condiciones-->
+			<div class='panel-default'>
+			  <div style="padding-top: 25px;">
+			  <div class='row' style="padding-top: 20px;">
+				<div class="col-sm-12" style="text-align: center;">
+					<img src="img/logoava.png" width="150" alt="">
+				</div>
+			  </div>
+			  <div class='row' style="padding-top: 15px;">
+				<div class="col-sm-12" id='trans_label_98' style="text-align: center;font-weight: bold;font-size: 24px;">
+					Términos y Condiciones
+				</div>
+			  </div>
+			  <br>
+			  <div class='row'>
+				<div class="col-xs-2">
+				</div>
+				<div class="col-xs-8" style="text-align: justify;">
+					<span id='trans_label_99' style="font-size: 18px;">
+						Los términos y condiciones del servicio de AvaPOS han sido actualizados para mejorar nuestro servicio y
+						trabajo con la comunidad de usuarios de AvaPOS. Para ver la los nuevos términos y condiciones del servicio AvaPOS,
+						por favor, de click <a href='javascript:void(0);' onclick='IrTerminos();'>aquí</a>.
+					</span>
+				</div>
+				<div class="col-xs-2">
+				</div>
+			  </div>
+			  <br>
+			  <div class='row'>
+				<div class="col-xs-2">
+				</div>
+				<div class="col-xs-8" style="text-align: center;">
+					<div class="form-group" style="text-align: left;font-size: 18px;">
+					  <input id="terminosp" name="terminosp" type="checkbox" style="width: 25px;height: 25px;">
+					  <span id='trans_label_97'>Acepto los <a href="https://www.practisis.net/avapos/terminosycondiciones.php" target="_blank">términos y condiciones</a>.</span>
+					</div>
+				</div>
+				<div class="col-xs-2">
+				</div>
+			  </div>
+			  <br/><br>
+			  <div>
+				<center><button type="button" class="btn btn-lg btn-success trans_continue" onclick='guardaterminos();' style="font-size: 16px;">Continuar</button>&nbsp;</center>
+			  </div>
+			  </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="version_escoje" class='row' style='display:none;'>
+	<div class='col-lg-12'>
+    		<div style="padding-top: 25px;">
+    		<div class='row' style="padding-top: 20px;">
+    			<div class="col-sm-12" style="text-align: center;">
+    			    <img src="img/logoava.png" width="150" alt="">
+                </div>
+    		</div>
+            <div class='row' style="padding-top: 15px;">
+    			<div class="col-sm-12" id='trans_label_63' style="text-align: center;font-weight: bold;font-size: 24px;">
+    			    Selecciona el proceso de venta que realizas
+                </div>
+    		</div>
+            <div class='row'>
+    			<div class="col-sm-12" id='trans_label_64' style="text-align: center;">
+    			    Luego puedes cambiar esto en configuración
+                </div>
+    		</div>
+            <br>
+            <div class='row'>
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-1" style="text-align: center;">
+                      <label><input type="radio" onclick='guardaversion();' id="id_version" name="id_version" value="2" style="width: 40px;height: 40px;"></label>
+                </div>
+                <div class="col-xs-7" id='trans_label_66' onclick="activaradio(2);">
+                    <span style="font-size: 18px"><b>Rápida</b></span> (la más popular)<br>
+                    Vende con una pantalla de botones, fácil de usar. Ideal para negocios de comida rápida, cafeterías, tiendas o ventas de servicios.
+                </div>
+                <div class="col-xs-2">
+                </div>
+    		</div>
+            <div class='row' style="padding-top: 20px;">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-1" style="text-align: center;">
+                      <label><input onclick='guardaversion();' type="radio" id="id_version" name="id_version" value="1" style="width: 40px;height: 40px;"></label>
+                </div>
+                <div class="col-xs-7" id='trans_label_65' onclick="activaradio(1);">
+                  <span style="font-size: 18px"><b>Solo Código de Barras</b></span> (requieres una pistola de código de barras)<br>
+                    Opción para negocios que manejan códigos de barras como forma principal de ventas. Interfaz y proceso de ventas basado en lectura o ingreso de códigos de barra.
+                </div>
+                <div class="col-xs-2">
+                </div>
+    		</div>
+            <div class='row' style="padding-top: 20px;">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-1" style="text-align: center;">
+                      <label><input onclick='guardaversion();' type="radio" id="id_version" name="id_version" value="3" style="width: 40px;height: 40px;"></label>
+                </div>
+                <div class="col-xs-7" id='trans_label_67' onclick="activaradio(3);">
+                  <span style="font-size: 18px"><b>Restaurante</b></span><br>
+                  Opción con mapa de mesas para restaurante. Permite almacenar pedidos en las mesas y facturar al final.
+                </div>
+                <div class="col-xs-2">
+                </div>
+    		</div>
+    		<br/><br/>
+    		<div style='padding-bottom:30px; padding-top:30px; display:none;'>
+    			<center><button type="button" class="btn btn-lg btn-success trans_continue" onclick='guardaversion()' style="font-size: 16px;">Continuar</button></center>
+    		</div>
+        </div>
+		<br/><br/>
+        </div>
+</div>
+
+
+
+
+
+
+<!----fin divs generales--->
+<div id='pestanasconfig' style='min-height:100%; padding:20px; font-size:12px; color:#404041; background-color:white; display:none;'>
+<h2 id='trans_label_24'>Configuración</h2>
+<!--<button type='button' class='btn btn-success' onclick='BajarLogo();'>Logo</button>-->
+<div style='margin-top:25px; font-size:16px;'>
+	 <!-- Nav tabs -->
+	  <ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class='active' id='tabclickfacele'><a href="#faceletab" aria-controls="faceletab" role="tab" data-toggle="tab" class='trans_ebilling'>Facturación Electrónica</a></li>
+		<li role="presentation" class="dropdown">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+			   Config&nbsp;<span class="caret"></span>
+			</a>
+			<ul class="dropdown-menu">
+				  <li role="presentation"><a href="#general" aria-controls="general" role="tab" data-toggle='tab' style='font-size:15px; padding:10px 20px;'>General</a></li>
+				  <li role="presentation"><a href="#ventastab" aria-controls="ventastab" role="tab" data-toggle='tab' style='font-size:15px; padding:8px 20px;' class='trans_sales'>Ventas</a></li>
+				  <li role="presentation"><a href="#impuestostab" aria-controls="impuestostab" role="tab" data-toggle='tab' style='font-size:15px; padding:8px 20px;' class='trans_imp'>Impuestos</a></li>
+				  <li role="presentation"><a href="#plan" aria-controls="plan" role="tab" data-toggle='tab' style='font-size:15px; padding:8px 20px;' onclick='VerPlanes();'>Plan</a></li>
+				  <li role="presentation"><a href="#logtab" aria-controls="logtab" role="tab" data-toggle='tab' style='font-size:15px; padding:8px 20px;'>LOG</a></li>
+			</ul>
+		</li>
+		<li role='presentation'><a href="#impresorastab" aria-controls="impresorastab" role="tab" data-toggle="tab" class='trans_printers'>Impresoras</a></li>
+		<!---<li role="presentation"><a href="#ventastab" aria-controls="ventastab" role="tab" data-toggle="tab" class='trans_sales'>Ventas</a></li>
+		<li role="presentation" id='tabclickimpuestos'><a href="#impuestostab" aria-controls="impuestostab" role="tab" data-toggle="tab" class='trans_imp'>Impuestos</a></li>
+		<li role="presentation" id='tabclickimpresoras'><a href="#impresorastab" aria-controls="impresorastab" role="tab" data-toggle="tab" class='trans_printers'>Impresoras</a></li>--->
+		<!--<li role="presentation" id='tabclickempresa'><a href="#empresatab" aria-controls="empresatab" role="tab" data-toggle="tab" class='trans_company'>Empresa</a></li>-->
+        <!---<li role="presentation" id='tabclicklog'><a href="#logtab" aria-controls="logtab" role="tab" data-toggle="tab" class=''>Log</a></li>-->
+	  </ul>
+	  <!-- Tab panes -->
+	  <div class="tab-content">
+		<div role="tabpanel" class="tab-pane" id="plan">
+			<div style='background-color:white;'>
+			   <!-- <div class="alert alert-danger" role="alert" style="display: none;"></div>-->
+					<div class='row' id='cuentaactiva' style='display:none; margin:20px; text-align:center;'>
+					<div id='planes_es' style='display:none; text-align:center;'>
+                    <div id="volverplan_es" style="position: absolute;top: 25px;right: 50px;cursor:pointer;color:#1495C0;display: none;">
+                        <i class="fa fa-chevron-circle-left fa-3x" title='Volver...' onclick="VerOpcionesIngreso();"></i>
+                    </div>
+					<div style='margin-bottom:40px;'>
+						<h1>Guía de precios</h1>
+						<p>AvaPOS es gratis por el tiempo que quieras.  Pásate a un plan pagado cuando lo necesites.</p>
+					</div>
+					<div class='row' style='text-align:center;'>
+					<div class='col-lg-4 col-md-4 col-xs-6'>
+						
+							<div class="jumbotron" id='jumbo0es'>
+							<h2>Gratis</h2>		
+							<p>Para pequeños negocios o evaluación ilimitada</p>
+							<h1>$0.00</h1>		
+							<center><button onclick="IraNube(this);" class="btn btn-lg btn-default btn-center" type="button" id="linklogines">Activar</button></center>
+							<div style='text-align:left; margin-top:15px;'>
+							<ul>
+							<li>POS completo para 1 Dispositivo</li>
+							<li>Inteligencia Artificial con Ava</li>
+							<li>Facturas y Productos Ilimitados</li>
+							</ul>
+							</div>
+							</div>
+					</div>
+					<div class='col-lg-4 col-md-4 col-xs-6'>
+					 <div class="jumbotron jumbo-red" id='jumbo29es'>
+							<h2>Profesional</h2>
+							<p>Pagos mensuales por local con beneficios adicionales</p>
+							<h1>$29.00</h1>
+							<center><button onclick="IraNube(this);" class="btn btn-lg btn-default btn-center" type="button" id="linklogin29es">Activar</button></center>
+							<div style='text-align:left; margin-top:15px;'>
+							<ul>
+							<li>Todo lo del plan Gratis</li>
+							<li>Múltiples dispositivos por Local</li>
+							<li>Personalización de Impresiones (logo y cupón/mensaje)</li>
+							<li>Respaldo de Información en la nube garantizado</li>
+							<li>Manejo de Permisos y Accesos por Usuario</li>
+							</ul>
+							</div>
+					 </div>
+					</div>
+					<div class='col-lg-4 col-md-4 col-xs-6'>
+					 <div class="jumbotron" id='jumbo69es'>
+							<h2>Premium</h2> 
+							<p>Pagos mensuales por local, con más beneficios</p>
+							<h1>$69.00</h1>
+							<center><button onclick="IraNube(this);" class="btn btn-lg btn-default btn-center" type="button" id="linklogin69es">Activar</button></center>
+							<div style='text-align:left; margin-top:15px; margin-bottom:15px;'>
+							<ul>
+							<li>Todo lo del plan Profesional</li>
+							<li>Manejo de Inventarios Avanzados</li>
+                            <li>Capacidad para gestionar varios almacenes de una sola cuenta</li>
+                            <li>Personalizar el orden en los botones de menú y las pestañas</li>
+							</ul>
+							</div>
+					 </div>
+					</div>
+					</div>
+					</div>
+					<div id='planes_en' style='display:none;'>
+                    <div id="volverplan_en" style="position: absolute;top: 25px;right: 50px;cursor:pointer;color:#1495C0;display: none;">
+                        <i class="fa fa-chevron-circle-left fa-3x" title='Back...' onclick="VerOpcionesIngreso();"></i>
+                    </div>
+					<div style='margin-bottom:40px;'>
+						<h1>Pricing Guide</h1>
+						<p>AvaPOS is free to use for as long as you want.  Upgrade when you like.</p>
+					</div>
+					<div class='col-lg-4 col-md-4 col-xs-6'>
+					 <div class="jumbotron" id='jumbo0en'>
+							<h2>FREE</h2>		
+							<p>For small businesses or unlimited evaluation</p>
+							<h1>$0.00</h1>		
+							<center><button onclick="IraNube(this);" class="btn btn-lg btn-default btn-center" type="button" id="linkloginen">Active</button></center>
+							<div style='text-align:left; margin-top:15px;'>
+							<ul>
+							<li>Complete POS for 1 device</li>
+							<li>Artificial Intelligence with Ava</li>
+							<li>Unlimited Products and Invoicing</li>
+							</ul>
+							</div>
+					 </div>
+					</div>
+					<div class='col-lg-4 col-md-4 col-xs-6'>
+					 <div class="jumbotron jumbo-red" id='jumbo29en'>
+							<h2>Professional</h2>
+							<p>Monthly Payments per Store with aditional benefits</p>
+							<h1>$29.00</h1>
+							<center><button onclick="IraNube(this);" class="btn btn-lg btn-default btn-center" type="button" id="linklogin29en">Upgrade Now</button></center>
+							<div style='text-align:left; margin-top:15px;'>
+							<ul>
+							<li>Everything in Free</li>
+							<li>Unlimited Devices</li>
+							<li>Customized printing (logo and cupons/message)</li>
+							<li>Guaranteed Cloud backUp of all your data.</li>
+							<li>Control over Access and Role Permissions.</li>
+							</ul>
+							</div>
+
+					 </div>
+					</div>
+					<div class='col-lg-4 col-md-4 col-xs-6'>
+					 <div class="jumbotron" id='jumbo69en'>
+							<div class='content-fluid'>
+							<h2>Premium</h2> 
+							<p>Monthly Payments per Store, with premium benefits</p>
+							<h1>$69.00</h1>		
+							<center><button onclick="IraNube(this);" class="btn btn-lg btn-default btn-center" type="button" id="linklogin69en">Upgrade Now</button></center>
+							<div style='text-align:left; margin-top:15px; margin-bottom:15px;'>
+							<ul>
+							<li>Everything in Professional plan</li>
+							<li>Advanced inventory management</li>
+                            <li>Capacity to manage multiple stores from a single account</li>
+                            <li>Customize order in menu buttons and tabs</li>
+							</ul>
+							</div>
+							</div>
+					 </div>
+					</div>
+					</div>
+				  </div>
+				  <div class="row" id="contentStepSincro" style="display:none;" >
+					<div class="col-md-3" ></div>
+					<div class="col-md-6" >
+						<div class="bs-example" data-example-id="simple-nav-justified">
+							<br><br>
+							<center> <i><span id='trans_label_18'></span> <span id="txtSincro"></span></i></center>
+							<div class="progress" >
+								<div id="theProgress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0.5%"><span class="sr-only">25% Complete</span></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3" ></div>
+				  </div>
+				  <div class='row'>
+					<div class='col-lg-12' id='finalizado' style='margin-top:10px; margin-bottom:10px;'>
+					<h2 id='trans_label_14'>Sincronizado con exito! </h2>
+					</div>
+				  </div>
+				<!--End row -->
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="general">
+		<h3>General</h3><br/>
+		<table class='table'>
+		<tr><td style='width:50%; text-align:right;'><img id='logofull' width='70px'/></td><td style='text-align:left; vertical-align:bottom;'><div id='trans_label_79' style='padding-bottom:10px;'>Puedes subir/cambiar tu logo en la nube, y este se sincronizará con tu dispositivo. </div><button type='button' class='btn btn-sm btn-success' id='cambiarlogo' href='' onclick='IrCloud();'>Subir logo</button></td></tr>
+		<tr><td style='text-align:right;' id="trans_label_62">País:</td><td><input id='tablet_pais' class='form-control' readonly /></td></tr>
+		<tr><td style='text-align:right;' id="trans_label_25">Nombre Dispositivo:</td><td><input id='tablet_name' class='form-control' /></td></tr>
+		<tr><td style='text-align:right;' id="trans_label_27">Version:</td><td><input id='tablet_version' class='form-control' readonly /></td></tr>
+		<tr><td style='text-align:right;' id="trans_label_28">Numero Empresa:</td><td><input id='tablet_emp' class='form-control' readonly /></td></tr>
+		<tr><td style='text-align:right;' id="trans_label_29">Cuenta/usuario:</td><td><input id='tablet_cuenta' class='form-control' readonly /></td></tr>
+        <tr>
+          <td  style='text-align:right;' id="trans_label_47">Idioma:</td>
+          <td>
+             <select id="idioma" name="idioma" class="form-control obligated" size="1">
+              <option value="1">Español</option>
+              <option value="2">English</option>
+             </select>
+          </td>
+        </tr>
+        <tr>
+          <td  style='text-align:right;' id="trans_label_71">Tipo Sistema:</td>
+          <td style='text-align:left;'>
+             <select id="version_nub" name="version_nub" class="form-control obligated" size="1" onchange="ver_version();" style='margin-bottom:10px;'>
+              <option value="2" id="trans_label_73">Rápida</option>
+              <option value="1" id="trans_label_72">Solo Código de Barras</option>
+              <option value="3" id="trans_label_74">Restaurante</option>
+              <option value="4" id="trans_label_117">Profesionales</option>
+             </select>
+			 <button id='irdisenomesas' style='display:none;' class='btn btn-sm btn-success trans_tabledesign' href='' onclick='IrDisenoMesas();'>Cambiar Diseño Mesas</button>
+          </td>
+        </tr>
+		<tr>
+			<td  style='text-align:right;' id="trans_label_80">Imprimir Logo</td>
+			<td align='left'><input type='checkbox' id='printlogo' onclick='ActivarImprimirLogo();'  readonly />
+				<div style='margin-top:10px;'>
+				<button class='btn btn-success btn-sm trans_active' onclick='ActivarImprimirLogo();' id='activaprintlogo' >Activar</button>
+				</div>
+			</td>
+    	</tr>
+        <tr>
+			<td  style='text-align:right;' id="trans_label_75">Mensaje Personalizado</td>
+			<td align='left'><input type='text' id='custommsg' class='form-control input' style='margin-bottom:10px;'/><button class='btn btn-success btn-sm trans_changemessage' onclick='CambiarMensaje();' id='cambiamensaje'>Cambiar Mensaje</button></td>
+    	</tr>
+    	<tr>
+    		<td  style='text-align:right;' id="trans_label_77">Respaldo de Información</td>
+    		<td align='left'><input type='checkbox' id='backupinf' onclick='CambiarBackup();' readonly/>
+                <div style='margin-top:10px;'>
+				    <button class='btn btn-success btn-sm trans_active' onclick='ActivarBackup();' id='activabackup' >Activar</button>
+				</div>
+            </td>
+    	</tr>
+		<tr style='display:none;'>
+			<td  style='text-align:right;' id="trans_label_78">Múltiple Tablet</td>
+			<td align='left'><input type='checkbox' id='multitablet' onclick='ActivarMultitablet();' readonly /></td>
+		</tr>
+        <tr id="permisos">
+            <td  style='text-align:right; width:50%;' id="trans_label_104">Activar Permisos</td>
+            <td align='left'>
+                <input data-size='small' type='checkbox' id='permisoscheck' class='switch' readonly="readonly"/>
+                <div style='margin-top:10px;'>
+				    <button class='btn btn-success btn-sm trans_active' onclick='ActivarPermisos();' id='activapermiso'>Activar</button>
+				</div>
+            </td>
+        </tr>
+        <tr>
+            <td  style='text-align:right;'>LocalHost</td>
+            <td align='left'><input id='con_localhost' class='form-control' readonly /></td>
+		</tr>
+		</table>
+		<div class='row'>
+			<div class='col-lg-12' style='margin-bottom:35px;'>
+				<button type='button' class='btn btn-success trans_save' onclick='GuardarNombre();'>Guardar</button>
+			</div>
+		</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="ventastab">
+			<h3 class='trans_sales'>Ventas</h3><br/>
+			<table class='table'>
+			    <tr>
+                    <td  style='text-align:right; width:50%;' id="trans_label_26">Ver Diseño Menú</td>
+                    <td align='left'>
+                        <input data-size='small' type='checkbox' id='tablet_menu' class='switch' />
+                        <div style='margin-top:10px;'>
+        				    <button class='btn btn-success btn-sm' onclick='ActivarVerDiseno();' id='activadisenomenu' >Activar</button>
+        				</div>
+                    </td>
+                </tr>
+				<tr>
+					<td  style='text-align:right;' id="trans_label_48">Sin Documento de Cliente:</td>
+					<td align='left'><input data-size='small' type='checkbox' id='sin_documento' class='switch' /></td>
+				</tr>
+				<tr>
+					<td  style='text-align:right;' id="trans_label_49">Con Nombre en la Orden:</td>
+					<td align='left'><input data-size='small' type='checkbox' id='con_orden' class='switch' /></td>
+				</tr>
+				<tr>
+					<td  style='text-align:right;' id="trans_label_50">Con Propina:</td>
+					<td align='left'><input data-size='small' type='checkbox' id='con_propina' class='switch' /></td>
+				</tr>
+				<tr>
+					<td  style='text-align:right;' id="trans_label_51">Con Tarjeta:</td>
+					<td align='left'><input data-size='small' type='checkbox' id='con_tarjeta' class='switch' /></td>
+				</tr>
+				<tr style="display: none;">
+					<td  style='text-align:right;' id="trans_label_52">Con Shop:</td>
+					<td align='left'><input data-size='small' type='checkbox' id='con_shop' class='switch' /></td>
+				</tr>
+				<tr>
+					<td  style='text-align:right;' id="trans_label_56">Con Notas en Pedido:</td>
+					<td align='left'><input data-size='small' type='checkbox' id='con_notas' class='switch' /></td>
+				</tr>
+				<tr>
+					<td  style='text-align:right;' id="trans_label_57">Con Impresion para Comanderas:</td>
+					<td align='left'><input data-size='small' type='checkbox' id='con_comanderas' class='switch'/></td>
+				</tr>
+				<tr style="display: none;">
+					<td  style='text-align:right;' id="trans_label_58">Con Mesas:</td>
+					<td align='left'><input data-size='small' type='checkbox' id='con_mesas' class='switch' /></td>
+				</tr>
+				<tr>
+					<td  style='text-align:right;' id="trans_label_58">Con Crédito Directo:</td>
+					<td align='left'><input data-size='small' type='checkbox' id='con_pagarconcredito' class='switch' /></td>
+				</tr>
+				<tr>
+					<td  style='text-align:right;' id="trans_label_122">Impuestos Personalizados:</td>
+					<td align='left'><input data-size='small' type='checkbox' id='con_imppersonalizados' class='switch' /></td>
+				</tr>
+			</table>
+			<div class='row'>
+				<div class='col-lg-12' style='margin-bottom:35px;'>
+					<button type='button' class='btn btn-success trans_save' onclick='GuardarNombre();'>Guardar</button>
+				</div>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="impuestostab">
+			<h3 class='trans_imp'>Impuestos</h3>
+            <p style="text-align: right;margin-top:10px;"><button class='btn btn-success btn-md trans_impuesto' type='button' onclick='editarimpuesto(0);'>Nuevo Impuesto</button></p>
+			<table class='table table-striped' id='confimpuestos' style='margin-top:-10px; margin-bottom:20px;'>
+			<thead><tr><th class='trans_name'>Nombre</th><th class='trans_percent'>Porcentaje (%)</th><th class='trans_consider'>Considerar</th></tr></thead>
+			<tbody></tbody>
+			</table>
+			<div class='row'>
+				<div class='col-lg-12' style='margin-bottom:35px;'>
+					<button type='button' class='btn btn-success trans_save' onclick='GuardarNombre();'>Guardar</button>
+				</div>
+			</div>
+
+            <div class="modal fade" id="popimpuesto" tabindex="-1">
+              <div class="modal-dialog modal-lg">
+                <div class='modal-content'>
+				<div class='modal-header'><h3 class="trans_impuesto">Nuevo Impuesto</h3></div>
+            	<div class='modal-body' style='font-size:13px; color:#4c4c4c;'>
+                <div id='jsalertimpd' style='display:none;' class="alert alert-info" role="alert" style='font-size:12px;'></div>
+                <div id='jsalertimp' style='display:none;' class="alert alert-danger" role="alert" style='font-size:12px;'></div>
+            	  <div id='loaderimp' style='position:absolute; top:0px; left:0px; width:100%; height:100%; background-color:rgba(255,255,255,0.7); padding:10px; display:none;z-index: 15;'>
+                  <center><img src='img/loader.gif' style='margin-top:10%;width:100px;'/></center>
+                </div>
+                <div class='row'>
+                  <div class='col-md-4' style="text-align: right;">
+                      <label class="trans_name">Nombre</label>
+          		  </div>
+                  <div class='col-md-8'>
+                      <input type="text" id="impuesto" name="impuesto" class="form-control input-lg trans_name" placeholder="Nombre Impuesto" autocomplete="off" aria-describedby="sizing-addon2" value=""/>
+                  </div>
+                </div>
+                <br>
+                <div class='row'>
+                  <div class='col-md-4' style="text-align: right;">
+                      <label class='trans_percent'>Porcentaje</label>
+          		  </div>
+                  <div class='col-md-8'>
+                      <input type="number" id="porcentaje" name="porcentaje" class="form-control input-lg trans_percent" placeholder="Porcentaje Impuesto" autocomplete="off" aria-describedby="sizing-addon2" value=""/>
+                  </div>
+                </div>
+                <br>
+      		    <div class='row'>
+                  <div class='col-md-4' style="text-align: right;">
+                      <label class='trans_consider'>Activar</label>
+                  </div>
+                  <div class='col-md-8' style="text-align: left;">
+                      <input type="checkbox" id="activo" name="activo"/>
+                  </div>
+                </div>
+                <div class='row' style="display: none;">
+                  <div class='col-md-12'>
+                      <input type="text" id="idimp" name="idimp" class="form-control" placeholder="id" aria-describedby="sizing-addon2" value=""/>
+                  </div>
+                </div>
+
+            	</div>
+				<div class='modal-footer'>
+					<p style="text-align: right">
+					  <button class='btn btn-success btn-lg trans_save' type='button' onclick='grabarimpuesto();'>Guardar</button>
+					  <button class='btn btn-danger btn-lg trans_close' type='button' onclick='$("#popimpuesto").modal("hide");'>Cerrar</button>
+					  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					</p>
+				</div>
+				</div>
+				</div>
+
+            </div>
+        </div>
+
+		<!---</div>-->
+		<div role="tabpanel" class="tab-pane" id="impresorastab">
+			<h3 class='trans_printers'>Impresoras</h3>
+			<div class='row'>
+				<div class='col-lg-12'>
+					<div class='panel panel-default'>
+						<div class='panel-body'>
+						<div style='border:1px solid #CCC; padding:20px 10px 20px 10px; background-color:#F7F8F8;'>
+							<div class='row'>
+							 <!--<h3 id="trans_label_19" style='text-align:left;'>Configuración de Impresoras</h3>-->
+							<div class='col-lg-6 -col-md-6 col-sm-6 col-xs-6' style='text-align:right;'>
+								<select name='marca' id='marca' class='form-control input-lg' style='margin-right:5px];'>
+								<option value='1'>Epson</option>
+								<option value='2'>Star</option>
+								</select>
+							 </div>
+							 <div  class='col-lg-3 col-md-3 col-sm-3 col-xs-3'>
+								<select name='tipo' id='tipo'  class='form-control input-lg' style='margin-right:5px;'>
+									<option value="BT">Bluetooth</option>
+									<option value="USB">USB</option>
+								</select>
+							 </div>
+							 <div class='col-lg-3 col-md-3 col-sm-3 col-xs-3'>
+								<button type='button'  data-loading-text="Searching..." onclick='BuscarImpresoras();' class='btn btn-danger btn-lg trans_search' id='btnbuscarimp'>Buscar Impresoras</button>
+							 </div>
+							 </div>
+							 <div class='row'>
+							<div class='col-lg-12' style='padding:20px;'>
+							<div style='text-align:left; font-size:14px;'><span id='trans_label_54' style='text-align:left; font-size:18px;'>Impresoras para Facturar</span><strong>&nbsp; Actual:&nbsp;</strong><span id='predetfacturacion' class='badge'>No Print</span></div>
+							<table class='table table-striped table-bordered' id='listaimpresoras'>
+								<thead>
+								<tr><th class='trans_name'>Nombre</th><th class='trans_elegir'>Elegir</th></tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+							</div>
+							</div>
+							<div class='row'>
+							<div class='col-lg-12' style='text-align:right;'>
+								<button id='btnsetearc' class='btn btn-success trans_choose' onclick='SetearImpresora();'>ELEGIR</button>
+							</div>
+							</div>
+							<div class='row'>
+							<div class='col-lg-12' style='padding:20px; display:none;' id='divcomandas'>
+							<div style='text-align:left; font-size:14px;'><span id='trans_label_55' style='text-align:left; font-size:18px;'>Impresoras para Comandar</span><strong>&nbsp; Actual:&nbsp;</strong><span id='predetcomandacion' class='badge'>No Print</span></div>
+							<table class='table table-striped table-bordered' id='listaimpresorascomandas'>
+								<thead>
+								<tr><th class='trans_name'>Nombre</th><th class='trans_elegir'>Elegir</th></tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+							</div>
+							</div>
+							<!---<div class='row'>
+							<div class='col-lg-12' style='text-align:right;'>
+								<button id='btnsetearc' class='btn btn-success' style='display:none;' onclick='SetearImpresora();'>Elegir</button>
+							</div>
+							</div>--->
+							<div class='row'>
+							<div class='col-lg-12' style='text-align:right;'>
+								<button id='btnsetear' class='btn btn-success trans_choose' style='margin-right:5px;' onclick='SetearImpresoraC();'>Elegir</button>
+							</div>
+							</div>
+							<div class='row'>
+							<div class='col-lg-12' style='text-align:right; margin-top:10px;'>
+								<button id='btnprobar' class='btn btn-success trans_printest' style='display:none;' onclick='ImprimirTest();'>Imprimir Prueba</button>
+							</div>
+							</div>
+							<div class='row'>
+							<div class='col-lg-12' style='margin-top:20px;'>
+								<p style='text-align:left; padding-left:10px'><b id='trans_label_21'>Preferencias</b></p>
+								<div>
+									 <div  class='col-lg-6 col-md-6 col-sm-6 col-xs-6' style='padding-top:20px; padding-bottom:20px;'>
+										<input type='checkbox' name='preimpresas' id='preimpresas'/><label id='labpreimpresas' name='labpreimpresas' for='preimpresas'>&nbsp;Facturas Preimpresas</label>
+									 </div>
+									<table class='table table-border'>
+										<tr>
+										<td><span id='trans_label_22'>Tamaño Encabezado</span> (cm):</td>
+										<td><input class='form-control' type='number' onkeytouch="" id='encabezado' name='encabezado'/></td>
+										<td><span id='trans_label_23'>Largo Factura</span> (cm):</td>
+										<td><input class='form-control' type='number' id='largo' name='largo'/></td>
+										</tr>
+									</table>
+									<div style='text-align:right'>
+										<button class="btn btn-success trans_update" type='button' onclick='ActualizarMedidas();'>Actualizar</button>
+									</div>
+								</div>
+							</div>
+							</div>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div role='tabpanel' class='tab-pane' id='empresatab'>
+				<div class='panel' id='sihayEmp'>
+				<div class="row"  style='padding-top:30px;'>
+					<div class='col-xs-1'></div>
+					<div class='col-xs-10'>
+						<div class="panel panel-default" style="padding:15px;">
+							<div class="alert alert-danger" style='display:none;' id='campos'>
+								Todos los campos requeridos
+							</div>
+							<div class="alert alert-success" style='display:none;' id='msjOk'>
+
+							</div>
+							<table class='table' style='width:100%; align:center !important;'>
+								<tr>
+									<th id='trans_label_11' style='text-align:right;'>
+										Nombre Establecimiento
+									</th>
+									<td>
+										<input type='text' id='nombreEsta' placeholder='Nombre Establecimiento' class='inputs form-control'/>
+									</td>
+								</tr>
+								<tr>
+									<th id='trans_label_31' style='text-align:right;'>
+										Razón Social
+									</th>
+									<td>
+										<input type='text' id='razon' placeholder='Razón Social' class='inputs form-control'/>
+									</td>
+								</tr>
+								<tr>
+									<th style='text-align:right;'>
+										Ruc
+									</th>
+									<td>
+										<input type='text' id='ruc' placeholder='Ruc' class='inputs form-control'/>
+									</td>
+								</tr>
+								<tr>
+									<th class='trans_tel' style='text-align:right;'>
+										Telefono :
+									</th>
+									<td>
+										<input type='number' id='tel' placeholder='Telefono' class='inputs form-control'/>
+									</td>
+								</tr>
+								<tr style='display:none; text-align:right;'>
+									<th>
+										Email :
+									</th>
+									<td>
+										<input type='text' id='email' placeholder='Email' class='inputs form-control'/>
+									</td>
+								</tr>
+								<tr>
+									<th class='trans_serie' style='text-align:right;'>
+										No. Serie:
+									</th>
+									<td>
+										<input type='number' id='serie' placeholder='Serie' class='inputs form-control'/>
+									</td>
+								</tr>
+								<tr>
+									<th class='trans_est' style='text-align:right;'>
+										No. Establecimiento
+									</th>
+									<td>
+										<input type='number' id='establecimiento' placeholder='Establecimiento' class='inputs form-control'/>
+									</td>
+								</tr>
+								<tr>
+									<th class='trans_dir' style='text-align:right;'>
+										Dirección
+									</th>
+									<td>
+										<textarea id='dir'  placeholder='Dirección...' class='inputs form-control'></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td colspan='2' align='center' style='text-align:center;'>
+										<center>
+											<button type="button" class="btn btn-success trans_update" style='display:none;' id='actualiza' onclick='actualizar()'>Actualizar</button>
+											<button type="button" class="btn btn-success trans_save" style='display:;' id='graba' onclick='grabar()'>Guardar</button>
+											<br/>
+										</center>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class='col-xs-1'></div>
+				</div>
+			</div>
+		</div>
+		<div role='tabpanel' class='tab-pane active' id='faceletab'>
+				<div class='panel' id='sihayEmp'>
+				<div class="row"  style='padding-top:30px;'>
+					<div class='col-xs-1'></div>
+					<div class='col-xs-10'>
+						<div class="panel panel-default" style="padding:15px;">
+							<div class="alert alert-danger" style='display:none;' id='camposFac'>
+							</div>
+							<div class="alert alert-success" style='display:none;' id='msjOkFac'>
+							</div>
+						</div>
+                        <div id="paso1">
+                          <div class="row">
+  					        <div class='col-xs-3'></div>
+                              <div class='col-xs-6' style="font-size: 18px;font-weight: bold;"><span id='trans_label_112'>Activa Facturarión Electrónica</span></div>
+                              <div class='col-xs-3'></div>
+                          </div>
+                          <br>
+                          <div class="row">
+  					        <div class='col-xs-3'></div>
+                              <div class='col-xs-6'><input type='checkbox' id='activafacturacionelectronica'/></div>
+                              <div class='col-xs-3'></div>
+                          </div>
+                        </div>
+                        <div id="paso2" style="display: none;">
+                          <div class="row">
+  					        <div class='col-xs-3'></div>
+                              <div class='col-xs-6' style="font-size: 18px;font-weight: bold;"><span id='trans_label_119'>Ingreso de Información</span></div>
+                              <div class='col-xs-3'></div>
+                          </div>
+                          <br>
+                          <div class="row">
+  					        <div class='col-xs-3'></div>
+                              <div class='col-xs-6'>
+                                <div class="row">
+  					                <div class='col-xs-6' style="text-align: right;"><span id='trans_label_105'>Nombre Establecimiento</span></div>
+                                    <div class='col-xs-6'>
+                                        <input type='text' id='nombreEstable' class='inputs form-control trans_nombreEstable' placeholder='Nombre Establecimiento'/>
+                                    </div>
+                                </div>
+                                <div style="widows: 100%;height: 5px;"></div>
+                                <div class="row">
+  					                <div class='col-xs-6' style="text-align: right;"><span id='trans_label_106'>Razón Social</span></div>
+                                    <div class='col-xs-6'>
+                                        <input type='text' id='razonSo' class='inputs form-control trans_razonSo' placeholder='Razón Social'/>
+                                    </div>
+                                </div>
+                                <div style="widows: 100%;height: 5px;"></div>
+                                <div class="row">
+  					                <div class='col-xs-6' style="text-align: right;"><span id='trans_label_115'>Ruc</span></div>
+                                    <div class='col-xs-6'>
+                                        <input type='text' id='rucFac' placeholder='Ruc' class='inputs form-control'/>
+                                    </div>
+                                </div>
+                                <div style="widows: 100%;height: 5px;"></div>
+                                <div class="row">
+  					                <div class='col-xs-6' style="text-align: right;"><span>Email</span></div>
+                                    <div class='col-xs-6'>
+                                        <input type='text' id='emailFac' placeholder='Email' class='inputs form-control'/>
+                                    </div>
+                                </div>
+                                <div style="widows: 100%;height: 5px;"></div>
+                                <div class="row">
+  					                <div class='col-xs-6' style="text-align: right;"><span id='trans_label_114'>Teléfono</span></div>
+                                    <div class='col-xs-6'>
+                                        <input type='number' id='telFac' placeholder='Telefono' class='inputs form-control'/>
+                                    </div>
+                                </div>
+                                <div style="widows: 100%;height: 5px;"></div>
+                                <div class="row">
+  					                <div class='col-xs-6' style="text-align: right;"><span id='trans_label_107'>Dirección</span></div>
+                                    <div class='col-xs-6'>
+                                        <textarea id='dirFac' class='inputs form-control trans_dirFac' placeholder='Dirección...'></textarea>
+                                    </div>
+                                </div>
+                                <div style="widows: 100%;height: 5px;"></div>
+                                <div class="row">
+  					                <div class='col-xs-6' style="text-align: right;"><span class='trans_serie'>No. Serie</span></div>
+                                    <div class='col-xs-6'>
+                                        <input type='number' id='serieFac' placeholder='Serie' class='inputs form-control trans_serie'/>
+                                    </div>
+                                </div>
+                                <div style="widows: 100%;height: 5px;"></div>
+                                <div class="row">
+  					                <div class='col-xs-6' style="text-align: right;"><span class='trans_est'>No. Establecimiento</span></div>
+                                    <div class='col-xs-6'>
+                                        <input type='number' id='establecimientoFac' placeholder='Establecimiento' class='inputs form-control trans_establecimiento'/>
+                                    </div>
+                                </div>
+                                <div style="widows: 100%;height: 5px;"></div>
+                                <div class="row">
+  					                <div class='col-xs-6' style="text-align: right;"><span id='trans_label_108'># Contribuyente Especial</span></div>
+                                    <div class='col-xs-6'>
+                                        <input type='number' id='numcontribuyenteFac' class='inputs form-control numcontribuyenteFac' maxlength="5" placeholder='# Contribuyente Especial'/>
+                                    </div>
+                                </div>
+                                <div style="widows: 100%;height: 5px;"></div>
+                                <div class="row">
+  					                <div class='col-xs-6' style="text-align: right;"><span id='trans_label_109'>Obligado a llevar Contabilidad</span></div>
+                                    <div class='col-xs-6' style="text-align: left;">
+                                        <input type='checkbox' id='obligado'/>
+                                    </div>
+                                </div>
+                                <div style="widows: 100%;height: 5px;"></div>
+                                <div class="row">
+  					                <div class='col-xs-6' style="text-align: right;"><span id='trans_label_116'>Mensaje Facturación Electrónica</span></div>
+                                    <div class='col-xs-6'>
+                                        <input type='text' id='msjFac' placeholder='msj' class='inputs form-control'/>
+                                    </div>
+                                </div>
+                                <div style="widows: 100%;height: 5px;"></div>
+                                <div class="row">
+  					                <div class='col-xs-12'>
+                                        <button type="button" class="btn btn-success trans_back" id='grabaFacp5' onclick='continuarpasos(2,2)'>Regresar</button>
+                                        <button type="button" class="btn btn-success trans_continue" id='grabaFacaux' onclick='grabarfac()'>Guardar</button>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class='col-xs-3'></div>
+                          </div>
+                        </div>
+                        <div id="paso3" style="display: none;">
+                          <div class="row">
+  					        <div class='col-xs-3'></div>
+                              <div class='col-xs-6' style="font-size: 18px;font-weight: bold;"><span id='trans_label_121' style="cursor: pointer;">Ya puede enviar emails de facturas, pero no están firmadas.</span></div>
+                              <div class='col-xs-3'></div>
+                          </div>
+                          <br>
+                          <div class="row">
+  					        <div class='col-xs-3'></div>
+                              <div class='col-xs-6' style="font-size: 16px;"><span id='trans_label_120' onclick="obtenerfirma();" style="cursor: pointer;">¿Cómo obtener la firma electrónica?</span></div>
+                              <div class='col-xs-3'></div>
+                          </div>
+                          <br>
+                          <div class="row">
+  					        <div class='col-xs-3'></div>
+                              <div class='col-xs-6'>
+                                <button type="button" class="btn btn-success trans_back" id='grabaFacp5' onclick='continuarpasos(3,2)'>Regresar</button>
+                                <button type="button" class="btn btn-success trans_continue" id='grabaFacp4' onclick='continuarpasos(4,1)'>Continuar</button>
+                              </div>
+                              <div class='col-xs-3'></div>
+                          </div>
+                        </div>
+                        <div id="paso4" style="display: none;">
+                          <div class="row">
+  					        <div class='col-xs-3'></div>
+                              <div class='col-xs-6' style="font-size: 18px;font-weight: bold;"><span id='trans_label_111'>Sube o cambia tu firma</span></div>
+                              <div class='col-xs-3'></div>
+                          </div>
+                          <br>
+                          <div class="row">
+  					        <div class='col-xs-3'></div>
+                              <div class='col-xs-6' style="font-size: 18px;font-weight: bold;">
+                                <table style="width: 100%;">
+                                  <tr>
+                                    <td style="width: 85%;"><input type='text' id='firmaFac' class='inputs form-control firmaFac' placeholder='Firma' readonly="readonly"/></td>
+                                    <td style="width: 15%;"><button type="button" class="btn btn-primary trans_up" style='display:inline-block;' id='grabaFac' onclick='subirfirma()'>Subir</button></td>
+                                  </tr>
+                                </table>
+                              </div>
+                              <div class='col-xs-3'></div>
+                          </div>
+                          <br>
+                          <div class="row">
+  					        <div class='col-xs-3'></div>
+                              <div class='col-xs-6'>
+                                <button type="button" class="btn btn-success trans_back" id='grabaFacp5' onclick='continuarpasos(4,2)'>Regresar</button>
+                                <button type="button" class="btn btn-success trans_continue" id='grabaFacp5' onclick='continuarpasos(5,1)'>Continuar</button>
+                              </div>
+                              <div class='col-xs-3'></div>
+                          </div>
+                        </div>
+                        <div id="paso5" style="display: none;">
+                          <div class="row">
+  					        <div class='col-xs-3'></div>
+                              <div class='col-xs-6' style="font-size: 18px;font-weight: bold;"><span id='trans_label_110'>Ambiente Producción</span></div>
+                              <div class='col-xs-3'></div>
+                          </div>
+                          <br>
+                          <div class="row">
+  					        <div class='col-xs-3'></div>
+                              <div class='col-xs-6' style="font-size: 18px;font-weight: bold;">
+                                <input type='checkbox' id='produccion' readonly="readonly"/>
+                              </div>
+                              <div class='col-xs-3'></div>
+                          </div>
+                          <br>
+                          <div class="row">
+  					        <div class='col-xs-3'></div>
+                              <div class='col-xs-6'>
+                                <button type="button" class="btn btn-success trans_back" id='grabaFacp6' onclick='continuarpasos(5,2)'>Regresar</button>
+                              </div>
+                              <div class='col-xs-3'></div>
+                          </div>
+                        </div>
+					</div>
+					<div class='col-xs-1'></div>
+				</div>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="logtab">
+			<div id='console' class='table-responsive' style='padding:20px; font-size:12px; color:#404041; background-color:white;'>
+			<p style="text-align: right"><button type="button" class="btn btn-success" id='backup' onclick='backupbdd();'>Backup</button> </p>
+				<table id='tableconsole' class='table table-stripped'>
+				<thead><tr><th class='trans_fecha'>Fecha</th><th class="trans_descr">Descripcion</th><th class="trans_detail">Datos</th></tr></thead>
+				<tbody></tbody>
+				</table>
+			</div>
+			<div id="myModalbdd" class="modal fade" role="dialog" style="margin-top: 25px;position: absolute;">
+			  <div class="modal-dialog">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Backup</h4>
+				  </div>
+				  <div class="modal-body" style="height: 450px;overflow-x: hidden;overflow-y: auto;">
+					<div id="backupbdd">
+						{ "Backup" : [
+						<div id="facturas"></div>
+						<div id="facturas_formulados"></div>
+						<div id="menu"></div>
+						<div id="menu_categorias"></div>
+						<div id="productos"></div>
+						] }
+					</div>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+		</div>
+	  </div>
+</div>
+</div>
+<script>
+$(document).ready(function(){
+	//alert("Ana");
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+		db.transaction(function(tx){
+				tx.executeSql("SELECT printer,printercom,encabezado,largo,preimpresas FROM CONFIG where id=1",[],function(tx,results){
+				console.log(results);
+				if(results.rows.length>0){
+					//alert(results.rows.item(0).printer);
+					var idprinter=results.rows.item(0);
+					//alert(idprinter.printer+"/"+idprinter.printercom);
+					if(idprinter.printer!=''&&idprinter.printer!=null){
+						$('#predetfacturacion').html(idprinter.printer);
+					}
+					if(idprinter.printercom!=null&&idprinter.printercom!=''){
+						$('#predetcomandacion').html(idprinter.printercom);
+					}
+					
+					$('#encabezado').val(idprinter.encabezado);
+					$('#largo').val(idprinter.largo);
+					//$('#preimpresas').attr('checked',idprinter.preimpresas);
+					var factpreimp=false;
+					if(idprinter.preimpresas=='true'){
+						factpreimp=true;
+					}
+					$('#preimpresas').attr('checked',factpreimp);
+				}
+			});
+		},errorCB,successCB);
+	
+	
+	if(localStorage.getItem("id_version_nube") == '0'||localStorage.getItem("id_version_nube") == null){
+		//envia('config');
+		if(localStorage.getItem('idbarra')!=null){
+			$('#pestanasconfig').fadeOut();
+			$('#version_escoje').fadeIn();
+			$('#cargandoTabs').modal('hide');
+			$('#barraalternamovil').css('display','none');
+		}
+		//document.getElementById('main').style.display='none';
+	}
+
+	if(localStorage.getItem("id_version_nube") != '0' && localStorage.getItem("telefono_inte") == ''){
+	  var paisuax = localStorage.getItem("pais");
+	  if(paisuax != ''){
+		$('#paiswhat option:contains('+paisuax+')').attr('selected', 'selected');
+		ponerCodigoPais();
+	  }
+		//envia('config');
+		$('#pestanasconfig').fadeOut();
+		$('#pide_telefono').fadeIn();
+		$('#cargandoTabs').modal('hide');
+	   // document.getElementById('main').style.display='none';
+		$('#barraalternamovil').css('display','none');
+	}
+
+	if(localStorage.getItem("id_version_nube") != '0' && localStorage.getItem("telefono_inte") != '' && localStorage.getItem("id_locales") == '0'){
+	  //envia('config');
+	  $('#pestanasconfig').fadeOut();
+	  $('#pide_local').fadeIn('slow');
+	  $('#cargandoTabs').modal('hide');
+	  $('#barraalternamovil').css('display','none');
+	  //document.getElementById('main').style.display='none';
+	}
+
+	ListarLocales();
+
+	if(localStorage.getItem("terminos") == 'false'){
+		$('#terminos_condiciones').fadeIn('slow');
+		$('#barraalternamovil').css('display','none');
+		$('#cargandoTabs').modal('hide');
+		//document.getElementById('main').style.display='none';
+	}
+
+	
+
+	///fin planes
+	//$('#demoGratis').css('height',parseInt($(window).height())*150/100);
+	//$('#fadeRow').css('height',parseInt($(window).height())*110/100);
+	
+	/*planes*/
+	$('#linklogin29es,#linklogin29en').attr("link","https://www.practisis.net/indexupgrade.php?rvpas="+btoa(localStorage.getItem("userPasswod"))+"&rvus="+btoa(localStorage.getItem("userRegister"))+"&plan=avapo29.00");
+	$('#linklogin69es,#linklogin69en').attr("link","https://www.practisis.net/indexupgrade.php?rvpas="+btoa(localStorage.getItem("userPasswod"))+"&rvus="+btoa(localStorage.getItem("userRegister"))+"&plan=avapo69.00");
+	$('#linklogines,#linloginen').attr("link","https://www.practisis.net/indexupgrade.php?rvpas="+btoa(localStorage.getItem("userPasswod"))+"&rvus="+btoa(localStorage.getItem("userRegister"))+"&plan=avapo00.00");
+	
+	var paquete=localStorage.getItem("paquete");
+	if(paquete=="22"){
+		$('#linklogines,#linkloginen').attr("link","https://www.practisis.net/index33.php?rvpas="+btoa(localStorage.getItem("userPasswod"))+"&rvus="+btoa(localStorage.getItem("userRegister")));
+		$('#linklogines').html('<div style="font-size:11px;">Tu plan Actual</div>Ir a la Nube');
+		$('#linkloginen').html('<div style="font-size:11px;">Your current plan</div>Access Cloud');
+		$('#linklogin29es').html('Activar');
+		$('#linklogin29en').html('Upgrade Now');
+		$('#linklogin69es').html('Activar');
+		$('#linklogin69en').html('Upgrade Now');
+		$('#jumbo0es,#jumbo0en,#jumbo69es,#jumbo69en').attr('class','jumbotron');
+		$('#jumbo29es,#jumbo29en').attr('class','jumbotron jumbo-red');
+		$("#activaprintlogo,#cambiamensaje,#activadisenomenu,#permisos,#activaproduccion,#activapermiso").fadeIn();
+        $('#tablet_menu,#backupinf').bootstrapSwitch('readonly',true);
+        $('#msjFac').attr('readonly',true);
+        $('#grabaFac').attr({onclick:'ActivarFirma();'});
+        $('#msjFac').attr({onclick:'ActivarMsjFactura();'});
+        localStorage.setItem("diseno",0);
+	}else if(paquete=="36"){
+		$('#linklogin29es,#linklogin29en').attr("link","https://www.practisis.net/index33.php?rvpas="+btoa(localStorage.getItem("userPasswod"))+"&rvus="+btoa(localStorage.getItem("userRegister")));
+		$('#linklogin29es').html('<div style="font-size:11px;">Tu plan Actual</div> Ir a la Nube');
+		$('#linklogin29en').html('<div style="font-size:11px;">Your current plan</div> Access Cloud');
+		$('#linklogines').html('Activar');
+		$('#linkloginen').html('Active');
+		$('#linklogin69es').html('Activar');
+		$('#linklogin69en').html('Upgrade Now');
+		$('#jumbo0es,#jumbo0en,#jumbo29es,#jumbo29en').attr('class','jumbotron');
+		$('#jumbo0es').parent().css('display:none;');
+		$('#jumbo0en').parent().css('display:none;');
+		$('#jumbo29es').parent().css('display:none;');
+		$('#jumbo29en').parent().css('display:none;');
+		$('#jumbo69es,#jumbo69en').parent().attr('class','col-sm-6 col-lg-6 col-md-6');
+		$('#jumbo69es,#jumbo69en').attr('class','jumbotron jumbo-blue');
+		$('#printlogo,#backupinf').bootstrapSwitch('readonly',false);
+        $('#produccion').bootstrapSwitch('readonly',true);
+		if(localStorage.getItem('imprimelogo')=="true")
+		$('#printlogo').bootstrapSwitch('state',true);
+		$("#activaprintlogo,#cambiamensaje,#activabackup").css("display","none");
+        $("#activadisenomenu,#permisos,#activaproduccion").fadeIn();
+        $('#tablet_menu').bootstrapSwitch('readonly',true);
+        $('#msjFac').attr('readonly',true);
+        $('#grabaFac').attr({onclick:'ActivarFirma();'});
+        $('#msjFac').attr({onclick:'ActivarMsjFactura();'});
+        localStorage.setItem("diseno",0);
+	}else if(paquete=="37"){
+		$('#linklogin69es,#linklogin69en').attr("link","https://www.practisis.net/index33.php?rvpas="+btoa(localStorage.getItem("userPasswod"))+"&rvus="+btoa(localStorage.getItem("userRegister")));
+		$('#linklogin69es').html('<div style="font-size:11px;">Tu plan Actual</div> Ir a la Nube');
+		$('#linklogin69en').html('<div style="font-size:11px;">Your current plan</div> Access Cloud');
+		$('#linklogin29es').html('Activar');
+		$('#linklogin29en').html('Active');
+		$('#linklogines').html('Activar');
+		$('#linkloginen').html('Active');
+		$('#jumbo0es,#jumbo0en,#jumbo29es,#jumbo29en').attr('class','jumbotron');
+		$('#jumbo0es,#jumbo0en,#jumbo29es,#jumbo29en').css('display','none');
+		$('#jumbo0es,#jumbo0en,#jumbo29es,#jumbo29en').each(function(){
+			$(this).parent().attr('class','col-lg-1 col-md-1 col-sm-1');
+		});
+		$('#jumbo69es,#jumbo69en').parent().attr('class','col-lg-8 col-md-8 col-sm-8');
+		$('#jumbo69es,#jumbo69en').attr('class','jumbotron jumbo-blue');
+		$('#printlogo,#backupinf').bootstrapSwitch('readonly',false);
+        $('#produccion').bootstrapSwitch('readonly',false);
+		if(localStorage.getItem('imprimelogo')=="true")
+		$('#printlogo').bootstrapSwitch('state',true);
+        $('#grabaFac').attr({onclick:'subirfirma();'});
+        $('#msjFac').attr('readonly',false);
+		$("#activaprintlogo,#cambiamensaje,#activadisenomenu,#permisos,#activaproduccion,#activabackup").css("display","none");
+	}
+	
+	/*fin planes*/
+	
+	
+	$('#linklogin,#linkloginb').attr("link","https://www.practisis.net/index33.php?rvpas="+btoa(localStorage.getItem("userPasswod"))+"&rvus="+btoa(localStorage.getItem("userRegister")));
+	
+	
+	
+	
+	$('#dias').html(localStorage.getItem('dias'));
+	$('#mensajeperso').html(localStorage.getItem('msj'));
+
+	/*Mensajes de alerta*/
+	if(msjcloud>0){
+		if(msjcloud==1){
+			if(localStorage.getItem('idioma')==1)
+				showalertredquiet("<b>Atención:</b> Para poder contar con la opción <b>Imprimir Texto Personalizado en Factura</b> debes tener activado el <b>Plan Profesional o Plan Premium</b>.");
+			else
+				showalertredquiet("<b>Attention:</b> In order to have the <b>Print Custom Text Invoice option</b>, you must activate <b>Professional Plan or Premium Plan</b>.");
+			msjcloud=0;
+		}
+		if(msjcloud==2){
+			if(localStorage.getItem('idioma')==1)
+				showalertredquiet("<b>Atención:</b> Para poder contar con la opción <b>Imprimir Texto Personalizado en Factura</b> debes tener activado el <b>Plan Profesional o Plan Premium</b>.");
+			else
+				showalertredquiet("<b>Attention:</b> In order to have the <b>Print Custom Text Invoice option</b>, you must activate <b>Professional Plan or Premium Plan</b>.");
+			msjcloud=0;
+		}
+		
+		if(msjcloud==3){
+			if(localStorage.getItem('idioma')==1)
+				showalertredquiet("<b>Atención:</b> Para poder contar con la opción <b>Imprimir Logo</b> en Factura debes tener activado el <b>Plan Profesional o Plan Premium</b>.");
+			else
+				showalertredquiet("<b>Attention:</b> In order to have the <b>Print Invoice Logo</b> option, you must activate <b>Professional Plan or Premium Plan</b>.");
+			msjcloud=0;
+		}
+
+        if(msjcloud==4){
+			if(localStorage.getItem('idioma')==1)
+				showalertredquiet("<b>Atención:</b> Para poder contar con la opción <b>Diseño Menú</b> en Facturar debes tener activado el <b>Plan Premium</b>.");
+			else
+				showalertredquiet("<b>Attention:</b> In order to have the <b>Design Menu</b> option, you must activate <b>Premium Plan</b>.");
+			msjcloud=0;
+		}
+
+        if(msjcloud==5){
+			if(localStorage.getItem('idioma')==1)
+				showalertredquiet("<b>Atención:</b> Para poder contar con la opción de <b>Permisos</b> debes tener activado el <b>Plan Premium</b>.");
+			else
+				showalertredquiet("<b>Attention:</b> In order to have the <b>Permissions</b> option, you must activate <b>Premium Plan</b>.");
+			msjcloud=0;
+		}
+
+        if(msjcloud==6){
+			if(localStorage.getItem('idioma')==1)
+				showalertredquiet("<b>Atención:</b> Para poder contar con la opción de <b>Producción</b> debes tener activado el <b>Plan Premium</b>.");
+			else
+				showalertredquiet("<b>Attention:</b> In order to have the <b>Production</b> option, you must activate <b>Premium Plan</b>.");
+			msjcloud=0;
+		}
+
+        if(msjcloud==7){
+			if(localStorage.getItem('idioma')==1)
+				showalertredquiet("<b>Atención:</b> Para poder contar con la opción de <b>Subir Firma</b> debes tener activado el <b>Plan Premium</b>.");
+			else
+				showalertredquiet("<b>Attention:</b> In order to have the <b>Sign Up</b> option, you must activate <b>Premium Plan</b>.");
+			msjcloud=0;
+		}
+
+        if(msjcloud==8){
+			if(localStorage.getItem('idioma')==1)
+				showalertredquiet("<b>Atención:</b> Para poder contar con la opción de <b>Mensaje Facturación Electrónica</b> debes tener activado el <b>Plan Premium</b>.");
+			else
+				showalertredquiet("<b>Attention:</b> In order to have the <b>Message E-Billing</b> option, you must activate <b>Premium Plan</b>.");
+			msjcloud=0;
+		}
+
+        if(msjcloud==9){
+			if(localStorage.getItem('idioma')==1)
+				showalertredquiet("<b>Atención:</b> Para poder contar con la opción de <b>Respaldo de Información</b> debes tener activado el <b>Plan Profesional o Plan Premium</b>.");
+			else
+				showalertredquiet("<b>Attention:</b> In order to have the <b>Backup Information</b> option, you must activate <b>Professional Plan or Premium Plan</b>.");
+			msjcloud=0;
+		}
+	}
+	/*fin mensajes alerta*/
+	
+	if(procesocount==0){
+		//$('#pestanasconfig').fadeIn();
+		$('#fadeRow,#contentStepSincro,#cuentaactiva,#mensajeperso,#demoGratis,#escojeIdioma').css("display","none");
+		if(localStorage.getItem("idbarra")==null){
+			//$('#demoGratis').fadeIn();
+            $('#escojeIdioma').fadeIn();
+			$('.navbar,#barraalternamovil').slideUp();
+			$('#finalizado,#cuentaactiva,#mensajeperso').css('display','none');
+		}else{
+			$('#finalizado,#cuentaactiva,#mensajeperso').fadeIn();
+			if(localStorage.getItem('id_version_nube')!=null&&localStorage.getItem('id_version_nube')!='0'&&localStorage.getItem('telefono_inte')!=null&&localStorage.getItem('telefono_inte')!=''&&localStorage.getItem('terminos')!=null&&localStorage.getItem('terminos')!='false'&&localStorage.getItem('id_locales')!=null&&localStorage.getItem('id_locales')!='0'){
+				$('#pestanasconfig').fadeIn();
+				if($(window).width()>900)
+					$('.navbar').slideDown();
+				else
+					$('#barraalternamovil').slideDown();
+			}else{
+				$('.navbar,#barraalternamovil').slideUp();
+				$('#cargandoTabs').modal('hide');
+			}
+			$('#demoGratis').css("display","none");
+            $('#escojeIdioma').css("display","none");
+		}
+	}else{
+		$('#finalizado,#demoGratis,#fadeRow,#escojeIdioma').css("display","none");
+		$('#contentStepSincro,#cuentaactiva,#mensajeperso,#pestanasconfig').fadeIn();
+	}
+	
+	///fin planes
+	
+	
+	
+	
+		//paquete
+		var paquete=localStorage.getItem("paquete");
+		//idioma
+		var linklang="es";
+		if(localStorage.getItem("idioma")==2)
+			linklang="en";
+		
+		//alert(linklang);
+			var xmlidioma=$.get("lang/"+linklang+".html",function(datos){
+			d=JSON.parse(datos);
+			var itemestructura=d.estructura;
+			//console.log(itemestructura);
+			var itemtitles=itemestructura.titles;
+			var itembuttons=itemestructura.botones;
+			var itemlabels=itemestructura.labels;
+            var itemplaceholder=itemestructura.placeholder;
+			var todostitles=itemtitles.item;
+			var todosbuttons=itembuttons.item;
+			var todoslabels=itemlabels.item;
+            var todosplaceholder=itemplaceholder.item;
+
+			for(var k=0;k<todosplaceholder.length;k++){
+				var miitemname=todosplaceholder[k].name;
+				//alert(miitemname);
+				$('.'+miitemname).prop("placeholder",todosplaceholder[k].text);
+			}
+
+				for(var k=0;k<todostitles.length;k++){
+					var miitemname=todostitles[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todostitles[k].text);
+				}
+				
+				for(var k=0;k<todosbuttons.length;k++){
+					var miitemname=todosbuttons[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todosbuttons[k].text);
+				}
+				
+				for(var k=0;k<todoslabels.length;k++){
+					//console.log(todoslabels[k].name+"/"+todoslabels[k].name);
+					var miitemname=todoslabels[k].name;
+					$('#'+miitemname).html(todoslabels[k].text);
+				}
+				
+		});
+		
+		if(localStorage.getItem("con_comandas")=="true")
+			$('#divcomandas').fadeIn();
+		else
+			$('#divcomandas').css("display","none");
+		
+		//si ya existe impresora determinada
+		var extrade=localStorage.getItem("printtrade");
+		var extype=localStorage.getItem("printtype");
+		if(extrade!=null)
+			$('#marca').val(extrade);
+		
+		if(extype!=null)
+			$('#tipo').val(extype);
+		
+		
+			
+		//BuscarImpresoras();
+	
+		if(localStorage.getItem("logo")!=''&&localStorage.getItem("logo")!=null&&localStorage.getItem("logo").logo!=''){
+			$('#logofull,#cambiarlogo').fadeIn();
+			$('#logofull').attr('src','file:///data/data/com.practisis.practipos/files//'+localStorage.getItem("logo"));
+		}else{
+			//$('#logofull,#cambiarlogo').css("display","none");
+			$('#cambiarlogo').fadeIn();
+			$('#logofull').attr('src','img/nologo.png');
+		}
+		
+		$('#cambiarlogo').attr("href","https://www.practisis.net/indexredirect.php?rvpas="+btoa(localStorage.getItem("userPasswod"))+"&rvus="+btoa(localStorage.getItem("userRegister"))+"&mod=logo");
+		
+		$('#irdisenomesas').attr("href","https://www.practisis.net/indexredirect.php?rvpas="+btoa(localStorage.getItem("userPasswod"))+"&rvus="+btoa(localStorage.getItem("userRegister"))+"&mod=mesas");
+			
+		$('#tablet_emp').val(localStorage.getItem("empresa"));
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			db.transaction(function(tx1){
+				tx1.executeSql("SELECT nombreterminal as c,id_idioma,id_version_nube,sin_documento,con_nombre_orden,con_propina,con_tarjeta,con_shop,con_notasorden,con_comanderas,con_localhost,con_mesas,pais,mensajefinal,respaldar,pagarconcredito,impuestos_personalizados from CONFIG where id=1",[],function(tx1,results1){
+					if(results1.rows.length>0){
+						if(results1.rows.item(0).c!=''){
+							$('#tablet_name').val(results1.rows.item(0).c);
+							$('#tablet_pais').val(results1.rows.item(0).pais);
+							$('#custommsg').val(results1.rows.item(0).mensajefinal);
+
+							if(paquete==22||paquete==null){
+								$('#custommsg').prop("readonly","readonly");
+							}
+							
+							if(results1.rows.item(0).id_version_nube==3)
+								$('#irdisenomesas').fadeIn();
+							
+                            //alert(results1.rows.item(0).con_nombre_orden);
+                            $('#idioma > option[value="'+results1.rows.item(0).id_idioma+'"]').attr('selected', 'selected');
+                            $('#version_nub > option[value="'+results1.rows.item(0).id_version_nube+'"]').attr('selected', 'selected');
+                            if(results1.rows.item(0).sin_documento=='true'){
+                                $('#sin_documento').bootstrapSwitch('state', true);
+                            }else{
+                    			$('#sin_documento').bootstrapSwitch('state', false);
+                    		}
+                            if(results1.rows.item(0).con_nombre_orden=='true'){
+                                $('#con_orden').bootstrapSwitch('state', true);
+                            }else{
+                    			$('#con_orden').bootstrapSwitch('state', false);
+                    		}
+                            if(results1.rows.item(0).con_propina=='true'){
+                                $('#con_propina').bootstrapSwitch('state', true);
+                            }else{
+                    			$('#con_propina').bootstrapSwitch('state', false);
+							}
+                            if(results1.rows.item(0).con_tarjeta=='true'){
+                                $('#con_tarjeta').bootstrapSwitch('state', true);
+                            }else{
+                    			$('#con_tarjeta').bootstrapSwitch('state', false);
+                    		}
+                            if(results1.rows.item(0).con_shop=='true'){
+                                $('#con_shop').bootstrapSwitch('state', true);
+                            }else{
+                    			$('#con_shop').bootstrapSwitch('state', false);
+                    		}
+                            if(results1.rows.item(0).con_notasorden=='true'){
+                                $('#con_notas').bootstrapSwitch('state', true);
+                            }else{
+                    			$('#con_notas').bootstrapSwitch('state', false);
+                    		}
+                            if(results1.rows.item(0).con_comanderas=='true'){
+                                $('#con_comanderas').bootstrapSwitch('state', true);
+                            }else{
+                    			$('#con_comanderas').bootstrapSwitch('state', false);
+                    		}
+							if(results1.rows.item(0).con_mesas=='true'){
+                                $('#con_mesas').bootstrapSwitch('state', true);
+                            }else{
+                    			$('#con_mesas').bootstrapSwitch('state', false);
+                    		}
+							
+							if(results1.rows.item(0).pagarconcredito=='true'){
+                                $('#con_pagarconcredito').bootstrapSwitch('state', true);
+                            }else{
+                    			$('#con_pagarconcredito').bootstrapSwitch('state', false);
+                    		}
+							
+							if(results1.rows.item(0).impuestos_personalizados=='true'){
+                                $('#con_imppersonalizados').bootstrapSwitch('state', true);
+                            }else{
+                    			$('#con_imppersonalizados').bootstrapSwitch('state', false);
+                    		}
+							
+							//$('#con_mesas').bootstrapSwitch('readonly',true);
+							//$('#con_shop').bootstrapSwitch('readonly',true);
+							
+                            //alert(results1.rows.item(0).con_localhost);
+                            $('#con_localhost').val(results1.rows.item(0).con_localhost);
+
+                            if(results1.rows.item(0).respaldar=='true'){
+                                $('#backupinf').bootstrapSwitch('state', true);
+                            }else{
+                    			$('#backupinf').bootstrapSwitch('state', false);
+                    		}
+
+						}
+					}
+				});
+				
+				///consulta impuestostab
+				if(localStorage.getItem('con_localhost')=="false"){
+					$('#confimpuestos tbody').html('');
+					tx1.executeSql("SELECT * FROM IMPUESTOS GROUP BY NOMBRE",[],function(tx1,results3){
+						if(results3.rows.length>0){
+							for(var t=0;t<results3.rows.length;t++){
+								var itemimp=results3.rows.item(t);
+								var esactivo=itemimp.activo;
+								var porcen=itemimp.porcentaje;
+								var nombreimp=itemimp.nombre;
+								var timespanimp=itemimp.timespan;
+								var checked='';
+								if(esactivo=='true')
+									checked='checked';
+								var mifila='<tr><td style="text-align:left;">'+nombreimp.toUpperCase()+'</td><td  style="text-align:left;"><input id="impval_'+timespanimp+'" style="display:inline; width:60%;" type="text" class="input form-control imporcent" value="'+porcen+'"/><span style="display:inline;"> %</span></td><td  style="text-align:left;"><input id="impact_'+timespanimp+'" type="checkbox" '+checked+' data-size="mini"; /></td></tr>';
+								$('#confimpuestos tbody').append(mifila);
+
+								if(esactivo=='true'){
+									$('#impact_'+timespanimp).bootstrapSwitch('state', true);
+								}else{
+									$('#impact_'+timespanimp).bootstrapSwitch('state', false);
+								}
+							}
+						}
+					});
+				}else{
+					$('#tabclickimpuestos').css("display","none");
+				}
+				
+				///consulta impuestos
+				
+				}
+			,errorCB,successCB);
+
+        $('#permisoscheck').bootstrapSwitch();
+		$('#tablet_menu').bootstrapSwitch();
+        $('#sin_documento').bootstrapSwitch();
+        $('#con_orden').bootstrapSwitch();
+        $('#con_propina').bootstrapSwitch();
+        $('#con_tarjeta').bootstrapSwitch();
+        $('#con_shop').bootstrapSwitch();
+        $('#con_notas').bootstrapSwitch();
+        $('#con_comanderas').bootstrapSwitch();
+        $('#con_mesas').bootstrapSwitch();
+        $('#con_pagarconcredito').bootstrapSwitch();
+        $('#con_imppersonalizados').bootstrapSwitch();
+		$('#backupinf').bootstrapSwitch();
+		$('#printlogo').bootstrapSwitch();
+        $('#multitablet').bootstrapSwitch();
+        $('#obligado').bootstrapSwitch();
+        $('#produccion').bootstrapSwitch();
+        $('#activafacturacionelectronica').bootstrapSwitch();
+
+		if(localStorage.getItem("diseno")==1){
+			$('#tablet_menu').bootstrapSwitch('state', true, true);
+		}else{
+			$('#tablet_menu').bootstrapSwitch('state', false, true);
+		}
+		
+		$('#tablet_menu').on('switchChange.bootstrapSwitch', function(event, state) {
+		  if(state){
+			localStorage.setItem("diseno",1);
+		  }else{
+			localStorage.setItem("diseno",0);
+		  }
+		});
+		
+		$('#tablet_cuenta').val(localStorage.getItem("userRegister"));
+
+		var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
+		if ( app ) {
+			cordova.getAppVersion.getVersionNumber().then(function (version) {
+				$('#tablet_version').val(version);
+			});
+		}
+		
+		//$('#console').css("height",parseInt($(window).height())*80/100);
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+		db.transaction(function(tx){
+			var today = new Date();
+			var m = today.getMonth()+1; // 0-11
+			var y = today.getFullYear();
+			var d = today.getDate();
+			var diahoy=y+"-"+m+"-"+d+" 00:00:00";
+			var timehoy=new Date(diahoy).getTime();
+			tx.executeSql("DELETE FROM LOGACTIONS WHERE time <'"+timehoy+"'");
+			tx.executeSql("SELECT * FROM LOGACTIONS WHERE time>=? ORDER BY time desc",[timehoy],function(tx,results){
+				if(results.rows.length>0){
+					var mihtml='';
+					for(var n=0;n<results.rows.length;n++){
+						var item=results.rows.item(n);
+						var fec=FechaNormal(item.time);
+						mihtml+="<tr><td>"+fec+"</td><td>"+item.descripcion+"</td><td>"+item.datos+"</td></tr>";
+					}
+					$('#tableconsole tbody').html(mihtml);
+				}
+		});	},errorCB,function(){console.log("Leyendo Registros de Log")});
+		
+		saberDatosEmpresa();
+
+        $("[name='activo']").bootstrapSwitch('state',true);
+
+        $('#activafacturacionelectronica').on('switchChange.bootstrapSwitch', function(event, state) {
+		  if(state){
+			$('#paso1').fadeOut('fast');
+            $('#paso2').fadeIn('slow');
+		  }else{
+			$('#paso1').fadeIn();
+            $('#paso2').fadeOut();
+		  }
+		});
+
+        $('#produccion').on('switchChange.bootstrapSwitch', function(event, state) {
+          var produccionaux = state;
+          if(produccionaux == false){
+            produccion = true;
+          }else{
+            produccion = false;
+          }
+          var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+        	db.transaction(function (tx){
+        		tx.executeSql('update CONFIG set prueba_produccion="'+produccion+'",sincronizar="true" where id=1');
+
+               /* if(localStorage.getItem("idioma")==1){
+            		 $('#msjOkFac').html('Información Ingresada con Éxito');
+            	}else{
+            		 $('#msjOkFac').html('Information entered Success.');
+            	}
+
+        		$('#msjOkFac').fadeIn('slow');
+        		$('#camposFac').css('display','none');
+        		setTimeout(function() {
+        			$('#msjOkFac').fadeOut('slow');
+        		}, 3000);*/
+        	},errorCB,successCB);
+		});
+			
+	});
+	
+	function BuscarImpresoras(){
+		//alert("hola impresora");
+		var marca=$('#marca').val();
+		
+		$('#listaimpresoras tbody').html('');
+		$('#listaimpresorascomandas tbody').html('');
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+		db.transaction(
+		function (tx){
+			tx.executeSql('SELECT encabezado,largo,preimpresas FROM CONFIG WHERE id=1;',[],
+			function(tx,res){
+				if(res.rows.length>0){
+					$('#encabezado').val(res.rows.item(0).encabezado);
+					$('#largo').val(res.rows.item(0).largo);
+					var factpreimp=false;
+					if(idprinter.preimpresas=='true'){
+						factpreimp=true;
+					}
+					$('#preimpresas').attr('checked',factpreimp);
+					//$('#preimpresas').prop('checked',false);
+				}
+			});				
+		},errorCB,successCB);
+		
+		var linea1="<tr><td style='vertical-align:middle;' onclick='$("+'"#print_0"'+").click();' >No print</td><td><input style='width:35px; height:35px;' class='printerradio' data-value='0' type='radio' name='printer' value='0' id='print_0' /></td></tr>";
+			
+		var linea1c="<tr><td style='vertical-align:middle;' onclick='$("+'"#printc_0"'+").click();'>No print</td><td><input style='width:35px; height:35px;' class='printerradioc' data-value='0' type='radio' name='printerc' value='0' id='printc_0' /></td></tr>";
+			
+		$('#listaimpresoras tbody').append(linea1);
+		$('#listaimpresorascomandas tbody').append(linea1c);
+		
+		/*var linea1="<tr><td onclick='$("+'"#print_50"'+").click();' >No print</td><td><input style='width:20px; height:20px;' class='printerradio' data-value='0' type='radio' name='printer' value='0' id='print_50' checked /></td></tr>";
+			
+		var linea1c="<tr><td onclick='$("+'"#printc_50"'+").click();'>No print</td><td><input style='width:20px; height:20px;' class='printerradioc' data-value='0' type='radio' name='printerc' value='0' id='printc_50' checked /></td></tr>";
+			
+		$('#listaimpresoras tbody').append(linea1);
+		$('#listaimpresorascomandas tbody').append(linea1c);*/
+		
+		//StarIOAdapter.searchall("USB:SN:00123456",function(dataprint){
+		var appn = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
+		if ( appn ) {
+			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			db.transaction(function(tx){
+				tx.executeSql("SELECT printer,printercom,marcaprint,modelprint,addressprint,typeprint,marcaprintc,modelprintc,addressprintc,typeprintc FROM CONFIG where id=1",[],function(tx,results){
+					console.log(results);
+					var idprinter='';
+					if(results.rows.length>0){
+						var idprinter=results.rows.item(0);
+						if(idprinter.printer!=null){
+							localStorage.setItem("print",idprinter.printer);
+							localStorage.setItem("printc",idprinter.printercom);
+							localStorage.setItem("printtrade",idprinter.marcaprint);
+							localStorage.setItem("printtype",idprinter.typeprint);
+							localStorage.setItem("printtradec",idprinter.marcaprintc);
+							localStorage.setItem("comtype",idprinter.typeprintc);
+							
+							var datadir=null;
+							var datadirc=null;
+							var mimodel=null;
+							var mimodelc=null;
+							var mitype=null;
+							var mitypec=null;
+							
+							if(idprinter.addressprint!=null){
+								datadir=idprinter.addressprint;
+								localStorage.setItem("printaddress",datadir);
+							}
+							
+							if(idprinter.addressprintc!=null){
+								datadirc=idprinter.addressprintc;
+								localStorage.setItem("comaddress",datadirc);
+							}
+								
+							if(idprinter.modelprint!=null){
+								mimodel=idprinter.modelprint;
+								localStorage.setItem("printmodel",mimodel);
+							}
+							
+							if(idprinter.modelprintc!=null){
+								mimodelc=idprinter.modelprintc;
+								localStorage.setItem("commodel",mimodelc);
+							}
+							
+							if(idprinter.typeprint!=null){
+								mitype=idprinter.typeprint;
+								localStorage.setItem("printtype",mitype);
+							}
+							
+							if(idprinter.typeprintc!=null){
+								mitypec=idprinter.typeprintc;
+								localStorage.setItem("comtype",mitypec);
+							}
+						}
+						
+						if(idprinter.printercom!=null){
+							localStorage.setItem("printc",idprinter.printercom);
+						}
+					}
+			});},errorCB,successCB);
+			
+			if(marca==2){
+				var $btn = $('#btnbuscarimp').button('loading');
+				StarIOAdapter.searchall("",function(dataprint){
+					//alert(dataprint);
+					//alert(res);
+					var todasimp=dataprint.split('||');
+					if(todasimp.length>0) $('#btnsetear,#btnprobar,#btnsetearc').css("display","");
+					for(var m=0;m<todasimp.length;m++){
+						var res=todasimp[m].split('@');
+						var micheck='';
+						var micheckc='';
+						if(res[0]==localStorage.getItem("print")){
+							//alert(res[0]+"/"+localStorage.getItem("print"));
+							micheck=' checked ';
+						}
+						//alert(res[0]+''+res[1]);
+						var linea="<tr><td style='vertical-align:middle;' onclick='$("+'"#print_'+$.trim(res[0])+'"'+").click();'>"+$.trim(res[1])+"</td><td><input style='width:35px; height:35px;' class='printerradio' data-value='"+$.trim(res[0])+"' type='radio' name='printer' value='"+$.trim(res[0])+"' id='print_"+$.trim(res[0])+"' "+micheck+"/></td></tr>";
+						
+						if(res[0]==localStorage.getItem("printc")){
+							//alert(res[0]+"/"+localStorage.getItem("printc"));
+							micheckc=' checked ';
+						}
+						var lineac="<tr><td style='vertical-align:middle;' onclick='$("+'"#printc_'+$.trim(res[0])+'"'+").click();'>"+$.trim(res[1])+"</td><td><input style='width:35px; height:35px;' class='printerradioc' data-value='"+$.trim(res[0])+"' type='radio' name='printerc' value='"+$.trim(res[0])+"' id='printc_"+$.trim(res[0])+"' "+micheckc+"/></td></tr>";
+						$('#listaimpresoras tbody').append(linea);
+						$('#listaimpresorascomandas tbody').append(lineac);
+					}
+					//alert(localStorage.getItem("print")+"/"+localStorage.getItem("printc"));
+					/*$('.printerradio,.printerradioc').each(function(){
+						alert($(this).attr('id'));
+					});*/
+					
+					//$('#print_'+$.trim(localStorage.getItem("print"))).attr('checked',true);
+					//$('#printc_'+$.trim(localStorage.getItem("printc"))).attr('checked',true);
+					$btn.button('reset');					
+				}, function(error){
+					//alert(error);
+					$btn.button('reset');
+					if(localStorage.getItem("idioma")==1)
+						//showalert("Ocurrió un problema con la impresora, vaya a configuracion: " + error);
+						console.log("Ocurrió un problema con la impresora, vaya a configuracion: " + error);
+					else if(localStorage.getItem("idioma")==2)
+						//showalert("There is a problem with the printer, go to configuration: " + error);
+						console.log("There is a problem with the printer, go to configuration: " + error);
+					
+				});
+			}else if(marca==1){
+				var $btn = $('#btnbuscarimp').button('loading');
+				//buscar epson
+				var mitipo=$('#tipo').val();
+				StarIOAdapter.searchEpson(mitipo,function(dataprinte){
+					//alert(dataprint);
+					//alert(res);
+					var todasimp=dataprinte.split('||');
+					if(todasimp.length>0) $('#btnsetear,#btnprobar,#btnsetearc').css("display","");
+					for(var m=0;m<todasimp.length;m++){
+						var res=todasimp[m].split('@');
+						//alert(res[0]+''+res[1]);
+						var tipoimp='BT';
+						if(res[3]==259)
+							tipoimp='USB';
+						var linea="<tr><td style='vertical-align:middle;' onclick='$("+'"#print_'+res[1]+'"'+").click();'>"+res[1]+"</td><td><input style='width:35px; height:35px;' class='printerradio' data-value='"+res[1]+"' type='radio' name='printer' value='"+res[1]+"' id='print_"+res[1]+"' data-trade='epson' data-model='"+res[2]+"' data-id='"+res[0]+"' data-type='"+tipoimp+"' /></td></tr>";
+						
+						var lineac="<tr><td style='vertical-align:middle;' onclick='$("+'"#printc_'+res[1]+'"'+").click();'>"+res[1]+"</td><td><input style='width:35px; height:35px;' class='printerradioc' data-value='"+res[1]+"' type='radio' name='printerc' value='"+res[1]+"' id='printc_"+res[1]+"' data-trade='epson' data-model='"+res[2]+"' data-id='"+res[0]+"' data-type='"+tipoimp+"'/></td></tr>";
+						$('#listaimpresoras tbody').append(linea);
+						$('#listaimpresorascomandas tbody').append(lineac);
+					}	
+					$('#print_'+localStorage.getItem("print")).attr('checked',true);
+					$('#printc_'+localStorage.getItem("printc")).attr('checked',true);
+					$btn.button('reset');
+				}, function(error){
+					//alert(error);
+					$btn.button('reset');
+					if(localStorage.getItem("idioma")==1)
+						//showalert("Ocurrió un problema con la impresora, vaya a configuracion: " + error);
+						console.log("Ocurrió un problema con la impresora, vaya a configuracion: " + error);
+					else if(localStorage.getItem("idioma")==2)
+						//showalert("There is a problem with the printer, go to configuration: " + error);
+						console.log("There is a problem with the printer, go to configuration: " + error);
+					
+				});
+		}
+		if($('.printerradio').length==0){
+			$('#btnbuscarimp').button('reset');
+			//$('#btnprobar').css("display","none");
+			var linea="<tr><td>No print</td><td><input class='printerradio' data-value='0' type='radio' name='printer' value='0' id='print_0'/></td></tr>";
+			
+			var lineac="<tr><td>No print</td><td><input class='printerradioc' data-value='0' type='radio' name='printerc' value='0' id='print_0'/></td></tr>";
+			
+			$('#listaimpresoras tbody').append(linea);
+			$('#listaimpresorascomandas tbody').append(lineac);
+		}
+		}
+	}
+	
+	function SetearImpresora(){
+		var laprinter='';
+		var directionprint='';
+		var modelprint='';
+		var typeprint='';
+		var directionprintc='';
+		var modelprintc='';
+		var typeprintc='';
+		
+		localStorage.setItem("printtrade",$('#marca').val());
+		localStorage.setItem("printtype",$('#tipo').val());
+		laprinter=$('.printerradio:checked').val();
+		
+		if(laprinter!=null){
+			if($('.printerradio:checked').attr('data-id')!=null)
+				directionprint=$('.printerradio:checked').attr('data-id');
+			if($('.printerradio:checked').attr('data-model')!=null)
+				modelprint=$('.printerradio:checked').attr('data-model');
+			if($('.printerradio:checked').attr('data-type')!=null)
+				typeprint=$('.printerradio:checked').attr('data-type');
+				
+				
+			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			var cuantos=0;
+			if(laprinter==0)
+				laprinter='';
+				
+				
+			db.transaction(function(tx1){
+				tx1.executeSql("SELECT count(*) as c from CONFIG",[],
+				function(tx1,results1){
+					if(results1.rows.length>0){
+						if(results1.rows.item(0).c>0){
+							tx1.executeSql("UPDATE CONFIG SET printer=?,marcaprint=?,modelprint=?,addressprint=?,typeprint=?  where id=1",[laprinter,$('#marca').val(),modelprint,directionprint,typeprint],function(tx1,results2){
+									if(localStorage.getItem("idioma")==1){
+										showalert("Se ha vinculado las impresora: "+laprinter);
+									}
+									else if(localStorage.getItem("idioma")==2){
+										showalert("Linked printer: "+laprinter);	
+									}		
+									$('#predetfacturacion').html(laprinter);
+							});
+						}else{
+							tx1.executeSql("INSERT INTO CONFIG (printer,marcaprint,modelprint,addressprint,typeprint) VALUES (?,?,?,?,?,?)",[laprinter,$('#marca').val(),modelprint,directionprint,typeprint],function(tx1,results3){
+								if(localStorage.getItem("idioma")==1)
+									showalert("Se ha vinculado las impresoras: "+laprinter);
+								else if(localStorage.getItem("idioma")==2)
+									showalert("Linked printers: "+laprinter);
+								$('#predetfacturacion').html(laprinter);
+							});
+							
+						}
+						
+						if(directionprint!=null)
+							localStorage.setItem("printaddress",directionprint);
+						if(modelprint!=null)
+							localStorage.setItem("printmodel",modelprint);
+						if(typeprint!=null)
+							localStorage.setItem("printtype",typeprint);
+					}
+				});}
+			,errorCB,successCB);
+		}
+	}
+	
+	function SetearImpresoraC(){
+		var laprinterc='';
+		var directionprintc='';
+		var modelprintc='';
+		var typeprintc='';
+		
+		localStorage.setItem("printtradec",$('#marca').val());
+		localStorage.setItem("comtype",$('#tipo').val());
+		laprinterc=$('.printerradioc:checked').val();
+		
+		if(laprinterc!=null){
+				
+			if($('.printerradioc:checked').attr('data-id')!=null)
+				directionprintc=$('.printerradioc:checked').attr('data-id');
+			if($('.printerradioc:checked').attr('data-model')!=null)
+				modelprintc=$('.printerradioc:checked').attr('data-model');
+			if($('.printerradioc:checked').attr('data-type')!=null)
+				typeprintc=$('.printerradioc:checked').attr('data-type');
+				
+			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			var cuantos=0;
+
+			if(laprinterc==0)
+				laprinterc='';
+				
+			db.transaction(function(tx1){
+				tx1.executeSql("SELECT count(*) as c from CONFIG",[],
+				function(tx1,results1){
+					if(results1.rows.length>0){
+						if(results1.rows.item(0).c>0){
+							tx1.executeSql("UPDATE CONFIG SET printercom=?,marcaprintc=?,modelprintc=?,addressprintc=?,typeprintc=?  where id=1",[laprinterc,$('#marca').val(),modelprintc,directionprintc,typeprintc],function(tx1,results2){
+									if(localStorage.getItem("idioma")==1){
+										showalert("Se ha vinculado la impresora: "+laprinterc);
+									}
+									else if(localStorage.getItem("idioma")==2){
+										showalert("Linked printer: "+laprinterc);	
+									}		
+									$('#predetcomandacion').html(laprinterc);
+							});
+						}else{
+							tx1.executeSql("INSERT INTO CONFIG (printercom,marcaprintc,modelprintc,addressprintc,typeprintc) VALUES (?,?,?,?,?,?)",[laprinterc,$('#marca').val(),modelprintc,directionprintc,typeprintc],function(tx1,results3){
+								if(localStorage.getItem("idioma")==1)
+									showalert("Se ha vinculado la impresora: "+laprinterc);
+								else if(localStorage.getItem("idioma")==2)
+									showalert("Linked printer: "+laprinterc);
+								$('#predetcomandacion').html(laprinterc);
+							});
+							
+						}
+						
+						if(directionprintc!=null)
+							localStorage.setItem("comaddress",directionprintc);
+						if(modelprintc!=null)
+							localStorage.setItem("commodel",modelprintc);
+						if(typeprintc!=null)
+							localStorage.setItem("comtype",typeprintc);
+					}
+				});}
+			,errorCB,successCB);
+		}
+	}
+	
+	function ImprimirTest(){
+	
+		/*StarIOAdapter.printepson($('#jsonprint').html(),"",function() {
+			alert("imprimiendo");
+		},function(error){
+			alert(error);
+		});*/
+		
+		//alert("test");
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);		
+		db.transaction(function(tx){
+			tx.executeSql("SELECT printer,printercom,marcaprint,modelprint,addressprint,typeprint,marcaprintc,modelprintc,addressprintc,typeprintc FROM CONFIG where id=1",[],function(tx,results){
+			//console.log(results);
+			if(results.rows.length>0){
+				//alert(results.rows.item(0).printer);
+				var idprinter=results.rows.item(0);
+				console.log(idprinter);
+				//alert(idprinter.printer+'/'+idprinter.printercom);
+				if(idprinter.printer!=null){
+					//alert(idprinter.printer);
+					if(idprinter.marcaprint==2)
+					{
+						StarIOAdapter.rawprint($('#jsonprint').html(),idprinter.printer, function() {
+							if(localStorage.getItem("idioma")==1)
+								showalert("Imprimiendo Test Factura");
+							else if(localStorage.getItem("idioma")==2)
+								showalert("Printing Invoice Test");
+						});
+					}else if(idprinter.marcaprint==1){
+						var modeldata=idprinter.modelprint;
+						var addressdata=idprinter.addressprint;
+						var typedata=idprinter.typeprint;
+						StarIOAdapter.printepson($('#jsonprint').html(),modeldata,addressdata,typedata,function() {
+							if(localStorage.getItem("idioma")==1)
+								showalert("Imprimiendo Test Factura");
+							else if(localStorage.getItem("idioma")==2)
+								showalert("Printing Invoice Test");
+						})
+					}
+				}else{
+					if(localStorage.getItem("idioma")==1)
+						showalert("No se ha configurado una impresora.");
+					else if(localStorage.getItem("idioma")==2)
+						showalert("There is no configured printer.");
+				}
+				
+				if(idprinter.printercom!=null){
+					if(idprinter.marcaprintc==2){
+						StarIOAdapter.rawprint($('#jsonprint').html(),idprinter.printercom, function() {
+							if(localStorage.getItem("idioma")==1)
+								showalert("Imprimiendo Test Comanda");
+							else if(localStorage.getItem("idioma")==2)
+								showalert("Printing Command Test");
+						});
+					}else if(idprinter.marcaprintc==1){
+						var modeldata=idprinter.modelprintc;
+						var addressdata=idprinter.addressprintc;
+						var typedata=idprinter.typeprintc;
+						StarIOAdapter.printepson($('#jsonprint').html(),modeldata,addressdata,typedata,function() {
+							if(localStorage.getItem("idioma")==1)
+								showalert("Imprimiendo Test Comanda");
+							else if(localStorage.getItem("idioma")==2)
+								showalert("Printing Command Test");
+						});
+					}
+				}else{
+					if(localStorage.getItem("idioma")==1)
+						showalert("No se ha configurado una impresora.");
+					else if(localStorage.getItem("idioma")==2)
+						showalert("There is no configured printer.");
+				}
+			}
+			});
+		},errorCB,successCB);
+	}
+	
+	function ActualizarMedidas(){
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+		db.transaction(
+		function (tx){
+			var encab=3;
+			if(parseInt($('#encabezado').val())>0)
+				encab=$('#encabezado').val();
+			var largo=18;
+			if(parseInt($('#largo').val())>0)
+				largo=$('#largo').val();
+				
+			var preimpresas='false';
+			if($('#preimpresas').is(':checked')==true){
+				preimpresas='true';
+			}
+				
+			tx.executeSql('UPDATE CONFIG set encabezado=?,largo=?,preimpresas=? WHERE id=1;',[encab,largo,preimpresas],
+			function(tx,res){
+				localStorage.setItem("encabezado",encab);
+				localStorage.setItem("largo",largo);
+				localStorage.setItem("preimpresas",preimpresas);
+				if(localStorage.getItem("idioma")==1)
+						showalert("Datos Actualizados con éxito.");
+					else if(localStorage.getItem("idioma")==2)
+						showalert("Successfully Updated");
+			});				
+		},errorCB,successCB);
+	}
+	
+	function GuardarNombre(){
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			db.transaction(function(tx1){
+				var tabname=$('#tablet_name').val();
+
+				if(tabname=='')
+					tabname="Tablet "+$('#devicemodel').html();
+					
+				//tx1.executeSql("UPDATE CONFIG SET nombreterminal=?,sincronizar=? where id=1",[tabname,true],function(){
+                var idioma = $('#idioma').val();
+                var version_nub = $('#version_nub').val();
+                var sin_documento = $('#sin_documento').bootstrapSwitch('state');
+				localStorage.setItem('sin_documento',sin_documento);
+                var con_orden = $('#con_orden').bootstrapSwitch('state');
+                localStorage.setItem('con_nombre_orden',con_orden);
+                var con_propina = $('#con_propina').bootstrapSwitch('state');
+                var con_tarjeta = $('#con_tarjeta').bootstrapSwitch('state');
+                localStorage.setItem("con_tarjeta",con_tarjeta);
+                var con_shop = $('#con_shop').bootstrapSwitch('state');
+                localStorage.setItem('con_shop',con_shop);
+                localStorage.setItem('idioma',idioma);
+                localStorage.setItem('propina',con_propina);
+                var con_notas = $('#con_notas').bootstrapSwitch('state');
+                var con_comanderas = $('#con_comanderas').bootstrapSwitch('state');
+                var con_mesas = $('#con_mesas').bootstrapSwitch('state');
+                var con_pagarconcredito = $('#con_pagarconcredito').bootstrapSwitch('state');
+                var con_imppersonalizados = $('#con_imppersonalizados').bootstrapSwitch('state');
+                localStorage.setItem('con_notas',con_notas);
+                localStorage.setItem('con_comandas',con_comanderas);
+                localStorage.setItem('con_mesas',con_mesas);
+                localStorage.setItem('pagarconcredito',con_pagarconcredito);
+                localStorage.setItem('impuestos_personalizados',con_imppersonalizados);
+                var con_backup = $('#backupinf').bootstrapSwitch('state');
+
+				if(tabname=='')
+					tabname="Tablet "+$('#devicemodel').html();
+					
+				tx1.executeSql("UPDATE CONFIG SET nombreterminal=?,sincronizar=?,id_idioma=?,sin_documento=?,con_nombre_orden=?,con_propina=?,con_tarjeta=?,con_shop=?,con_notasorden=?,con_comanderas=?,con_mesas=?,id_version_nube=?,respaldar=?,pagarconcredito=?,impuestos_personalizados=? where id=1",[tabname,true,idioma,sin_documento,con_orden,con_propina,con_tarjeta,con_shop,con_notas,con_comanderas,con_mesas,version_nub,con_backup,con_pagarconcredito,con_imppersonalizados],
+				function(tx1,results1){
+					
+					var linklang="es";
+					if(localStorage.getItem("idioma")==2)
+						linklang="en";
+								
+					if(localStorage.getItem("idioma")==1)
+						showalert("Datos Guardados con exito.");
+					else if(localStorage.getItem("idioma")==2)
+						showalert("Successfully Saved.");
+							
+					var xmlidioma=$.get("lang/"+linklang+".html",function(datos){
+					d=JSON.parse(datos);
+					var itemestructura=d.estructura;
+					//console.log(itemestructura);
+					var itemmen=itemestructura.menu;
+					var itemtitles=itemestructura.titles;
+					var itembuttons=itemestructura.botones;
+					var itemlabels=itemestructura.labels;
+					var todostitles=itemtitles.item;
+					var todosbuttons=itembuttons.item;
+					var todoslabels=itemlabels.item;
+					var todositems=itemmen.item;	
+					
+						for(var k=0;k<todositems.length;k++){
+							var miitem=todositems[k];
+							$('#lab_menu_'+parseInt(k+1)).html(miitem);
+						}
+							
+						for(var k=0;k<todostitles.length;k++){
+							var miitemname=todostitles[k].name;
+							//alert(miitemname);
+							$('.'+miitemname).html(todostitles[k].text);
+						}
+						
+						for(var k=0;k<todosbuttons.length;k++){
+							var miitemname=todosbuttons[k].name;
+							//alert(miitemname);
+							$('.'+miitemname).html(todosbuttons[k].text);
+						}
+						
+						for(var k=0;k<todoslabels.length;k++){
+							//console.log(todoslabels[k].name+"/"+todoslabels[k].name);
+							var miitemname=todoslabels[k].name;
+							$('#'+miitemname).html(todoslabels[k].text);
+						}
+						
+				});
+				});
+				
+				$('.imporcent').each(function(){
+					var porcen=$(this).val();
+					var idinp=$(this).attr('id');
+					var datinp=idinp.split("_");
+					var active=$('#impact_'+datinp[1]).bootstrapSwitch('state');
+					tx1.executeSql("UPDATE IMPUESTOS set porcentaje=?,activo=?,sincronizar=? where timespan=?",[porcen,active,"true",datinp[1]],function(tx1,res2){
+						console.log("impuesto actualizado");
+					});
+				});
+				
+				
+				/*impuestos activos */
+				tx1.executeSql("SELECT * FROM IMPUESTOS WHERE activo=? group by upper(nombre) order by id",["true"],function(tx,results3){
+					$('#taxes').html('');
+					console.log(results3);
+					var impuestos='';
+					var impuestosid='';
+					if(results3.rows.length>0){
+						console.log("encuentra impuestos");
+						var cuan=0;
+						for(var r=0;r<results3.rows.length;r++){
+							var imp=results3.rows.item(r);
+								if(cuan>0){
+									impuestos+="@";
+									impuestosid+="@";
+								}
+								impuestos+=parseFloat(imp.porcentaje)/100;
+								impuestosid+=imp.timespan;
+								$('#taxes').append('<input id="impuesto-'+imp.id+'" type="text" value="'+imp.id+"|"+imp.nombre+"|"+parseFloat((imp.porcentaje)/100)+'">');
+								cuan++;
+						}
+						console.log(impuestos+'/'+impuestosid);
+						$('#impuestosactivos').html(impuestos);
+						$('#impuestosactivosid').html(impuestosid);
+						
+					}
+				});
+				/**/
+				
+				
+				}
+			,errorCB,successCB);
+	}
+	
+function fail() {
+    alert("failed to get filesystem");
+}
+
+function gotFS(fileSystem) {
+    alert("got filesystem");
+        // save the file system for later access
+   
+    window.rootFS = fileSystem.root;
+	alert(fileSystem.root.fullPath);
+	alert( cordova.file.dataDirectory);
+}
+
+
+function ImprimirLogo(){
+	var paquete=localStorage.getItem("paquete");
+	if(paquete==22||paquete==null){
+		alert("Necesita Premium");
+	}
+}
+
+function CambiarMensaje(){
+	var paquete=localStorage.getItem("paquete");
+	if(paquete==22||paquete=="22"){
+		msjcloud=1;
+		envia('config');	
+	}
+}
+
+function IrCloud(){
+ var url=$('#cambiarlogo').attr('href');
+ window.open(url);
+}
+	
+	
+function ver_version(){
+  var version_nub = document.getElementById('version_nub').value;
+  if(version_nub == '1'){
+    localStorage.setItem("con_shop","true");
+    localStorage.setItem("con_mesas","false");
+    localStorage.setItem("con_profesionales","false");
+    $('#con_shop').bootstrapSwitch('state', true);
+    $('#con_mesas').bootstrapSwitch('state', false);
+	$('#irdisenomesas').fadeOut();
+  }else if(version_nub == '2'){
+    localStorage.setItem("con_shop","false");
+    localStorage.setItem("con_mesas","false");
+    localStorage.setItem("con_profesionales","false");
+    $('#con_shop').bootstrapSwitch('state', false);
+    $('#con_mesas').bootstrapSwitch('state', false);
+	$('#irdisenomesas').fadeOut();
+  }else if(version_nub == '3'){
+    localStorage.setItem("con_shop","false");
+    localStorage.setItem("con_mesas","true");
+    localStorage.setItem("con_profesionales","false");
+    $('#con_shop').bootstrapSwitch('state', false);
+    $('#con_mesas').bootstrapSwitch('state', true);
+	$('#irdisenomesas').fadeIn();
+  }else if(version_nub == '4'){
+  	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+
+      tx.executeSql("INSERT OR IGNORE INTO CATEGORIAS(categoria,activo,existe,timespan,sincronizar)values('Personalizada','1','1','-14','true');",[],function(tx,results){
+      	console.log("insertada categ:"+results.insertId);
+      });
+
+      tx.executeSql('INSERT OR IGNORE INTO PRODUCTOS(formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,servicio,sincronizar,color,estado,tieneimpuestos) VALUES("Personalizado", "1414" ,0,-14,0,1,0,"-14",0,"true","",1,"true");',[],function(tx,results){
+        console.log("insertado producto personalizado"+results.insertId);
+      });
+    },errorCB,function(){
+	});
+    localStorage.setItem("con_shop","false");
+    localStorage.setItem("con_mesas","false");
+    localStorage.setItem("con_profesionales","true");
+    $('#con_shop').bootstrapSwitch('state', false);
+    $('#con_mesas').bootstrapSwitch('state', false);
+	$('#irdisenomesas').fadeOut();
+  }else{
+    localStorage.setItem("con_shop","false");
+    localStorage.setItem("con_mesas","false");
+    localStorage.setItem("con_profesionales","false");
+    $('#con_shop').bootstrapSwitch('state', false);
+    $('#con_mesas').bootstrapSwitch('state', false);
+	$('#irdisenomesas').fadeOut();
+  }
+}
+
+function IrDisenoMesas(){
+	var url=$('#irdisenomesas').attr('href')
+	window.open(url);
+}
+
+function ActivarMultitablet(){
+	var paquete=localStorage.getItem("paquete");
+	if(paquete==22){
+		msjcloud=2;
+		envia('config');
+	}
+}
+
+function ActivarImprimirLogo(){
+	//alert('entra imprlogo');
+	var paquete=localStorage.getItem("paquete");
+	if(paquete==22){
+		msjcloud=3;
+		envia('config');
+	}
+}
+
+function FechaNormal(fecha){
+	var today = new Date(fecha);
+	var m = today.getMonth()+1; // 0-11
+	if(m.toString().length<2)
+		m="0"+m.toString();
+
+	var y = today.getFullYear();
+
+	var d = today.getDate();
+	if(d.toString().length<2)
+		d="0"+d.toString();
+	
+	var h = today.getHours();
+	if(h.toString().length<2)
+		h="0"+h.toString();
+
+	var min = today.getMinutes();
+	if(min.toString().length<2)
+		min="0"+min.toString();
+
+	var s = today.getSeconds();
+	if(s.toString().length<2)
+		s="0"+s.toString();
+
+	var ml = today.getMilliseconds();
+	return y+"-"+m+"-"+d+" "+h+":"+min+":"+s+":"+ml;
+}
+function backupbdd(){
+  backupContent();
+  $('#myModalbdd').modal('show');
+}
+// backup content
+function backupContent() {
+var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+ db.transaction(
+  function(transaction) {
+   transaction.executeSql('SELECT * FROM FACTURAS;', null,
+    function (transaction, result) {
+     if (result.rows.length > 0) {
+      var tag = '{"FACTURAS":[';
+      for (var i=0; i < result.rows.length; i++) {
+       var row = result.rows.item(i);
+       // expand and change this according to your table attributes
+       tag = tag + '{"id":"' + row.id + '", "timespan":"' + row.timespan + '", "clientName":"' + row.clientName + '", "RUC":"' + row.RUC + '", "address":"' + row.address + '", "tele":"' + row.tele + '", "fetchJson":"' + row.fetchJson + '", "paymentsUsed":"' + row.paymentsUsed + '", "cash":"' + row.cash + '", "cards":"' + row.cards + '", "cheques":"' + row.cheques + '", "vauleCxC":"' + row.vauleCxC + '", "paymentConsumoInterno":"' + row.paymentConsumoInterno + '", "tablita":"' + row.tablita + '", "acc":"' + row.acc + '", "echo":"' + row.echo + '", "aux":"' + row.aux + '", "fecha":"' + row.fecha + '", "anulada":"' + row.anulada + '", "sincronizar":"' + row.sincronizar + '"}';
+       if (i+1 < result.rows.length) {
+        tag = tag + ',';
+       }
+      }
+      tag = tag + ']}';
+        //alert(tag);
+        $('#facturas').html(tag+',');
+     } else {
+      alert("No content to backup.");
+     }
+    },
+    errorHandlerSqlTransaction
+   );
+  }
+ );
+ db.transaction(
+  function(transaction) {
+   transaction.executeSql('SELECT * FROM FACTURAS_FORMULADOS;', null,
+    function (transaction, result) {
+     if (result.rows.length > 0) {
+      var tag = '{"FACTURAS_FORMULADOS":[';
+      for (var i=0; i < result.rows.length; i++) {
+       var row = result.rows.item(i);
+       // expand and change this according to your table attributes
+       tag = tag + '{"id":"' + row.id + '", "timespan_factura":"' + row.timespan_factura + '", "timespan_formulado":"' + row.timespan_formulado + '", "cantidad":"' + row.cantidad + '", "precio_unitario":"' + row.precio_unitario + '"}';
+       if (i+1 < result.rows.length) {
+        tag = tag + ',';
+       }
+      }
+      tag = tag + ']}';
+        //alert(tag);
+        $('#facturas_formulados').html(tag+',');
+     } else {
+      alert("No content to backup.");
+     }
+    },
+    errorHandlerSqlTransaction
+   );
+  }
+ );
+ db.transaction(
+  function(transaction) {
+   transaction.executeSql('SELECT * FROM MENU;', null,
+    function (transaction, result) {
+     if (result.rows.length > 0) {
+      var tag = '{"MENU":[';
+      for (var i=0; i < result.rows.length; i++) {
+       var row = result.rows.item(i);
+       // expand and change this according to your table attributes
+       tag = tag + '{"id":"' + row.id + '", "fila":"' + row.fila + '", "idcatmenu":"' + row.idcatmenu + '", "idproducto":"' + row.idproducto + '", "timespan":"' + row.timespan + '", "activo":"' + row.activo + '"}';
+       if (i+1 < result.rows.length) {
+        tag = tag + ',';
+       }
+      }
+      tag = tag + ']}';
+        //alert(tag);
+        $('#menu').html(tag+',');
+     } else {
+      alert("No content to backup.");
+     }
+    },
+    errorHandlerSqlTransaction
+   );
+  }
+ );
+ db.transaction(
+  function(transaction) {
+   transaction.executeSql('SELECT * FROM MENU_CATEGORIAS;', null,
+    function (transaction, result) {
+     if (result.rows.length > 0) {
+      var tag = '{"MENU_CATEGORIAS":[';
+      for (var i=0; i < result.rows.length; i++) {
+       var row = result.rows.item(i);
+       // expand and change this according to your table attributes
+       tag = tag + '{"id":"' + row.id + '", "orden":"' + row.orden + '", "nombre":"' + row.nombre + '", "timespan":"' + row.timespan + '", "activo":"' + row.activo + '"}';
+       if (i+1 < result.rows.length) {
+        tag = tag + ',';
+       }
+      }
+      tag = tag + ']}';
+        //alert(tag);
+        $('#menu_categorias').html(tag+',');
+     } else {
+      alert("No content to backup.");
+     }
+    },
+    errorHandlerSqlTransaction
+   );
+  }
+ );
+ db.transaction(
+  function(transaction) {
+   transaction.executeSql('SELECT * FROM PRODUCTOS;', null,
+    function (transaction, result) {
+     if (result.rows.length > 0) {
+      var tag = '{"PRODUCTOS":[';
+      for (var i=0; i < result.rows.length; i++) {
+       var row = result.rows.item(i);
+       // expand and change this according to your table attributes
+       tag = tag + '{"id_local":"' + row.id_local + '", "formulado":"' + row.formulado + '", "codigo":"' + row.codigo + '", "precio":"' + row.precio + '", "categoriaid":"' + row.categoriaid + '", "cargaiva":"' + row.cargaiva + '", "productofinal":"' + row.productofinal + '", "materiaprima":"' + row.materiaprima + '", "timespan":"' + row.timespan + '", "ppq":"' + row.ppq + '", "color":"' + row.color + '", "servicio":"' + row.servicio + '", "estado":"' + row.estado + '", "sincronizar":"' + row.sincronizar + '"}';
+       if (i+1 < result.rows.length) {
+        tag = tag + ',';
+       }
+      }
+      tag = tag + ']}';
+        //alert(tag);
+        $('#productos').html(tag);
+     } else {
+      alert("No content to backup.");
+     }
+    },
+    errorHandlerSqlTransaction
+   );
+  }
+ );
+}
+
+
+function errorHandlerSqlTransaction(error) {
+  //alert(error);
+	console.error('SQLite - Error code: ' + error.code + ' - Error message: ' + error.message);
+	return true;
+}
+
+
+function actualizar(){
+		var nombreEsta = $('#nombreEsta').val();
+		var razon = $('#razon').val();
+		var ruc = $('#ruc').val();
+		var tel = $('#tel').val();
+		var email = $('#email').val();
+		var dir = $('#dir').val();
+		var serie = $('#serie').val();
+		var establecimiento = $('#establecimiento').val();
+		
+		if(nombreEsta == '' ){
+			$('#nombreEsta').effect('highlight');
+		}
+		
+		if(razon == '' ){
+			$('#razon').effect('highlight');
+		}
+		
+		if(ruc == '' ){
+			$('#ruc').effect('highlight');
+		}
+		if( tel == '' ){
+			$('#tel').effect('highlight');
+		}
+		if(email == '' ){
+			$('#email').effect('highlight');
+		}
+		if(dir == '' ){
+			$('#dir').effect('highlight');
+		}
+		
+		if(nombreEsta == '' || razon == '' || ruc == '' || tel == '' || email == '' || dir == '' ){
+			$('#campos').fadeIn('slow');
+			$('#msjOk').css('display','none');
+			setTimeout(function() {
+				$('#campos').fadeOut('slow');
+			}, 3000);
+		}else{
+			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			db.transaction(function (tx){
+				tx.executeSql('update CONFIG set nombre = "'+nombreEsta+'" , razon = "'+razon+'", ruc = '+ruc+' , telefono = '+tel+', email = "'+email+'", direccion = "'+dir+'",sincronizar="true",serie="'+serie+'",establecimiento="'+establecimiento+'"');
+				$('#msjOk').html('Informacion actualizada con Éxito');
+
+                $('#nombreEstable').val(nombreEsta);
+        		$('#razonSo').val(razon);
+        		$('#rucFac').val(ruc);
+                $('#dirFac').val(dir);
+
+				$('#msjOk').fadeIn('slow');
+				$('#campos').css('display','none');
+				setTimeout(function() {
+					$('#msjOk').fadeOut('slow');
+				}, 3000);
+			},errorCB,function(){$('#JSONempresaLocal').html('"empresa":{'+'"nombre":"'+nombreEsta+'","direccion":"'+dir+'"},');});
+		}
+		
+	}
+	function grabar(){
+		var nombreEsta = $('#nombreEsta').val();
+		var razon = $('#razon').val();
+		var ruc = $('#ruc').val();
+		var tel = $('#tel').val();
+		var email = $('#email').val();
+		var dir = $('#dir').val();
+		var serie = $('#serie').val();
+		var establecimiento = $('#establecimiento').val();
+
+		if(nombreEsta == '' ){
+			$('#nombreEsta').effect('highlight');
+		}
+		
+		if(razon == '' ){
+			$('#razon').effect('highlight');
+		}
+		
+		if(ruc == '' ){
+			$('#ruc').effect('highlight');
+		}
+		if( tel == '' ){
+			$('#tel').effect('highlight');
+		}
+		if(email == '' ){
+			$('#email').effect('highlight');
+		}
+		if(dir == '' ){
+			$('#dir').effect('highlight');
+		}
+
+		if(nombreEsta == '' || razon == '' || ruc == '' || tel == '' || email == '' || dir == '' ){
+			$('#campos').fadeIn('slow');
+			$('#msjOk').css('display','none');
+			setTimeout(function() {
+				$('#campos').fadeOut('slow');
+			}, 3000);
+		}else{
+			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			db.transaction(function (tx){
+				tx.executeSql('INSERT INTO CONFIG(nombre , razon , ruc , telefono , email , direccion,serie,establecimiento) VALUES("'+nombreEsta+'" , "'+razon+'" , '+ruc+' , '+tel+' , "'+email+'" , "'+dir+'" , "'+serie+'" , "'+establecimiento+'")');
+				$('#msjOk').html('Informacion Ingresada con Éxito');
+				$('#msjOk').fadeIn('slow');
+				$('#campos').css('display','none');
+
+                $('#nombreEstable').val(nombreEsta);
+        		$('#razonSo').val(razon);
+        		$('#rucFac').val(ruc);
+                $('#dirFac').val(dir);
+
+				setTimeout(function() {
+					$('#msjOk').fadeOut('slow');
+				}, 3000);
+			},errorCB,successCB);
+		}
+	}
+	function saberDatosEmpresa(){
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+		db.transaction(function(tx){
+			tx.executeSql('SELECT * from CONFIG ',[],function(tx,results){
+				if(results.rows.length>0){
+					for (var i=0; i < results.rows.length; i++){
+						var row = results.rows.item(i);
+						var nombre = row.nombre;
+						var razon = row.razon;
+						var ruc = row.ruc2;
+						var telefono = row.telefono;
+						var email = row.email;
+						var direccion = row.direccion;
+						var serie = row.serie;
+						var establecimiento = row.establecimiento;
+
+                        var email_fact = row.email_fact;
+                        var key = row.key;
+                        var numero_contribuyente = row.numero_contribuyente;
+                        var obligado_contabilidad = row.obligado_contabilidad;
+                        var prueba_produccion = row.prueba_produccion;
+                        var tiene_factura_electronica = row.tiene_factura_electronica;
+                        var msj_factura_electronica = row.mensaje_factura;
+
+						$('#nombreEsta').val(nombre);
+						$('#razon').val(razon);
+						$('#ruc').val(ruc);
+						$('#tel').val(telefono);
+						$('#email').val(email);
+						$('#dir').val(direccion);
+						$('#serie').val(serie);
+						$('#establecimiento').val(establecimiento);
+
+                        $('#nombreEstable').val(nombre);
+						$('#razonSo').val(razon);
+						$('#rucFac').val(ruc);
+						$('#emailFac').val(email_fact);
+						$('#dirFac').val(direccion);
+                        $('#firmaFac').val(key);
+                        $('#numcontribuyenteFac').val(numero_contribuyente);
+                        $('#telFac').val(telefono);
+                        $('#serieFac').val(serie);
+						$('#establecimientoFac').val(establecimiento);
+                        $('#msjFac').val(msj_factura_electronica);
+
+                        if(obligado_contabilidad=='true'){
+							$('#obligado').bootstrapSwitch('state', true);
+						}else{
+							$('#obligado').bootstrapSwitch('state', false);
+						}
+                        if(prueba_produccion=='true'){
+							$('#produccion').bootstrapSwitch('state', false);
+                            $('#rucFac').attr('readonly',false);
+						}else{
+							$('#produccion').bootstrapSwitch('state', true);
+                            $('#rucFac').attr('readonly',true);
+						}
+                        if(tiene_factura_electronica=='true'){
+							$('#activafacturacionelectronica').bootstrapSwitch('state', true);
+						}else{
+							$('#activafacturacionelectronica').bootstrapSwitch('state', false);
+						}
+						
+						localStorage.setItem("factelectronica",tiene_factura_electronica);
+
+					}
+					
+					$('#actualiza').css('display','block');
+					$('#graba').css('display','none');
+				}else{
+					$('#actualiza').css('display','none');
+					$('#graba').css('display','block');
+				}
+			});
+		},errorCB,successCB);
+	}
+	
+	function mostrarSignIn(){
+		$(".putHeightRows").css("height" , $(window).height() + "px");
+		$("#demoGratis").css("display" , "none");
+		$("#escojeIdioma").css("display" , "none");
+		$("#fadeRow").fadeIn();
+
+	}
+
+	function quitarSignIn(){
+		$(".putHeightRows").css("height" , $(window).height() + "px");
+		$("#demoGratis").css("display" , "block");
+		$("#escojeIdioma").css("display" , "none");
+		$("#fadeRow").fadeOut();
+	}
+						
+	function nuevaCuenta(){
+		$(".putHeightRows").css("height" , $(window).height() + "px");
+		$("#fadeRow").css("display" , "none");
+		$("#demoGratis").fadeIn("fast",function(){
+		$("#animaRegister").animate({ top : "50px" });
+		});
+	}
+	
+	
+	function IraNube(elem){
+	  //alert(elem);
+		//var url=$(elem).attr('link');
+		//window.open(url);
+			if(localStorage.getItem("idbarra") == '0'){
+			$('#noplan').fadeOut();
+			$('#cuentaactiva').fadeOut();
+			$('#pestanasconfig').fadeOut();
+			$('#planes_en').fadeOut();
+			$('#planes_es').fadeOut();
+			$('#volverplan_es').fadeOut();
+			$('#volverplan_en').fadeOut();
+			$('#fadeRow').fadeIn();
+			var urlaux = $(elem).attr('link');
+			var planaux = urlaux.split('&plan=');
+			var plan = planaux[1];
+			var us = localStorage.getItem("userRegister");
+			var pa = localStorage.getItem("userPasswod");
+			localStorage.removeItem("idbarra");
+			var url = 'https://www.practisis.net/indexupgrade.php?rvpas='+btoa(pa)+'&rvus='+btoa(us)+'&plan='+plan;
+			window.open(url);
+			}else{
+				var url=$(elem).attr('link');
+				window.open(url);
+			}
+	}
+	
+	function activaidioma(cual){
+	  if(cual == 1){
+	   document.getElementById('id_idioma').value='1';
+	   document.getElementById('selEspaniol').style.backgroundColor="#337AB7";
+	   document.getElementById('selIngles').style.backgroundColor="#FFFFFF";
+	   localStorage.setItem('idioma',1);
+	   idiomaContinuar();
+	  }else{
+	   document.getElementById('id_idioma').value='2';
+	   document.getElementById('selIngles').style.backgroundColor="#337AB7";
+	   document.getElementById('selEspaniol').style.backgroundColor="#FFFFFF";
+	   localStorage.setItem('idioma',2);
+	   idiomaContinuar();
+	  }
+	}
+	function idiomaContinuar(){
+	  var linklang="es";
+	  if(localStorage.getItem("idioma")==2)
+		linklang="en";
+		var xmlidioma=$.get("lang/"+linklang+".html",function(datos){
+		d=JSON.parse(datos);
+		var itemestructura=d.estructura;
+		//console.log(itemestructura);
+		var itemmen=itemestructura.menu;
+		var itemplaceholder=itemestructura.placeholder;
+		var itemtitles=itemestructura.titles;
+		var itembuttons=itemestructura.botones;
+		var itemlabels=itemestructura.labels;
+		var todostitles=itemtitles.item;
+		var todosbuttons=itembuttons.item;
+		var todoslabels=itemlabels.item;
+		var todositems=itemmen.item;
+		var todosplaceholder=itemplaceholder.item;
+
+		for(var k=0;k<todosplaceholder.length;k++){
+			var miitemname=todosplaceholder[k].name;
+			//alert(miitemname);
+			$('.'+miitemname).prop("placeholder",todosplaceholder[k].text);
+		}
+
+		for(var k=0;k<todositems.length;k++){
+				var miitem=todositems[k];
+				$('#lab_menu_'+(k+1)).html(miitem);
+		}
+
+			for(var k=0;k<todostitles.length;k++){
+				var miitemname=todostitles[k].name;
+				//alert(miitemname);
+				$('.'+miitemname).html(todostitles[k].text);
+			}
+
+			for(var k=0;k<todosbuttons.length;k++){
+				var miitemname=todosbuttons[k].name;
+				//alert(miitemname);
+				$('.'+miitemname).html(todosbuttons[k].text);
+			}
+
+			for(var k=0;k<todoslabels.length;k++){
+				//console.log(todoslabels[k].name+"/"+todoslabels[k].name);
+				var miitemname=todoslabels[k].name;
+				$('#'+miitemname).html(todoslabels[k].text);
+			}
+
+	  });
+
+	  $('#demoGratis').fadeIn();
+	  $('#escojeIdioma').fadeOut();
+	}
+	
+	
+	function Chequea(cual){
+		//alert(cual);
+		StarIOAdapter.check(cual,
+			function(){
+				showalertred(cual+' online.');
+			},
+			function(error){
+				showalertred(error);
+			}
+		);
+	}
+
+function ActivarVerDiseno(){
+  //alert('entra imprlogo');
+  var paquete=localStorage.getItem("paquete");
+  if(paquete==22 || paquete==36){
+    msjcloud=4;
+    envia('config');
+  }
+}
+function ActivarPermisos(){
+  //alert('entra imprlogo');
+  var paquete=localStorage.getItem("paquete");
+  if(paquete==22 || paquete==36){
+    msjcloud=5;
+    envia('config');
+  }
+}
+function ActivarBackup(){
+  //alert('entra imprlogo');
+  var paquete=localStorage.getItem("paquete");
+  if(paquete==22){
+    msjcloud=9;
+    envia('config');
+  }
+}
+function ActivarProduccion(){
+  //alert('entra imprlogo');
+  var paquete=localStorage.getItem("paquete");
+  if(paquete==22 || paquete==36){
+    msjcloud=6;
+    envia('config');
+  }
+}
+function grabarfac(){
+var nombreEstable = $('#nombreEstable').val();
+var razonSo = $('#razonSo').val();
+var rucFac = $('#rucFac').val();
+var cuantosrucFac = $('#rucFac').val().length;
+var emailFac = $('#emailFac').val();
+var dirFac = $('#dirFac').val();
+var numcontribuyenteFac = $('#numcontribuyenteFac').val();
+var obligado = $('#obligado').bootstrapSwitch('state');
+var produccionaux = $('#produccion').bootstrapSwitch('state');
+var activafacturacionelectronica = $('#activafacturacionelectronica').bootstrapSwitch('state');
+var firmaFac = $('#firmaFac').val();
+var produccion = true;
+var telFac = $('#telFac').val();
+var serieFac = $('#serieFac').val();
+var establecimientoFac = $('#establecimientoFac').val();
+var msjFac = $('#msjFac').val();
+
+if(nombreEstable == '' ){
+	$('#nombreEstable').effect('highlight');
+}
+if(razonSo == '' ){
+	$('#razonSo').effect('highlight');
+}
+if(rucFac == '' ){
+	$('#rucFac').effect('highlight');
+}
+if(cuantosrucFac != 13){
+	$('#rucFac').effect('highlight');
+}
+if( emailFac == '' ){
+	$('#emailFac').effect('highlight');
+}
+if(dirFac == '' ){
+	$('#dirFac').effect('highlight');
+}
+if(numcontribuyenteFac == '' ){
+	$('#numcontribuyenteFac').val('0');
+}
+/*if(produccionaux == false){
+  produccion = true;
+}else{
+  produccion = false;
+}*/
+//alert(produccion);
+if(nombreEstable == '' || razonSo == '' || rucFac == '' || emailFac == '' || dirFac == ''){
+	$('#camposFac').fadeIn('slow');
+
+    if(localStorage.getItem("idioma")==1){
+		$('#camposFac').html('Debe ingresar todos los campos requeridos.');
+	}else{
+		$('#camposFac').html('You must enter all required fields.');
+	}
+
+	$('#msjOkFac').css('display','none');
+	setTimeout(function() {
+		$('#camposFac').fadeOut('slow');
+	}, 3000);
+}else if(cuantosrucFac != 13){
+	$('#camposFac').fadeIn('slow');
+
+    if(localStorage.getItem("idioma")==1){
+		$('#camposFac').html('Su RUC debe tener 13 digitos por favor.');
+	}else{
+		$('#camposFac').html('His RUC must be 13 digits please.');
+	}
+
+	$('#msjOkFac').css('display','none');
+	setTimeout(function() {
+		$('#camposFac').fadeOut('slow');
+	}, 3000);
+}/*else if(produccion == false && firmaFac== '' ){
+	$('#camposFac').fadeIn('slow');
+
+    if(localStorage.getItem("idioma")==1){
+		 $('#camposFac').html('Para poder pasar a producción debe primero tener la firma.');
+	}else{
+		 $('#camposFac').html('To go into production must first be signed.');
+	}
+    $('#produccion').bootstrapSwitch('state',false);
+
+	$('#msjOkFac').css('display','none');
+	setTimeout(function() {
+		$('#camposFac').fadeOut('slow');
+	}, 3000);
+}*/else{
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function (tx){
+		tx.executeSql('update CONFIG set nombre="'+nombreEstable+'",razon="'+razonSo+'",ruc2="'+rucFac+'",email_fact="'+emailFac+'",direccion="'+dirFac+'",numero_contribuyente="'+numcontribuyenteFac+'",obligado_contabilidad="'+obligado+'",tiene_factura_electronica="'+activafacturacionelectronica+'",sincronizar="true",telefono='+telFac+',serie="'+serieFac+'",establecimiento="'+establecimientoFac+'",mensaje_factura="'+msjFac+'" where id=1');
+
+        if(localStorage.getItem("idioma")==1){
+    		 $('#msjOkFac').html('Información Ingresada con Éxito');
+    	}else{
+    		 $('#msjOkFac').html('Information entered Success.');
+    	}
+
+        if(firmaFac == ''){
+          $('#paso2').fadeOut('fast');
+          $('#paso3').fadeIn('slow');
+        }else{
+          $('#paso2').fadeOut('fast');
+          $('#paso3').fadeOut('fast');
+          continuarpasos(5,1);
+        }
+
+		//variable local de si tiene facturación electrónica
+		localStorage.setItem("factelectronica",activafacturacionelectronica);
+
+        $('#nombreEsta').val(nombreEstable);
+		$('#razon').val(razonSo);
+		$('#ruc').val(rucFac);
+        $('#dir').val(dirFac);
+
+		$('#msjOkFac').fadeIn('slow');
+		$('#camposFac').css('display','none');
+		setTimeout(function() {
+			$('#msjOkFac').fadeOut('slow');
+		}, 3000);
+	},errorCB,successCB);
+}
+}
+function subirfirma(){
+  var idemp = localStorage.getItem("empresa");
+  var url = 'http://practifactura.com/facturaelectronica/subpages/administrador/firmam.php?idemp='+btoa(idemp);
+  window.open(url);
+}
+function ActivarFirma(){
+  var paquete=localStorage.getItem("paquete");
+  if(paquete==22 || paquete==36){
+    msjcloud=7;
+    envia('config');
+  }
+}
+function ActivarMsjFactura(){
+  var paquete=localStorage.getItem("paquete");
+  if(paquete==22 || paquete==36){
+    msjcloud=8;
+    envia('config');
+  }
+}
+function editarimpuesto(quien){
+  if(quien==0){
+    $('#popimpuesto').modal('show');
+    $('#idimp').val(quien);
+    $('#impuesto').val('');
+    $('#simbolo').val('*');
+    $('#porcentaje').val('');
+  }else{
+    /*alert(quien);
+    return false;*/
+    /*$.ajax({
+	  url: "/practipos2/ajax/administrador/terminales/impuestos.php",
+	  data:{que:'3',id:quien}
+	}).done(function(resp){
+		$('#loaderelim').fadeOut();
+		var data=resp.split('|');
+        //alert(data);
+		if(data[0]=='ok'){
+		  $('#popimpuesto').modal('show');
+		  $('#idimp').val(data[1]);
+          $('#impuesto').val(data[2]);
+          $('#simbolo').val(data[3]);
+          $('#porcentaje').val(data[4]);
+		  $('#activo').bootstrapSwitch('state', data[5]);
+		}else{
+		  var queidioma = $('#queidioma').val();
+          if(queidioma != 1){
+            $('#jsalertimp').html("The tax can not be charged.");
+          }else{
+            $('#jsalertimp').html("El impuesto no se puede cargar.");
+          }
+		}
+	});*/
+  }
+}
+function grabarimpuesto(){
+  $('#loaderimp').fadeIn();
+	var id = $('#idimp').val();
+    var impuesto = $('#impuesto').val();
+    var porcentaje = $('#porcentaje').val();
+	var activo=$('#activo').bootstrapSwitch('state');
+    var timespan_impuesto = getTimeSpan();
+
+    if(impuesto == '' || porcentaje == ''){
+      if(localStorage.getItem('idioma') == 2){
+        $('#jsalertimp').html("You must enter all fields to save.");
+      }else{
+        $('#jsalertimp').html("Debe ingresar todos los campos para poder guardar.");
+      }
+	  $('#jsalertimp').slideDown();
+      $('#loaderimp').fadeOut();
+      setTimeout(function() {
+	    $('#jsalertimp').slideUp();
+	  }, 3000);
+    }else{
+
+        var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+    	db.transaction(function(tx1){
+          if(id==0){
+          	tx1.executeSql("INSERT INTO IMPUESTOS (nombre,porcentaje,activo,timespan,sincronizar) VALUES(?,?,?,?,?)",[impuesto,porcentaje,activo,timespan_impuesto,"true"],function(tx1,res2){
+        		console.log("impuesto creado");
+                if(localStorage.getItem('idioma') == 2){
+                  $('#jsalertimp').html("The tax has been successfully created.");
+                }else{
+                  $('#jsalertimp').html("El impuesto se ha creado con éxito.");
+                }
+                $('#loaderimp').fadeOut();
+
+                $('#confimpuestos tbody').html('');
+            	tx1.executeSql("SELECT * FROM IMPUESTOS GROUP BY NOMBRE",[],function(tx1,results3){
+            		if(results3.rows.length>0){
+            			for(var t=0;t<results3.rows.length;t++){
+            				var itemimp=results3.rows.item(t);
+            				var esactivo=itemimp.activo;
+            				var porcen=itemimp.porcentaje;
+            				var nombreimp=itemimp.nombre;
+            				var timespanimp=itemimp.timespan;
+            				var checked='';
+            				if(esactivo=='true')
+            					checked='checked';
+            				var mifila='<tr><td style="text-align:left;">'+nombreimp.toUpperCase()+'</td><td  style="text-align:left;"><input id="impval_'+timespanimp+'" style="display:inline; width:60%;" type="text" class="input form-control imporcent" value="'+porcen+'"/><span style="display:inline;"> %</span></td><td  style="text-align:left;"><input id="impact_'+timespanimp+'" type="checkbox" '+checked+' data-size="mini"; /></td></tr>';
+            				$('#confimpuestos tbody').append(mifila);
+
+            				if(esactivo=='true'){
+            					$('#impact_'+timespanimp).bootstrapSwitch('state', true);
+            				}else{
+            					$('#impact_'+timespanimp).bootstrapSwitch('state', false);
+            				}
+            			}
+            		}
+            	});
+
+                $("#popimpuesto").modal("hide");
+
+        	});
+          }else{
+              if(localStorage.getItem('idioma') == 2){
+                $('#jsalertimp').html("The tax has been updated successfully.");
+              }else{
+                $('#jsalertimp').html("El impuesto se ha actualizado con éxito.");
+              }
+              $('#loaderimp').fadeOut();
+          }
+
+        }
+    	,errorCB,successCB);
+
+    }
+}
+
+function VerPlanes(){
+		if(localStorage.getItem("idioma")==1){
+			$('#planes_es').fadeIn('fast',function(){
+				DefinirJumbo();
+			});
+		}else{
+			$('#planes_en').fadeIn('fast',function(){
+				DefinirJumbo();
+			});
+		}
+}
+
+function DefinirJumbo(){
+	var maxheight=0;
+		$('.jumbotron').each(function(){
+			var mh=parseFloat($(this).outerHeight());
+			console.log(mh);
+			if(mh>maxheight){
+				//$('.jumbotron').css('height',mh);
+				maxheight=mh;
+				console.log(maxheight);
+			}
+		});
+
+		$('.jumbotron').css('height',maxheight);
+}
+function continuarpasos(paso,que){
+ if(paso==5){
+   if(que==1){
+     var firmaFac = $('#firmaFac').val();
+     //alert(firmaFac+'**'+que+'**'+localStorage.getItem("idioma"))
+     if(firmaFac == ''){
+       $('#camposFac').fadeIn('slow');
+       if(localStorage.getItem("idioma")==1){
+    		 $('#camposFac').html('Para continuar debe primero tener la firma.');
+    	}else{
+    		 $('#camposFac').html('To continue you must first be signed.');
+    	}
+        setTimeout(function() {
+    		$('#camposFac').fadeOut('slow');
+    	}, 3000);
+     }else{
+       $('#paso4').fadeOut('fast');
+       $('#paso5').fadeIn('slow');
+     }
+   }else{
+     $('#paso5').fadeOut('fast');
+     $('#paso4').fadeIn('slow');
+   }
+ }else if(paso==4){
+   if(que==1){
+     $('#paso3').fadeOut('fast');
+     $('#paso4').fadeIn('slow');
+   }else{
+     $('#paso4').fadeOut('fast');
+     $('#paso3').fadeIn('slow');
+   }
+ }else if(paso==3){
+   if(que==1){
+     $('#paso2').fadeOut('fast');
+     $('#paso3').fadeIn('slow');
+   }else{
+     $('#paso3').fadeOut('fast');
+     $('#paso2').fadeIn('slow');
+   }
+ }else if(paso==2){
+   if(que==1){
+     $('#paso1').fadeOut('fast');
+     $('#paso2').fadeIn('slow');
+   }else{
+     $('#paso2').fadeOut('fast');
+     $('#paso1').fadeIn('slow');
+   }
+ }
+}
+function obtenerfirma(){
+  var url = 'http://www.administracionpublica.gob.ec/como-obtener-la-firma-electronica/';
+  window.open(url);
+}
+</script>

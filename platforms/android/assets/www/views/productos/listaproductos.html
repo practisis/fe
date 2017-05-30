@@ -1,0 +1,724 @@
+<style>
+.fa-edit{
+	color:#23ae89;
+}
+.fa-edit:hover{
+	color:#404041;
+}
+</style>
+	<div  class="row" >
+		<div class="col-lg-12">
+			<div class="row sumarow" >
+				<div class="col-sm-12" >
+					<h3 style="margin-left:15px;" class='trans_products'>Lista de Productos</h3>
+				</div>
+			</div>
+			<!--<div class="row"> <!-- Row Header Search.. -->
+			<div class="row sumarow"> <!-- Row Header Search.. -->
+				<div class="col-sm-12" align="center">
+					<div class="row"> 
+						<!--<div class="col-md-3" align="left">
+							<div role="group" class="btn-group">-->
+								   <div id="includeDropCategory" style="display:none;"></div>
+							<!---</div>
+						</div>-->
+						<div class="col-lg-4 col-md-4 col-xs-6" align="left">
+							<div class="input-group" style="width:100%;">
+								<input  type="text" style="min-width:100px;"  class="form-control trans_buscar" placeholder="Escriba un producto..." id="searchKeyword">
+								<span class="input-group-btn">
+									<button class="btn btn-primary trans_search" type="button" onclick="searchProduct($('#searchKeyword')); ">Buscar</button>
+								</span>
+							</div><!-- /input-group -->
+						</div>
+						<div class='col-md-8 col-lg-8 col-xs-6' style='text-align:right;'>
+							<button type='button' class='btn btn-success trans_new_prod' id='nuevoProducto'  style="display:none;" onclick="envia('nuevoproducto');">Nuevo Producto</button>
+						</div>
+						
+					</div>
+					
+					
+					
+				</div>
+				
+				<div class="col-sm-2" >
+					<select id='listacategorias' style='font-size:15px;display:none;'>
+						<option value='0'>Todas las categorias</option>
+					</select>
+				</div>
+				
+			</div> <!-- END Row Header Search.. -->
+			<div class='row sumarow'>
+				<div class='col-lg-3 col-md-3 col-xs-3' style='margin-bottom:5px; text-align:left;'>
+					<label class='label label-default'><span id='trans_label_7'>Resultados</span>: <span id='nproductos'></span> <span id="trans_label_9">productos</span>.</label>
+				</div>
+			</div>
+			<div class="row" align="center" > <!-- Row Table of products.. -->
+					<div class="col-sm-12">
+						<table class="table table-striped" style="margin-bottom:0px;">
+                          <thead>
+                            <tr>
+                              <th style="width:25%;" class="trans_prod">Nombre</th>
+                              <th style=" width:25%;" class="trans_categ">Categoría</th>
+                              <th style="width:10%;" class="trans_code">Código</th>
+                              <th style="width:10%; text-align:right;" class="trans_precio">Precios $</th>
+                              <th style="width:10%; text-align:center;" class="trans_imp" >Aplica Impuestos</th>
+                              <th style="text-align:center; width:5%; display:none;"></th><th style="width:15%;"></th>
+                            </tr>
+                          </thead>
+                        </table>
+						<div id="recibeTodosLosProductos" style="font-size:14px; overflow-y:auto; min-height:200px;" class="table-responsive">
+						</div>
+						<input id='totalpags' style='display:none;'/>
+					</div>
+				
+			</div>
+					
+			<!--<div class="row"> <!-- Row footer.. -->
+				<!---<div class="col-sm-12" align="center">
+					<ul class="pagination paginacion-lg" id='paginacion'>
+					</ul>
+				</div>
+			</div>--->
+					
+			<hr color="gray"/>
+			
+			
+			
+		</div> <!-- END Col-LG-12. -->
+		
+	</div> <!-- END ROW.. -->
+	<div class="modal fade" tabindex="-1" role="dialog" id='modaleliminar'>
+		<input type='hidden' style='display:none;' id='timeproduct'/>
+		<div class="modal-dialog modal-xs">
+			<div class="modal-content">
+				<div class="modal-header trans_delete">
+					Eliminar Producto
+				</div>
+				<div class='modal-body'>
+					<label id='trans_label_41'>Está seguro que desea eliminar el producto </label> <b><span id='nombreelim'></span></b> ?
+					<div style='margin-top:20px;'>
+						<button class='btn btn-lg btn-danger trans_yes' onclick='EliminarProduct();'>SI</button>
+						<button class='btn btn-lg btn-danger' onclick='$("#timeproduct").val(""); $("#nombreelim").html(""); $("#modaleliminar").modal("hide");'>NO</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<style>
+.pricing-table {
+    margin: 000px auto;
+    width: 100%;
+	text-align: center;
+	padding-top:55px;
+    /*width: 892px;*/ /* total computed width = 222 x 3 + 226 */
+}
+
+.pricing-table .plan {
+    font: 12px 'Lucida Sans', 'trebuchet MS', Arial, Helvetica;
+    text-shadow: 0 1px rgba(255,255,255,.8);        
+    background: #fff;      
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 20px;
+	width:100%;
+    /*width: 180px;*/ /* plan width = 180 + 20 + 20 + 1 + 1 = 222px */      
+    float: left;px
+    position: relative;
+}
+
+.pricing-table #most-popular {
+    z-index: 2;
+    top: -13px;
+    border-width: 3px;
+    padding: 30px 20px;
+    border-radius: 5px;
+    box-shadow: 20px 0 10px -10px rgba(0, 0, 0, .15), -20px 0 10px -10px rgba(0, 0, 0, .15);    
+}
+
+.pricing-table .plan:nth-child(1) {
+    border-radius: 5px 0 0 5px;        
+}
+
+.pricing-table .plan:nth-child(4) {
+    border-radius: 0 5px 5px 0;        
+}
+
+/* --------------- */
+
+.pricing-table h3 {
+    font-size: 20px;
+    font-weight: normal;
+    padding: 20px;
+    margin: -20px -20px 0px -20px;
+    background-color: #eee;
+    background-image: linear-gradient(#fff, #eee);
+	height:80px;
+}
+
+.pricing-table #most-popular h3 {
+    background-color: #ddd;
+    background-image: linear-gradient(#eee, #ddd);
+    margin-top: -30px;
+    padding-top: 30px;
+    border-radius: 5px 5px 0 0;         
+}
+
+.pricing-table .plan:nth-child(1) h3 {
+    border-radius: 5px 0 0 0;       
+}
+
+.pricing-table .plan:nth-child(4) h3 {
+    border-radius: 0 5px 0 0;       
+}
+
+/* --------------- */
+
+.pricing-table ul {
+    margin: 20px 0 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pricing-table li {
+    border-top: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+/* --------------- */
+    
+.pricing-table .signup {
+    position: relative;
+    padding: 8px 20px;
+    margin: 20px 0 0 0;  
+    color: #fff;
+    font: bold 14px Arial, Helvetica;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;       
+    background-color: #72ce3f;
+    background-image: linear-gradient(#72ce3f, #62bc30);
+    border-radius: 3px;     
+    text-shadow: 0 1px 0 rgba(0,0,0,.3);        
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .5), 0 2px 0 rgba(0, 0, 0, .7);
+}
+
+.pricing-table .signup:hover {
+    background-color: #62bc30;
+    background-image: linear-gradient(#62bc30, #72ce3f); 
+}
+
+.pricing-table .signup:active, .pricing-table .signup:focus {
+    background: #62bc30;       
+    top: 2px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .7) inset; 
+}  
+
+
+  
+.pricing-table .signupdelete {
+    position: relative;
+    padding: 8px 20px;
+    margin: 20px 0 0 0;  
+    color: #fff;
+    font: bold 14px Arial, Helvetica;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;       
+    background-color: red;
+    background-image: linear-gradient(red, #E31B22);
+    border-radius: 3px;     
+    text-shadow: 0 1px 0 rgba(0,0,0,.3);        
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .5), 0 2px 0 rgba(0, 0, 0, .7);
+}
+
+.pricing-table .signupdelete:hover {
+    background-color: #62bc30;
+    background-image: linear-gradient(#E31B22,red); 
+}
+
+.pricing-table .signupdelete:active, .pricing-table .signup:focus {
+    background: #62bc30;       
+    top: 2px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .7) inset; 
+}
+
+/* --------------- */
+
+.clear:before, .clear:after {
+  content:"";
+  display:table
+}
+
+.clear:after {
+  clear:both
+}
+
+.clear {
+  zoom:1
+}
+</style>
+
+
+<script type="text/javascript">
+editarProductoID=0;
+currentTimeSpanCat=0;
+var page=0;
+var startForma=0;
+ListarCategorias();
+getSearch();
+
+$(document).ready(function(){
+	//idioma
+		var linklang="es";
+		if(localStorage.getItem("idioma")==2)
+			linklang="en";
+			
+			var xmlidioma=$.get("lang/"+linklang+".html",function(datos){
+			d=JSON.parse(datos);
+			var itemestructura=d.estructura;
+			//console.log(itemestructura);
+			var itemmen=itemestructura.menu;
+			var itemplaceholder=itemestructura.placeholder;
+			var itemtitles=itemestructura.titles;
+			var itembuttons=itemestructura.botones;
+			var itemlabels=itemestructura.labels;
+			var todostitles=itemtitles.item;
+			var todosbuttons=itembuttons.item;
+			var todoslabels=itemlabels.item;
+			var todositems=itemmen.item;	
+			var todosplaceholder=itemplaceholder.item;
+			
+			for(var k=0;k<todosplaceholder.length;k++){
+				var miitemname=todosplaceholder[k].name;
+				//alert(miitemname);
+				$('.'+miitemname).prop("placeholder",todosplaceholder[k].text);
+			}
+			
+			for(var k=0;k<todositems.length;k++){
+					var miitem=todositems[k];
+					$('#lab_menu_'+(k+1)).html(miitem);
+			}
+					
+				for(var k=0;k<todostitles.length;k++){
+					var miitemname=todostitles[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todostitles[k].text);
+				}
+				
+				for(var k=0;k<todosbuttons.length;k++){
+					var miitemname=todosbuttons[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todosbuttons[k].text);
+				}
+				
+				for(var k=0;k<todoslabels.length;k++){
+					//console.log(todoslabels[k].name+"/"+todoslabels[k].name);
+					var miitemname=todoslabels[k].name;
+					$('#'+miitemname).html(todoslabels[k].text);
+				}
+				
+		});
+
+	var suma=parseFloat($('.navbar').css('height'))+85;
+	$('.sumarow').each(function(){
+		suma+=parseFloat($(this).css('height'));
+	});
+	console.log(suma);
+
+	$('#recibeTodosLosProductos').css("height",parseFloat($(window).height())-suma);
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(
+	function (tx){
+		//console.log('SELECT * FROM PRODUCTOS WHERE categoriaid='+categoria+' and productofinal=1 and estado=1 ORDER BY formulado asc');
+		tx.executeSql("SELECT * FROM IMPUESTOS WHERE activo=? group by nombre order by id",["true"],function(tx,results3){
+							console.log(results3);
+							var impuestos='';
+							var impuestosid='';
+							if(results3.rows.length>0){
+								console.log("encuentra impuestos");
+								var cuan=0;
+								for(var r=0;r<results3.rows.length;r++){
+									var imp=results3.rows.item(r);
+									
+										if(cuan>0){
+											impuestos+="@";
+											impuestosid+="@";
+										}
+
+									impuestos+=parseFloat(imp.porcentaje)/100;
+									impuestosid+=imp.timespan;
+									cuan++;
+								}
+								console.log(impuestos+'/'+impuestosid);
+								$('#impuestosactivos').html(impuestos);
+								$('#impuestosactivosid').html(impuestosid);
+								}
+		});
+	});
+});
+	
+
+
+
+function ListarCategorias(){
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+	tx.executeSql('SELECT * FROM CATEGORIAS ORDER BY id asc;',[],function(tx,results){
+		//console.log(results.rows.length);
+		var inhtml='';var inhtml2="";
+		inhtml2+=' <li><a href="javascript:void(0)" class="opcioncat" categoria="Seleccione una categoria" onclick="showCategory($(this))" idDB="0" timespan="0">Todas</a></li>';
+		
+		for (var i=0; i < results.rows.length; i++){
+			var row=results.rows.item(i);
+			inhtml+='<option value="'+row.id+'">'+row.categoria+'</option>';
+			inhtml2+=' <li><a href="javascript:void(0)" categoria="'+row.categoria+'" class="categoriasPrecargadas" onclick="showCategory($(this))" idDB="'+row.id+'" timespan="'+row.timespan+'">'+row.categoria+'</a></li>';
+		}
+		
+		 LlenarComboCat(inhtml,inhtml2);
+		
+		
+		
+	});
+	});
+}
+
+
+function LlenarComboCat(options,options2){
+	$('#listacategorias').append(options);
+	$("#includeDropCategory").html('\
+	\
+		<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu4"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">\
+	<span id="catsel" data-selec="0">Seleccione una categoria</span>\
+									<span class="caret"></span>\
+								  </button>\
+								  <ul class="dropdown-menu" id="listacombocat" aria-labelledby="dropdownMenu4">\
+								  '+options2+'\
+								  </ul>\
+								</div>\
+		');
+		//alert(options2);
+	//$("#dropDownCategory").append('>');
+	//$('#listacategorias2').append();
+	//alert("here");
+}
+
+function getSearch(){
+	startForma++;
+	if(startForma > 1) return false;
+	var filtro=$('#searchKeyword').val();
+	
+	var categoria=$('#listacategorias').val();
+	var desde=15*page;
+	var queryextra=' p.id is not NULL';
+	if(filtro!='')
+		queryextra+=' and (p.formulado like "%'+filtro+'%" or p.codigo like "%'+filtro+'%")';
+	if(categoria!=0)
+		queryextra+=' and p.categoriaid='+categoria;
+
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+		tx.executeSql('SELECT p.*,c.categoria as nombrec FROM PRODUCTOS p,CATEGORIAS c WHERE '+queryextra+' and p.categoriaid=c.id ORDER BY p.formulado asc',[],function(tx,result){
+			$('#paginacion').html('');
+			var npags=Math.ceil(result.rows.length/55);
+			$('#totalpags').val(npags);
+			$('#paginacion').append("<li onclick='CambiarPagina(-1);'><span class='enabled' id='atras'>&laquo;</span></li>");
+			for(var j=0;j<npags;j++){
+				var act='';
+				if(page==j)
+					act='active';
+				$('#paginacion').append("<li class='"+act+"' onclick='CambiarPagina("+parseInt(j)+");'><span class='enabled'>"+parseInt(j+1)+"</span></li>");
+			}
+			$('#paginacion').append("<li onclick='CambiarPagina(-2);'><span class='enabled' id='adelante'>&raquo;</span></li>");
+		});
+	});
+	
+	
+	db.transaction(function(tx){
+	//WHERE '+queryextra+' and p.categoriaid=c.id
+	//tx.executeSql(' SELECT p.*,c.categoria as nombrec FROM PRODUCTOS p,CATEGORIAS c  ORDER BY p.formulado desc ',[],function(tx,results){
+	tx.executeSql(' SELECT * FROM PRODUCTOS',[],function(tx,results){
+		for (var i=0; i < results.rows.length; i++){
+			var row = results.rows.item(i);
+			formulado = row.formulado;
+			
+			var timespanCat=0;
+			if(row.categoriaid!=null)
+				timespanCat = row.categoriaid;
+			cat=$('.categoriasPrecargadas[timespan="'+timespanCat+'"]').text();
+			//alert(timespanCat + ">>" + formulado + "==" +cat );
+		}
+	});
+	tx.executeSql(' SELECT p.*, c.categoria as cat  , c.timespan as timespancat FROM PRODUCTOS AS p LEFT JOIN CATEGORIAS AS c ON p.categoriaid = c.timespan where p.estado = 1 and p.timespan != "-14" order by p.formulado ASC',[],function(tx,resulta){
+		//console.log(resulta);
+		var inhtml='<table class="table table-striped"><tbody>';
+		if(resulta.rows.length==0){
+			if(localStorage.getItem("idioma")==1)
+				$('#recibeTodosLosProductos').append('<div class="jumbotron"><h1>No hay productos</h1><p>Por favor, ingresa todos tus productos para empezar a facturar.</p></div>');
+			else
+				$('#recibeTodosLosProductos').append('<div class="jumbotron"><h1>No products</h1><p>Please, enter all your products to begin.</p></div>');
+
+			setTimeout(function() {
+				$('#nuevoProducto').effect('highlight');
+			}, 3000);
+			setTimeout(function() {
+				$('#nuevoProducto').effect('highlight');
+			}, 3300);
+		}else{
+			$('#nproductos').html(resulta.rows.length);
+			for (var i=0; i < resulta.rows.length; i++){
+				var row = resulta.rows.item(i);
+				var checkiva='';
+				var checkprfinal='';
+				var checkmatprima='';
+				var precioproducto = row.precio;
+				var precioConImpuestos = 0;
+				var cargaiva = row.tieneimpuestos;
+				if(cargaiva=="true"){
+					checkiva2='<span class="glyphicon glyphicon-ok"> </span>'; 
+					//alert(row.tieneimpuestos);
+				}else checkiva2='<span class="glyphicon glyphicon-remove"> </span>';
+						
+				if(row.productofinal==1)
+						checkprfinal='checked';
+				if(row.materiaprima==1)
+						checkmatprima='checked';
+				var catname='';
+				var servicio = row.servicio;
+				console.log('el servicio es '+servicio);
+				if(servicio==1){
+					checkServ2='<span class="glyphicon glyphicon-ok"> </span>';
+				}else{
+					checkServ2='<span class="glyphicon glyphicon-remove"> </span>';  
+				} 
+					
+				var agregarimp=1;
+				if(cargaiva=="true"){
+					var cadimp=$('#impuestosactivos').html();
+					if(cadimp!=''){
+						var misporcentimp=cadimp.split('@');
+						for(var t=0;t<misporcentimp.length;t++){
+							var por=parseFloat(misporcentimp[t]);
+							agregarimp+=por;
+						}
+					}
+				}
+				/*if(cargaiva==1)
+					agregarimp+=0.12;
+				
+				if(servicio==1)
+					agregarimp+=0.10;*/
+					
+				precioConImpuestos=parseFloat(precioproducto)*agregarimp;
+				
+					var back='';
+					if(row.color!='')
+						back='background-color:'+row.color;
+						
+					categoria=$('.categoriasPrecargadas[timespan='+row.categoriaid+']').text();
+					inhtml+='\
+					<tr  iddb="'+row.id+'" categoria="'+categoria+'" codedb="'+row.codigo+'" formulado="'+row.formulado+'"  clase="listProduct" timespanCat="'+row.categoriaid+'">\
+							<td  style="width:25%;">'+row.formulado+'</td>';
+                            inhtml+='<td style="width:25%;">'+categoria+'</td>';
+							inhtml+='<td style="width:10%;">'+row.codigo+'</td>';
+                            inhtml+='<td style="text-align:right; width:10%;">'+parseFloat(precioConImpuestos).toFixed(2)+'</td><td style="text-align:center; width:10%;">'+checkiva2+'\
+								</td><td style="text-align:center; display:none; width:5%;">'+checkServ2+'</td><td style="text-align:right;  width:15%;">';
+							inhtml+='<button class="btn btn-default" style="display:none; margin-right:15px;" onclick="editProduct(\''+row.timespan+'\')" ><span class="glyphicon glyphicon-pencil"></span></button>&nbsp;<button class="btn btn-default" style="display:none;" onclick="VerificarEliminar('+row.id_local+",'"+row.formulado+"'"+');"><span class="glyphicon glyphicon-trash"></span></button></td>\
+						\
+					</tr>\
+					';
+				/*<td style="text-align:center"><input disabled type="checkbox" '+checkprfinal+'/></td><td style="text-align:center"><input disabled type="checkbox" '+checkmatprima+'/></td><td><span class="fa fa-edit" style="cursor:pointer;" onclick="EditarProducto('+row.id+');"></span></td></tr>';*/
+			}
+			inhtml+="</tbody></table>";
+			LlenarTablaProd(inhtml);
+		}
+		
+	});
+	});
+}
+
+function LlenarTablaProd(datos){
+
+		//$('#recibeTodosLosProductos').html('');
+		$('#recibeTodosLosProductos').append(datos);
+		$("[name='my-checkbox']").bootstrapSwitch();
+		//consulta permisos
+        if(localStorage.getItem("con_localhost") == 'true'){
+          document.getElementById('nuevoProducto').style.display='none';
+        }else{
+		//si no tiene permisos
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+		db.transaction(function(tx){
+		if(localStorage.getItem("permisos")=="true"){
+			tx.executeSql("SELECT id from permisos where clave like ? and productos=? and activo=?",[localStorage.getItem("claveuser"),"true","true"],function(tx,results2){
+				if(results2.rows.length>0){
+					console.log($('.btn-default'));
+					if(results2.rows.item(0).id!=null){
+						$('#nuevoProducto,#recibeTodosLosProductos .btn-default').fadeIn();
+					}else{
+						$('#nuevoProducto,#recibeTodosLosProductos .btn-default').fadeOut();
+					}
+				}else{
+						$('#nuevoProducto,#recibeTodosLosProductos .btn-default').fadeOut();
+				}
+			});
+		}else{
+			$('#nuevoProducto,#recibeTodosLosProductos .btn-default').fadeIn();
+		}
+		});
+	//permisos
+        }
+		///
+}
+
+function editProduct(id){
+	editarProductoID=id;
+	envia("nuevoproducto");
+}
+function CambiarPagina(arg){
+return false;
+	//console.log($('#totalpags').val());
+	if(arg==-1){
+		if((page-1)>=0){
+			page--;
+			getSearch();
+		}
+	}else if(arg==-2){
+		//console.log($('#totalpags').val());
+		if((page+1)<parseInt($('#totalpags').val())){
+			page++;
+			getSearch();
+		}
+	}else{
+		page=arg;
+		getSearch();
+	}
+	
+}
+
+function EditarProducto(idpr){
+	$('#content').load("views/productos/nuevoproducto.html",function(){
+		VerDatosProducto(idpr);
+	});
+}
+
+
+
+function searchProduct(t){
+	buscar=$.trim(t.val().toLowerCase());
+	$('tr[clase="listProduct"]').css("display" , "none");
+	var todosLista=$('tr[clase="listProduct"]');
+	//console.log(todosLista);
+	
+	var timespanc=$('#catsel').attr('data-selec');
+	var cuantos=0;
+	
+	for(var t=0;t<todosLista.length;t++){
+		var elprod=todosLista[t];
+		//console.log($(elprod));
+		//console.log($(elprod).attr('formulado'));
+		var dataform=$(elprod).attr('formulado').toString().toLowerCase();
+		if($('#catsel').attr('data-selec')=='0'){
+			if(dataform.toLowerCase().indexOf(buscar)>=0){
+				$(elprod).fadeIn('fast');
+				cuantos++;
+			}
+		}else{
+				var lacat=$(elprod).attr('timespanCat');
+				if(dataform.toLowerCase().indexOf(buscar)>=0&&lacat==timespanc)
+				{
+					$(elprod).fadeIn('fast');
+				}
+		}	
+	}
+	
+	$('#nproductos').html(cuantos);
+	
+	/*$('div[clase="listProduct"][formulado*="'+buscar+'"]i').fadeIn("fast");
+	if(!$('div[clase="listProduct"][formulado*="'+buscar+'"]i').length) $('div[clase="listProduct"]').css("display" , "none");
+	console.log('div[clase="listProduct"][formulado*="'+buscar+'"]');*/
+	
+}
+
+function showCategory(t){
+	categoria=t.attr("categoria");
+	timespan=t.attr("timespan");
+	var filtro=$('#searchKeyword').val().toLowerCase();
+	$('tr[clase="listProduct"]').css("display" , "none");
+	$('#catsel').html($(t).attr('categoria'));
+	$('#catsel').attr('data-selec',timespan);
+	if(categoria=='Seleccione una categoria'){
+		if(filtro==''){
+			$('tr[clase="listProduct"]').css("display" , "");
+		}else{
+			var todosLista=$('tr[clase="listProduct"]');
+			for(var t in todosLista){
+				var elprod=todosLista[t];
+				console.log($(elprod).attr('formulado'));
+				var dataform=$(elprod).attr('formulado').toString().toLowerCase();
+				var lacat=$(elprod).attr('timespanCat');
+				if(dataform.toLowerCase().indexOf(filtro)>=0)
+				{
+					$(elprod).fadeIn('fast');
+				}
+			}
+		}
+	}else{
+		var todosLista=$('tr[clase="listProduct"]');
+		for(var t in todosLista){
+			var elprod=todosLista[t];
+			console.log($(elprod).attr('formulado'));
+			var dataform=$(elprod).attr('formulado').toString().toLowerCase();
+			var lacat=$(elprod).attr('timespanCat');
+			if(dataform.toLowerCase().indexOf(filtro)>=0&&lacat==timespan)
+			{
+				$(elprod).fadeIn('fast');
+			}
+		}
+	}
+}
+
+function EliminarProduct(){
+	var id_local=$('#timeproduct').val();
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+	tx.executeSql(' UPDATE PRODUCTOS SET estado = 0, sincronizar="true" WHERE id_local="'+id_local+'" ',[],function(tx,results){
+		envia("listaproductos");
+	});
+	});
+	
+	
+}
+
+function VerificarEliminar(timeSpan,nombre){
+	$('#timeproduct').val(timeSpan);
+	$('#nombreelim').html(nombre);
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+	tx.executeSql('SELECT fetchJson FROM FACTURAS',[],function(tx,results){
+		//console.log(results);
+		var esta=false;
+		for(var m=0;m<results.rows.length;m++){
+			//console.log('Ana');
+			var itemfact=results.rows.item(m);
+			var mijsonf=JSON.parse(itemfact.fetchJson);
+			var misprod=mijsonf.Pagar[0].producto;
+			for(var k in misprod){
+				var p=misprod[k];
+				if(p.id_producto==timeSpan){
+					console.log('encontrado en facturacion');
+					if(localStorage.getItem("idioma")==1)
+						showalert("El producto no puede ser eliminado, ya que se encuentra facturado.");
+					else if(localStorage.getItem("idioma")==2)
+						showalert("The product can not be eliminated, as it is in an invoice.");
+					
+					esta=true;
+					break;
+				}
+			}
+		}
+		if(esta==false)
+			$('#modaleliminar').modal('show');
+	});
+	});
+}
+</script>

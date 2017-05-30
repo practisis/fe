@@ -1,0 +1,511 @@
+<div id="mainDiv" class="row">
+	<div class='col-lg-12 col-md-12 col-sm-12'>
+	<div class='row'>
+		<div class='col-lg-10 col-md-10 col-sm-10' style='margin-bottom:20px;'>
+		<h3 style='text-align:left;' id='numerofactura'></h3>
+		<input type='hidden' style='display:none;' id='idfactura'/>
+		</div>
+		<div class='col-lg-2 col-md-2 col-sm-2'>
+				<div style='width:100%;text-align:right;padding-right:5px;padding-top:15px;cursor:pointer;color:#1495C0;'>
+					<i class="fa fa-chevron-circle-left fa-3x" title='Volver...' onclick="VerificarPermiso('historial');"></i>
+				</div>
+		</div>
+	</div>
+	<div class='row'>
+		<div class='col-lg-6 col-md-6 col-sm-6'>
+		<div class='input-group'><span class='input-group-addon'><b>Cliente</b> </span><input type='text' name='cliente' disabled='disabled' value="" class='form-control' id='cliente'/></div>
+		</div>
+		<div class='col-lg-6 col-md-6 col-sm-6'>
+		<div class='input-group'><span class='input-group-addon'><b>Fecha</b> </span><input type='text' name='fecha' disabled='disabled' value="" class='form-control' id='fecha'/></div>
+		</div>
+	</div>
+	<div class='row'>
+	<div class='col-lg-12 col-md-12 col-sm-12'>
+	<div id='contentdetail' style='overflow-x:hidden; overflow-y:auto; margin-top:10px;'>
+	<table class='table'>
+		<tr>
+			<td colspan='2'>
+				<div style='text-align:center; font-size:26px; color:red; display:none;' id='factanulada'>FACTURA ANULADA</div>
+				<div style='width:100%; margin-top:20px; text-align:right; margin-left:auto; margin-right:auto;'>
+				<div style='text-align:right; font-size:18px; margin-bottom:10px; padding-right:10px;' id='itemsfacturados'></div>
+				<table class='table table-striped' style='text-align:center; margin-left:auto; margin-right:auto;'>
+					<thead><th>Producto</th><th style="text-align: center;">Cantidad</th><th style='text-align:right;display:none;'>Precio U.(Sin imp) $USD</th><th style='text-align:right;display:none;'>Total $USD</th></thead>
+					<tbody id='cuerpodetalle'>
+					</tbody>
+				</table>
+				<div id='subtotales' style="display: none;"></div>
+				<div class='totaldolares' style='margin-left:auto;display: none;'><span id='total'></span></div>
+				</div>
+			</td>
+		</tr>
+		<tr style="display: none;">
+			<td>
+				<table class='table' style='width:300px !important; border:1;font-size:16px;' id='tabladetformaspago'>
+					<tr>
+						<th>
+							Forma de Pago 
+						</th>
+						<th>
+							Valor
+						</th>
+					</tr>
+					<tr style='display:none;'> 
+						<td id='detaFormPago' >
+							
+						</td>
+						<td id='detaFormPagoValor' style='text-align:right;'>
+							
+						</td>
+					</tr>
+					<tr style='display:none;'> 
+						<td id='detaFormPago1'>
+							
+						</td>
+						<td id='detaFormPagoValor1' style='text-align:right;'>
+							
+						</td>
+					</tr>
+					<tr style='display:none;'> 
+						<td id='detaFormPago2'>
+						</td>
+						<td id='detaFormPagoValor2' style='text-align:right;' >
+						</td>
+					</tr>
+					<tr style='display:none;'> 
+						<td id='detaFormPago3'>
+						</td>
+						<td id='detaFormPagoValor3' style='text-align:right;'>
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td colspan='2' style='text-align:center;'>
+			<button class='btn btn-default btn-sm' id='btnanularf' onclick='AnularFactura();'>Anular Factura</button>
+			<button class='btn btn-success btn-sm' id='reimprimir' onclick='ReimprimirFactura();'>Reimprimir Factura</button>
+			</td>
+		</tr>
+	</table>
+	</div>
+	</div>
+	</div>
+	<div style='background-color:rgba(0,0,0,0.8); ' class="modal fade" id="divformaspago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+		<div class="modal-dialog" style='width:35%;'>
+		<div class='modal-content text-center'>
+			<div style='padding:20px;'>
+			<span class='fa fa-close' style='position:absolute; cursor:pointer; right:10px; top:5px;' onclick='$("#divformaspago").modal("hide");'></span>
+			<h3>Formas de Pago</h3>
+			<table id='tablaformaspago'>
+			</table>
+			<table class="cuadrototal" border="0" cellpadding="0px" cellspacing="0px" width='100%'>
+				<tr>
+					<td class="totalsmall" colspan='2' align='center' valign='middle' style='font-size:24px;'>
+					<table class="totalvista" border="0" cellpadding="0" cellspacing="0" align='center'>
+						<tr>
+						<td>TOTAL&nbsp;</td>
+						<td id="invoiceTotal" class="payOverview">0.00</td>
+						</tr>
+					</table>
+					</td>
+				</tr>
+				<tr>
+								<td class="vue" style='padding-right:18px; border-top-right-radius:0px; border-bottom-right-radius:0px; background-color:#E0DEDE;' align='right'>
+									 PAGADO
+								</td>
+								<td id="invoicePaid" class='vue' style='padding-left:20px; border-top-left-radius:0px; border-bottom-left-radius:0px;' align='right'>
+									0.00
+								</td>
+				</tr>
+				<tr >
+								<td id="invoiceDebt" class="vue" style='padding-right:18px; border-top-right-radius:0px; border-bottom-right-radius:0px; background-color:#E0DEDE;' align='right'>
+									FALTANTE
+								</td>
+								<td id="changeFromPurchase" class='vue' style='padding-left:20px; border-top-left-radius:0px;border-bottom-left-radius:0px;' align='right'>
+									0
+								<div id='invoiceTotal' style='display:none;'></div>
+								</td>
+				</tr>
+			</table>
+			<div style='text-align:center; margin-top:10px;'>
+				<button type='button' class='btn btn-small btn-danger' onclick='CambiarFormaPagoFactura();'>Guardar Cambios</button>
+			</div>
+			<div id='jsonpagosedit' style='display:none;'>
+			</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+
+		//idioma
+		var linklang="es";
+		if(localStorage.getItem("idioma")==2)
+			linklang="en";
+			var xmlidioma=$.get("lang/"+linklang+".html",function(datos){
+			d=JSON.parse(datos);
+			var itemestructura=d.estructura;
+			//console.log(itemestructura);
+			var itemmen=itemestructura.menu;
+			var itemplaceholder=itemestructura.placeholder;
+			var itemtitles=itemestructura.titles;
+			var itembuttons=itemestructura.botones;
+			var itemlabels=itemestructura.labels;
+			var todostitles=itemtitles.item;
+			var todosbuttons=itembuttons.item;
+			var todoslabels=itemlabels.item;
+			var todositems=itemmen.item;
+			var todosplaceholder=itemplaceholder.item;
+
+			for(var k=0;k<todosplaceholder.length;k++){
+				var miitemname=todosplaceholder[k].name;
+				//alert(miitemname);
+				$('.'+miitemname).attr("placeholder",todosplaceholder[k].text);
+			}
+
+			for(var k=0;k<todositems.length;k++){
+					var miitem=todositems[k];
+					$('#lab_menu_'+(k+1)).html(miitem);
+			}
+
+				for(var k=0;k<todostitles.length;k++){
+					var miitemname=todostitles[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todostitles[k].text);
+				}
+
+				for(var k=0;k<todosbuttons.length;k++){
+					var miitemname=todosbuttons[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todosbuttons[k].text);
+				}
+
+				for(var k=0;k<todoslabels.length;k++){
+					//console.log(todoslabels[k].name+"/"+todoslabels[k].name);
+					var miitemname=todoslabels[k].name;
+					$('#'+miitemname).html(todoslabels[k].text);
+				}
+
+		});
+
+		/*idioma*/
+
+		$('#contentdetail').css("height",parseInt($(window).height())*67/100);
+		ColocarFormasPago();
+	});
+	function MostrarFormasPago(){
+		$('#forma_1').click();
+		$('#divformaspago').modal("show");
+	}
+	function ColocarFormasPago(){
+	var formaspago=$('#jsonformaspago').html();
+	var evalJson=JSON.parse(formaspago);
+	//console.log(evalJson);
+	for(var k in evalJson){
+		var x = 1;
+		var mihtml='';
+		for(var j in evalJson[k]){
+			//alert(evalJson[k][j]+id);
+				mihtml+= '<tr>';
+				mihtml+= '<td class="columna1">';
+				mihtml+= '<div id="paymentCategory-'+evalJson[k][j].id+'" class="paymentCategories" onclick="changePaymentCategory(\''+evalJson[k][j].id+'\',\''+evalJson[k][j].imagen+'\'); return false;" style="height:100%; background-color: #D2D2D2; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border: 1px solid #cccccc;">';
+				mihtml+= '<table style="width: 100%; height: 100%;" cellspacing="0px" cellpadding="0px">';
+			    mihtml+= '<tr style="cursor:pointer;">';
+				mihtml+= '<td style="width:20%; height:100% text-align: right; font-size: 12px; font-weight:400; color:#58595B;"><span id="pagos_'+evalJson[k][j].imagen+'" class="originalImage fa fa-circle"  style="margin-left:20px;" ></span></td>';
+				mihtml+= '<td class="textoformapago" id="forma_'+evalJson[k][j].id+'">';
+				mihtml+=evalJson[k][j].nombre;
+				mihtml+= '</td>';
+				mihtml+= '</tr>';
+				mihtml+= '</table>';
+				mihtml+= '</div>';
+				mihtml+= '</td>';
+				mihtml+= '<td class="columna2">';
+				mihtml+= '<div style="height:100%; background-color:#F7F7F7; border-top-right-radius: 10px; border-bottom-right-radius:10px; border:1px solid #CCCCCC; text-align:center; padding-right:10px;">';
+				mihtml+= '<input class="paymentMethods" paymentMethod="'+evalJson[k][j].nombre+'" idPaymentMethod="'+evalJson[k][j].id+'" id="payment'+evalJson[k][j].nombre.replace(" ","")+'" style="height:100%; width:100%; background:transparent; border:0px; text-align:right;" placeholder="0.00" value="" onclick="CambiarMetodo('+"'"+evalJson[k][j].nombre.replace(" ","")+"'"+');" type="number" min="0.00" step="0.10" onfocus="this+select();" min="0" onkeypress="return soloNumerost(event);"/>';
+				mihtml+= '</div>';
+				mihtml+= '</td>';
+				mihtml+= '</tr>';
+				x++;
+		}
+	}
+	$('#tablaformaspago').html(mihtml);
+	/*var evalJson = eval(formaspago);
+	for(var k in evalJson){
+		alert(evalJson[k].id);
+	}*/
+}
+function changePaymentCategory(index,nombre){
+	$('.paymentMethods').each(function(){
+		if($(this).attr('idPaymentMethod')==index){
+			$(this).click();
+		}
+	});
+
+	var value = 0;
+	$('.paymentMethods').each(function(){
+		if($(this).val() != 0 && $(this).val() != '' && $(this).val() != null){
+			value += parseFloat($(this).val());
+			}
+		});
+	updateForm(value);
+	//$('.buttonsPayment').click();
+}
+
+function updateForm(value){
+	value = parseFloat(value);
+	var total = parseFloat($('#invoiceTotal').html());
+	var change = (value - total);
+
+	if(value < total){
+		$('#invoiceDebt').html('FALTANTE');
+		change = Math.abs(change);
+		$('#invoicePaid').html(value.toFixed(2));
+		$('#cardValue').val(change.toFixed(2));
+		$('#chequeValue').val(change.toFixed(2));
+		$('#valueCxX').val(change.toFixed(2));
+		}
+	else if(value > total){
+		$('#invoiceDebt').html('VUELTO');
+		change = Math.abs(change);
+		$('#invoicePaid').html(value.toFixed(2));
+		$('#cardValue').val(0);
+		$('#chequeValue').val(0);
+		}
+	else{
+		if(value == total){
+			$('#invoiceDebt').html('VUELTO');
+			change = Math.abs(change);
+			$('#invoicePaid').html(value.toFixed(2));
+			$('#cardValue').val(0);
+			$('#chequeValue').val(0);
+			}
+		}
+
+	$('#changeFromPurchase').html(change.toFixed(2));
+}
+
+function CambiarMetodo(cual){
+	//$("#paymentCategory-"+cual).click();
+	var nombre=$('#payment'+cual).attr('paymentMethod');
+	var index=$('#payment'+cual).attr('idPaymentMethod');
+	var idimagen=$('#paymentCategory-'+index+' .originalImage').attr('id').split('_');
+	//alert(nombre);
+	/*$('.originalImage').each(function(){
+		var getImage = $(this).attr('id').split('_');
+		$(this).attr('src','../../images/'+ getImage[1] +'.png');
+		});*/
+
+	//$('#pagos_'+ nombre).attr('src', '../../images/'+idimagen[1]+'Hover.png');
+	$('.textoformapago').css('color','#58595B');
+	$('#forma_'+index).css('color','#FFF');
+	$('.functionalityDiv').hide();
+	$('#functionality-'+ index).show();
+	$('.columna1 div').each(function(){
+		$(this).attr('class','paymentCategories');
+		$(this).css('backgroundColor','');
+	});
+	$('#paymentCategory-'+ index).attr('class','categoryChosen');
+	var faltante=parseFloat($('#invoiceTotal').html());
+	var pagado=0;
+	$('.paymentMethods').each(function(){
+		var partepago=0;
+		if($(this).val()!=''){
+			//if(nombre=='Efectivo')
+				//$(this).val('0.00');
+			partepago=parseFloat($(this).val());
+		}
+		faltante-=partepago;
+		pagado+=partepago;
+	});
+
+	if(faltante>0){
+		if($('#payment'+nombre).val()=='')
+			$('#payment'+nombre).val(faltante.toFixed(2));
+		else{
+				if(nombre=='Efectivo')
+					$('#payment'+nombre).select();
+				else{
+					$('#payment'+nombre).val(faltante.toFixed(2));
+					$('#payment'+nombre).select();
+				}
+			}
+
+	}
+	$('#payment'+cual).select();
+}
+
+function AnularFactura(){
+	var id=$('#idfactura').val();
+    if(localStorage.getItem("con_localhost") == 'true'){
+     var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
+     $.post(apiURL,{
+		id_emp : localStorage.getItem("empresa"),
+		action : 'AnularFactura',
+		id_barra : localStorage.getItem("idbarra"),
+		deviceid:$("#deviceid").html(),
+        idfactura : id
+		}).done(function(response){
+			if(response!='block' && response!='Desactivado'){
+				console.log(response);
+                if(localStorage.getItem("idioma")==1)
+        			showalert("Factura anulada con éxito.");
+        		else if(localStorage.getItem("idioma")==2)
+        			showalert("Invoice canceled.");
+
+        		$('#factanulada').fadeIn('slow');
+        		$('#btnanularf,#reimprimir').fadeOut('slow');
+
+			}else if(response=='Desactivado'){
+			    envia('cloud');
+				setTimeout(function(){
+					$('.navbar').slideUp();
+					$("#demoGratis,#fadeRow,#finalizado,#contentStepSincro,#cuentaactiva").css("display","none");
+					$('#desactivo').fadeIn();
+				},100);
+			}else{
+				envia('cloud');
+				setTimeout(function(){
+					$('#linklogin,#linkloginb').attr("href","https://www.practisis.net/index3.php?rvpas="+localStorage.getItem("userPasswod")+"&rvus="+localStorage.getItem("userRegister"));
+					$('.navbar').slideUp();
+					$("#demoGratis,#fadeRow,#finalizado,#contentStepSincro,#cuentaactiva").css("display","none");
+					$('#bloqueo').fadeIn();
+				},100);
+
+			}
+
+		}).fail(function(){
+			updateOnlineStatus("OFFLINE");
+			setTimeout(function(){SincronizadorNormal()},180000);
+		});
+    }else{
+    var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			db.transaction(function(tx3){
+				tx3.executeSql('select fetchJson as j from facturas where id=?',[id],function(tx3,results){
+					var mijson=results.rows.item(0).j;
+					mijson=mijson.replace('"anulada" : "false"','"anulada" : "true"');
+					//console.log(mijson);
+					tx3.executeSql('UPDATE FACTURAS SET anulada=?,sincronizar="true",fetchJson=? where id=?',[1,mijson,id],function(tx3,results3){
+						console.log(results3);
+						if(localStorage.getItem("idioma")==1)
+							showalert("Factura anulada con éxito.");
+						else if(localStorage.getItem("idioma")==2)
+							showalert("Invoice canceled.");
+
+						$('#factanulada').fadeIn('slow');
+						$('#btnanularf,#reimprimir').fadeOut('slow');
+						//location.reload(true);
+					});
+				});
+			},errorCB,successCB);
+    }
+}
+
+function ReimprimirFactura(){
+	var elid=$('#idfactura').val();
+	var laprint='';
+	var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+	db.transaction(function(tx){
+			tx.executeSql("SELECT printer FROM CONFIG where id=1",[],function(tx,results){
+			//console.log(results);
+			if(results.rows.length>0){
+				var idprinter=results.rows.item(0);
+				if(idprinter.printer!=null){
+					laprint=idprinter.printer;
+				}else{
+					if(localStorage.getItem("idioma")==1)
+						showalert("No se ha configurado una impresora.");
+					else if(localStorage.getItem("idioma")==2)
+						showalert("There is no configured printer.");
+				}
+
+                if(localStorage.getItem("con_localhost") == 'true'){
+                 var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
+                 $.post(apiURL,{
+            		id_emp : localStorage.getItem("empresa"),
+            		action : 'ReimprimirFactura',
+            		id_barra : localStorage.getItem("idbarra"),
+            		deviceid:$("#deviceid").html(),
+                    idfactura : elid
+            		}).done(function(response){
+            			if(response!='block' && response!='Desactivado'){
+            				console.log(response);
+                            var res = response.split("||");
+                            var jsonfact=res[0];
+    						if(jsonfact!=''){
+    							StarIOAdapter.rawprint(jsonfact+"reimpr",laprint, function() {
+    								if(localStorage.getItem("idioma")==1)
+    								showalert("Imprimiendo Factura.");
+    								else if(localStorage.getItem("idioma")==2)
+    									showalert("Printing Invoice.");
+    							},function(error) {
+    								if(localStorage.getItem("idioma")==1)
+    									showalert("Ocurrió un problema: " + error);
+    								else if(localStorage.getItem("idioma")==2)
+    									showalert("There is a problem: " + error);
+
+    							});
+    						}
+
+            			}else if(response=='Desactivado'){
+            			    envia('cloud');
+            				setTimeout(function(){
+            					$('.navbar').slideUp();
+            					$("#demoGratis,#fadeRow,#finalizado,#contentStepSincro,#cuentaactiva").css("display","none");
+            					$('#desactivo').fadeIn();
+            				},100);
+            			}else{
+            				envia('cloud');
+            				setTimeout(function(){
+            					$('#linklogin,#linkloginb').attr("href","https://www.practisis.net/index3.php?rvpas="+localStorage.getItem("userPasswod")+"&rvus="+localStorage.getItem("userRegister"));
+            					$('.navbar').slideUp();
+            					$("#demoGratis,#fadeRow,#finalizado,#contentStepSincro,#cuentaactiva").css("display","none");
+            					$('#bloqueo').fadeIn();
+            				},100);
+
+            			}
+
+            		}).fail(function(){
+            			updateOnlineStatus("OFFLINE");
+            			setTimeout(function(){SincronizadorNormal()},180000);
+            		});
+                }else{
+				/*si existe la impresora*/
+				if(laprint!=''){
+					db.transaction(function(tx2){
+							tx2.executeSql("SELECT fetchJson as j FROM FACTURAS where id=?",[elid],function(tx2,results2){
+							//console.log(results);
+							if(results2.rows.length>0){
+								var jsonfact=results2.rows.item(0);
+								if(jsonfact.j!=''){
+									StarIOAdapter.rawprint(jsonfact.j+"reimpr",laprint, function() {
+										if(localStorage.getItem("idioma")==1)
+										showalert("Imprimiendo Factura.");
+										else if(localStorage.getItem("idioma")==2)
+											showalert("Printing Invoice.");
+									},function(error) {
+										if(localStorage.getItem("idioma")==1)
+											showalert("Ocurrió un problema: " + error);
+										else if(localStorage.getItem("idioma")==2)
+											showalert("There is a problem: " + error);
+
+									});
+								}
+							}
+						});
+					},errorCB,successCB);
+				}
+                }
+			}else{
+				if(localStorage.getItem("idioma")==1)
+						showalert("No se ha configurado una impresora.");
+					else if(localStorage.getItem("idioma")==2)
+						showalert("There is no configured printer.");
+			}
+		});
+	},errorCB,successCB);
+}
+</script>

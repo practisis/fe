@@ -1,0 +1,308 @@
+<style>
+		.inputs{
+			width:100%;
+			border:1px solid #ccc;
+			color:#57595B;
+			border-radius: 2px 2px 2px 2px;
+			-moz-border-radius: 2px 2px 2px 2px;
+			-webkit-border-radius: 2px 2px 2px 2px;
+		}
+		textarea{
+			resize:none;
+		}
+	</style>
+	<div class='panel' id='sihayEmp' style='height:150%;'>
+		<div  class="row" >
+			<div class="col-sm-12">
+				<h2 id="trans_label_30">Datos de la Empresa</h2>
+				<hr color="gray" />
+			</div>
+			
+			<div class='col-xs-1'></div>
+			<div class='col-xs-10'>
+				<div class="panel panel-default" style="padding:15px;">
+					<div class="alert alert-danger" style='display:none;' id='campos'>
+						Todos los campos requeridos
+					</div>
+					<div class="alert alert-success" style='display:none;' id='msjOk'>
+						
+					</div>
+					<table class='table' style='width:80%;align:center !important;'>
+						<tr>
+							<th id='trans_label_11'>
+								Nombre Establecimiento
+							</th>
+							<td>
+								<input type='text' id='nombreEsta' placeholder='Nombre Establecimiento' class='inputs'/>
+							</td>
+						</tr>
+						<tr>
+							<th id='trans_label_31'>
+								Razón Social
+							</th>
+							<td>
+								<input type='text' id='razon' placeholder='Razón Social' class='inputs'/>
+							</td>
+						</tr>
+						<tr>
+							<th>
+								Ruc
+							</th>
+							<td>
+								<input type='text' id='ruc' placeholder='Ruc' class='inputs'/>
+							</td>
+						</tr>
+						<tr>
+							<th class='trans_tel'>
+								Telefono : 
+							</th>
+							<td>
+								<input type='number' id='tel' placeholder='Telefono' class='inputs'/>
+							</td>
+						</tr>
+						<tr style='display:none;'>
+							<th>
+								Email : 
+							</th>
+							<td>
+								<input type='text' id='email' placeholder='Email' class='inputs'/>
+							</td>
+						</tr>
+						<tr>
+							<th class='trans_serie'>
+								No. Serie: 
+							</th>
+							<td>
+								<input type='number' id='serie' placeholder='Serie' class='inputs'/>
+							</td>
+						</tr>
+						<tr>
+							<th class='trans_est'>
+								No. Establecimiento
+							</th>
+							<td>
+								<input type='number' id='establecimiento' placeholder='Establecimiento' class='inputs'/>
+							</td>
+						</tr>
+						<tr>
+							<th class='trans_dir'>
+								Dirección
+							</th>
+							<td>
+								<textarea id='dir'  placeholder='Dirección...' class='inputs form-control'></textarea>
+							</td>
+						</tr>
+						<tr>
+							<td colspan='2' align='center' style='text-align:center;'>
+								<center>
+									<button type="button" class="btn btn-success trans_update" style='display:none;' id='actualiza' onclick='actualizar()'>Actualizar</button>
+									<button type="button" class="btn btn-success trans_save" style='display:;' id='graba' onclick='grabar()'>Guardar</button>
+									<br/>
+								</center>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class='col-xs-1'></div>
+		</div>
+
+		<!---<div  class="row" >
+			<div class='col-xs-1'></div>
+			<div class='col-xs-10'>
+				<div class="panel panel-default" style="padding:15px;">
+					<button type="button" class="btn btn-primary" onclick="window.open('centvia://?udn=Impresion&utt=NubePOS&cru=nubeposv%3a%2f%2f&cruf=nubeposv%3a%2f%2f&c_=!+0+200+200+540+1%0d%0aTEXT+4+0+20+10+Prueba+de+Impresion%0d%0aTEXT+7+0+20+60+NubePOS%0d%0aENDML%0d%0aCONCAT+250+300%0d%0aENDCONCAT%0d%0a%0d%0aPRINT%0d%0a','_blank');">Probar Impresora</button>
+				</div>
+			</div>
+		</div>-->
+	</div>
+<script type="text/javascript">
+	$( document ).ready(function() {
+			var linklang="es";
+		if(localStorage.getItem("idioma")==2)
+			linklang="en";
+			var xmlidioma=$.get("lang/"+linklang+".html",function(datos){
+			d=JSON.parse(datos);
+			var itemestructura=d.estructura;
+			//console.log(itemestructura);
+			var itemmen=itemestructura.menu;
+			var itemplaceholder=itemestructura.placeholder;
+			var itemtitles=itemestructura.titles;
+			var itembuttons=itemestructura.botones;
+			var itemlabels=itemestructura.labels;
+			var todostitles=itemtitles.item;
+			var todosbuttons=itembuttons.item;
+			var todoslabels=itemlabels.item;
+			var todositems=itemmen.item;	
+			var todosplaceholder=itemplaceholder.item;
+			
+			for(var k=0;k<todosplaceholder.length;k++){
+				var miitemname=todosplaceholder[k].name;
+				//alert(miitemname);
+				$('.'+miitemname).attr("placeholder",todosplaceholder[k].text);
+			}
+			
+			for(var k=0;k<todositems.length;k++){
+					var miitem=todositems[k];
+					$('#lab_menu_'+(k+1)).html(miitem);
+			}
+					
+				for(var k=0;k<todostitles.length;k++){
+					var miitemname=todostitles[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todostitles[k].text);
+				}
+				
+				for(var k=0;k<todosbuttons.length;k++){
+					var miitemname=todosbuttons[k].name;
+					//alert(miitemname);
+					$('.'+miitemname).html(todosbuttons[k].text);
+				}
+				
+				for(var k=0;k<todoslabels.length;k++){
+					//console.log(todoslabels[k].name+"/"+todoslabels[k].name);
+					var miitemname=todoslabels[k].name;
+					$('#'+miitemname).html(todoslabels[k].text);
+				}
+				
+		});
+		$('#sihayEmp').css('height',parseInt($(window).height())*150/100);
+		saberDatosEmpresa();
+	});
+	function actualizar(){
+		var nombreEsta = $('#nombreEsta').val();
+		var razon = $('#razon').val();
+		var ruc = $('#ruc').val();
+		var tel = $('#tel').val();
+		var email = $('#email').val();
+		var dir = $('#dir').val();
+		var serie = $('#serie').val();
+		var establecimiento = $('#establecimiento').val();
+		
+		if(nombreEsta == '' ){
+			$('#nombreEsta').effect('highlight');
+		}
+		
+		if(razon == '' ){
+			$('#razon').effect('highlight');
+		}
+		
+		if(ruc == '' ){
+			$('#ruc').effect('highlight');
+		}
+		if( tel == '' ){
+			$('#tel').effect('highlight');
+		}
+		if(email == '' ){
+			$('#email').effect('highlight');
+		}
+		if(dir == '' ){
+			$('#dir').effect('highlight');
+		}
+		
+		if(nombreEsta == '' || razon == '' || ruc == '' || tel == '' || email == '' || dir == '' ){
+			$('#campos').fadeIn('slow');
+			$('#msjOk').css('display','none');
+			setTimeout(function() {
+				$('#campos').fadeOut('slow');
+			}, 3000);
+		}else{
+			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			db.transaction(function (tx){
+				tx.executeSql('update CONFIG set nombre = "'+nombreEsta+'" , razon = "'+razon+'", ruc = '+ruc+' , telefono = '+tel+', email = "'+email+'", direccion = "'+dir+'",sincronizar="true",serie="'+serie+'",establecimiento="'+establecimiento+'"');
+				$('#msjOk').html('Informacion actualizada con Éxito');
+				$('#msjOk').fadeIn('slow');
+				$('#campos').css('display','none');
+				setTimeout(function() {
+					$('#msjOk').fadeOut('slow');
+				}, 3000);
+			},errorCB,function(){$('#JSONempresaLocal').html('"empresa":{'+'"nombre":"'+nombreEsta+'","direccion":"'+dir+'"},');});
+		}
+		
+	}
+	function grabar(){
+		var nombreEsta = $('#nombreEsta').val();
+		var razon = $('#razon').val();
+		var ruc = $('#ruc').val();
+		var tel = $('#tel').val();
+		var email = $('#email').val();
+		var dir = $('#dir').val();
+		var serie = $('#serie').val();
+		var establecimiento = $('#establecimiento').val();
+		
+		if(nombreEsta == '' ){
+			$('#nombreEsta').effect('highlight');
+		}
+		
+		if(razon == '' ){
+			$('#razon').effect('highlight');
+		}
+		
+		if(ruc == '' ){
+			$('#ruc').effect('highlight');
+		}
+		if( tel == '' ){
+			$('#tel').effect('highlight');
+		}
+		if(email == '' ){
+			$('#email').effect('highlight');
+		}
+		if(dir == '' ){
+			$('#dir').effect('highlight');
+		}
+		
+		if(nombreEsta == '' || razon == '' || ruc == '' || tel == '' || email == '' || dir == '' ){
+			$('#campos').fadeIn('slow');
+			$('#msjOk').css('display','none');
+			setTimeout(function() {
+				$('#campos').fadeOut('slow');
+			}, 3000);
+		}else{
+			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+			db.transaction(function (tx){
+				tx.executeSql('INSERT INTO CONFIG(nombre , razon , ruc , telefono , email , direccion,serie,establecimiento) VALUES("'+nombreEsta+'" , "'+razon+'" , '+ruc+' , '+tel+' , "'+email+'" , "'+dir+'" , "'+serie+'" , "'+establecimiento+'")');
+				$('#msjOk').html('Informacion Ingresada con Éxito');
+				$('#msjOk').fadeIn('slow');
+				$('#campos').css('display','none');
+				setTimeout(function() {
+					$('#msjOk').fadeOut('slow');
+				}, 3000);
+			},errorCB,successCB);
+		}
+	}
+	function saberDatosEmpresa(){
+		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+		db.transaction(function(tx){
+			tx.executeSql('SELECT * from CONFIG ',[],function(tx,results){
+				if(results.rows.length>0){
+					for (var i=0; i < results.rows.length; i++){
+						var row = results.rows.item(i);
+						var nombre = row.nombre;
+						var razon = row.razon;
+						var ruc = row.ruc;
+						var telefono = row.telefono;
+						var email = row.email;
+						var direccion = row.direccion;
+						var serie = row.serie;
+						var establecimiento = row.establecimiento;
+						
+						$('#nombreEsta').val(nombre);
+						$('#razon').val(razon);
+						$('#ruc').val(ruc);
+						$('#tel').val(telefono);
+						$('#email').val(email);
+						$('#dir').val(direccion);
+						$('#serie').val(serie);
+						$('#establecimiento').val(establecimiento);
+					}
+					
+					$('#actualiza').css('display','block');
+					$('#graba').css('display','none');
+				}else{
+					$('#actualiza').css('display','none');
+					$('#graba').css('display','block');
+				}
+			});
+		},errorCB,successCB);
+	}
+</script>
