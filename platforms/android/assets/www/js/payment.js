@@ -884,7 +884,7 @@ function BuscarCliente(e){
         }
 		
 		$('#descripcionD input').each(function(){
-			if(valor=='9999999999999'){
+			if(valor=='9999999999999'||valor=='9999999999'||valor==''){
 				if($(this).attr('id')!='cedulaP'&&$(this).attr('id')!='invoiceNr'&&$(this).attr('id')!='invoiceNrComplete')
 					$(this).prop('readonly','true');
 			}else{
@@ -1235,13 +1235,19 @@ function noCliente(){
 					BuscarCliente(13);
 				}
 		}else{
-			if(localStorage.getItem("idioma")==1)
+			if(localStorage.getItem("idioma")==1){
 				showalert("La identificación ingresada no es correcta.");
-			else if(localStorage.getItem("idioma")==2)
+			}
+			else if(localStorage.getItem("idioma")==2){
 				showalert("The id number is not correct.");
+			}
+			
+			//console.log("Ana");
 			
 			$('#cedulaP').val('');
 			$('#cedulaP').focus();
+			//alert("Ana");
+			//BuscarCliente(13);
 		}
 		});	
 		

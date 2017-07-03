@@ -260,8 +260,19 @@ var app = {
 		function keyboardHideHandler(e){
 			//alert("hide");
 			$('.subekey').css("top","0px");
+			AndroidFullScreen.immersiveMode(successFunction, errorFunction);
 		}
 		
+		function successFunction()
+		{
+			console.info("It worked!");
+		}
+
+		function errorFunction(error)
+		{
+			console.error(error);
+		}
+
 		window.StarIOAdapter = {};
 		var handle_error_callback = function(error_message) {
 			//alert(error_message);

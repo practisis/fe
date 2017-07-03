@@ -1257,24 +1257,37 @@
     <div>
 		<div class='panel-header'>
 			<div class="page-header" style='text-align:left; margin:20px;'>
-			  <h1>Ingresa los datos de tu cliente</h1>
+			  <h1 style='text-align:center;'>Datos del Cliente</h1>
 			</div>
 		</div>
       <div class="panel-body">
-		<div style='padding:0px 20px 0px 20px;'>
+		<div style='padding:0px 20px 0px 20px;' id='antescliente'>
+			<div class='row'>
+			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-2'></div>
+			<div class='col-lg-4 col-md-4 col-sm-8 col-xs-8'><button class='btn btn-block btn-primary btn-lg' onclick='ConsumidorFinal();'>CONSUMIDOR FINAL</button></div>
+			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-2'></div>
+			</div>
+			<div class='row'>
+			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-2'></div>
+			<div class='col-lg-4 col-md-4 col-sm-8 col-xs-8'><button class='btn btn-block btn-primary btn-lg' style='margin-top:20px;' onclick="$('#antescliente').css('display','none'); $('#divdatosclientefiferente').fadeIn(); $('#divdatosclientefiferente').fadeIn();">CLIENTE CON DATOS</button></div>
+			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-2'></div>
+			</div>
+		</div>
+		<div style='padding:0px 20px 0px 20px; display:none;' id='divdatosclientefiferente'>
 			<div class='container-fluid' id='descripcionD'>
 				<div class='row'>
 					<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 						<input type="hidden" style='display:none;' id="idCliente" value="1"/>
 						<div class="input-group input-group-lg" style='margin-top:5px;'>
 						  <span class="input-group-addon" id="sizing-addon1"><span class='glyphicon glyphicon-credit-card'></span></span>
-						  <input type="number" class="form-control" id='cedulaP' value='9999999999999' placeholder="No. Identificación" aria-describedby="sizing-addon1" onclick='this.select();'>
+						  <input type="number" class="form-control" id='cedulaP' value='9999999999999' placeholder="No. Identificación" aria-describedby="sizing-addon1" onclick='this.select();' tabindex="1">
 						</div>
+						<!---<span><input type='checkbox' name='espasa' id='espasa' onclick='ColocarP();'/><label for='espasa'>Pasaporte</label></span>--->
 					</div>
 					<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 						<div class="input-group input-group-lg"  style='margin-top:5px;'>
 						  <span class="input-group-addon" id="sizing-addon1"><span class='glyphicon glyphicon-envelope'></span></span>
-						  <input type="email" class="form-control" placeholder="Email" id='emailP' onclick='this.select();' aria-describedby="sizing-addon1" style='text-transform:lowercase;'>
+						  <input type="email" class="form-control" placeholder="Email" id='emailP' onclick='this.select();' aria-describedby="sizing-addon1" style='text-transform:lowercase;' tabindex="2">
 						</div>
 					</div>
 				</div>
@@ -1282,13 +1295,13 @@
 					<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 						<div class="input-group input-group-lg"  style='margin-top:5px;'>
 						  <span class="input-group-addon" id="sizing-addon1"><span class='glyphicon glyphicon-user'></span></span>
-						  <input type="text" class="form-control" placeholder="Nombre" id='nombreP' value='Consumidor Final' aria-describedby="sizing-addon1" onclick='this.select();'>
+						  <input type="text" class="form-control" placeholder="Nombre" id='nombreP' value='Consumidor Final' aria-describedby="sizing-addon1" onclick='this.select();' tabindex="3">
 						</div>
 					</div>
 					<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 						<div class="input-group input-group-lg"  style='margin-top:5px;'>
 						  <span class="input-group-addon" id="sizing-addon1"><span class='glyphicon glyphicon-phone-alt'></span></span>
-						  <input type="number" class="form-control" placeholder="Teléfono" id='telefonoP' aria-describedby="sizing-addon1" onclick='this.select();' />
+						  <input type="number" class="form-control" placeholder="Teléfono" id='telefonoP' aria-describedby="sizing-addon1" onclick='this.select();' tabindex="4" />
 						</div>
 					</div>
 				</div>
@@ -1296,28 +1309,27 @@
 					<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 						<div class="input-group input-group-lg"  style='margin-top:5px;'>
 						  <span class="input-group-addon" id="sizing-addon1"><span class='glyphicon glyphicon-home'></span></span>
-						  <input type="text" class="form-control" placeholder="Dirección" id='direccionP' aria-describedby="sizing-addon1" onclick='this.select();' />
+						  <input type="text" class="form-control" placeholder="Dirección" id='direccionP' aria-describedby="sizing-addon1" onclick='this.select();' tabindex="5" />
 						</div>
 					</div>
 					<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 						<input id='invoiceNrComplete' type='hidden' style='display:none;'/>
 						<div class="input-group input-group-lg"  style='margin-top:5px;'>
 						<span class="input-group-addon" id="sizing-addon1"><span class='glyphicon glyphicon-check'></span>&nbsp;&nbsp;Factura No. <span id='seriesfact'></span></span>
-						<input id="invoiceNr" class='form-control input input-lg' onchange='VerificarNumero(this.value);' type='number'  maxlength='9' onclick='this.select();'/>
+						<input id="invoiceNr" class='form-control input input-lg' onchange='VerificarNumero(this.value);' type='number'  maxlength='9' onclick='this.select();' tabindex="6"/>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-      </div>
 	  <div class='row'>
 		<div class='container-fluid'>
 		<div style='text-align:right;' class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-				<button type='button' class='btn btn-lg btn-primary' onclick='ConsumidorFinal();'>Consumidor Final</button>
-				<button type='button' class='btn btn-lg btn-primary' style='margin-right:40px;' onclick='ParaConsumoInterno();'>Continuar</button>
+				<button type='button' class='btn btn-lg btn-primary' style='margin-top:10px;' onclick='ParaConsumoInterno();' tabindex="8">Continuar</button>
 				<div style='height:370px;'></div>
 		</div>
 		</div>
+	  </div>
+	   </div>
 	  </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -1857,6 +1869,19 @@ $(document).ready(function(){
 	});
 	BuscarCliente(13);
 	
+	
+	$('#descripcionD input').each(function(){
+		$(this).on('keydown', function(e){
+			if(e.which === 9) {
+				var mitab=$(this).attr('tabindex');
+				if(parseInt(mitab)<6){
+					var mitabnow=mitab+1;
+					$('#descripcionD').find('input [tabindex='+mitabnow+']')
+				}
+			}
+		});
+	});
+	
 	$('#cedulaP').change(function(){
 		if(cedula()){
 				if($('#nombreP').length==0){
@@ -1870,7 +1895,8 @@ $(document).ready(function(){
 			else if(localStorage.getItem("idioma")==2)
 				showalert("The id number is not correct.");
 			
-			$('#cedulaP').val('');
+			$('#cedulaP').val('9999999999999');
+			BuscarCliente(13);
 			$('#cedulaP').focus();
 		}
 	});
@@ -1967,6 +1993,24 @@ $(document).ready(function(){
   
 	ListarCategorias();
 });
+
+function ColocarP(){
+	if($('#cedulaP').val()!='9999999999999'&&$('#cedulaP').val()!='9999999999'){
+		if($('#espasa').is(':checked')){
+			var miced=$('#cedulaP').val();
+			if(miced.substring(0,1)!='P'||miced.substring(0,1)!='p'){
+				$('#cedulaP').val('P'+miced);
+			}
+		}else{
+			var miced=$('#cedulaP').val();
+			if(miced.substring(0,1)=='P'||miced.substring(0,1)=='p'){
+				$('#cedulaP').val(miced.substring(1));
+			}
+		}
+	}else{
+		$('#espasa').prop('checked',false);
+	}
+}
 
 function ConsumidorFinal(){
 	$('#cedulaP').val('9999999999999');
