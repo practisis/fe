@@ -668,7 +668,7 @@
               <option value="2" id="trans_label_73">Rápida</option>
               <option value="1" id="trans_label_72">Solo Código de Barras</option>
               <option value="3" id="trans_label_74">Restaurante</option>
-              <option value="4" id="trans_label_117">Profesionales</option>
+              <option value="4" id="trans_label_117">FE</option>
              </select>
 			 <button id='irdisenomesas' style='display:none;' class='btn btn-sm btn-success trans_tabledesign' href='' onclick='IrDisenoMesas();'>Cambiar Diseño Mesas</button>
           </td>
@@ -1038,8 +1038,7 @@
 		<div role='tabpanel' class='tab-pane active' id='faceletab'>
 				<div class='panel' id='sihayEmp'>
 				<div class="row"  style='padding-top:30px;'>
-					<div class='col-xs-1'></div>
-					<div class='col-xs-10'>
+					<div class='col-xs-12'>
 						<div class="panel panel-default" style="padding:15px;">
 							<div class="alert alert-danger" style='display:none;' id='camposFac'>
 							</div>
@@ -1061,14 +1060,13 @@
                         </div>
                         <div id="paso2" style="display: none;">
                           <div class="row">
-  					        <div class='col-xs-3'></div>
+  					          <div class='col-xs-3'></div>
                               <div class='col-xs-6' style="font-size: 18px;font-weight: bold;"><span id='trans_label_119'>Ingreso de Información</span></div>
                               <div class='col-xs-3'></div>
                           </div>
                           <br>
                           <div class="row">
-  					        <div class='col-xs-3'></div>
-                              <div class='col-xs-6'>
+                              <div class='col-xs-12'>
                                 <div class="row">
   					                <div class='col-xs-6' style="text-align: right;"><span id='trans_label_105'>Nombre Establecimiento</span></div>
                                     <div class='col-xs-6'>
@@ -1153,41 +1151,41 @@
                                     </div>
                                 </div>
                               </div>
-                              <div class='col-xs-3'></div>
+                              
                           </div>
                         </div>
                         <div id="paso3" style="display: none;">
                           <div class="row">
-  					        <div class='col-xs-3'></div>
-                              <div class='col-xs-6' style="font-size: 18px;font-weight: bold;"><span id='trans_label_121' style="cursor: pointer;">Ya puede enviar emails de facturas, pero no están firmadas.</span></div>
-                              <div class='col-xs-3'></div>
+  					        <div class='col-xs-1'></div>
+                              <div class='col-xs-10' style="font-size: 18px;font-weight: bold;"><span id='trans_label_121' style="cursor: pointer;">Ya puede enviar emails de facturas, pero no están firmadas.</span></div>
+                              <div class='col-xs-1'></div>
                           </div>
                           <br>
                           <div class="row">
-  					        <div class='col-xs-3'></div>
-                              <div class='col-xs-6' style="font-size: 16px;"><span id='trans_label_120' onclick="obtenerfirma();" style="cursor: pointer;">¿Cómo obtener la firma electrónica?</span></div>
-                              <div class='col-xs-3'></div>
+  					        <div class='col-xs-1'></div>
+                              <div class='col-xs-10' style="font-size: 16px;"><span id='trans_label_120' onclick="obtenerfirma();" style="cursor: pointer;">¿Cómo obtener la firma electrónica?</span></div>
+                              <div class='col-xs-1'></div>
                           </div>
                           <br>
                           <div class="row">
-  					        <div class='col-xs-3'></div>
-                              <div class='col-xs-6'>
+  					        <div class='col-xs-1'></div>
+                              <div class='col-xs-10'>
                                 <button type="button" class="btn btn-success trans_back" id='grabaFacp5' onclick='continuarpasos(3,2)'>Regresar</button>
                                 <button type="button" class="btn btn-success trans_continue" id='grabaFacp4' onclick='continuarpasos(4,1)'>Continuar</button>
                               </div>
-                              <div class='col-xs-3'></div>
+                              <div class='col-xs-1'></div>
                           </div>
                         </div>
                         <div id="paso4" style="display: none;">
                           <div class="row">
-  					        <div class='col-xs-3'></div>
-                              <div class='col-xs-6' style="font-size: 18px;font-weight: bold;"><span id='trans_label_111'>Sube o cambia tu firma</span></div>
-                              <div class='col-xs-3'></div>
+  					        <div class='col-xs-1'></div>
+                              <div class='col-xs-10' style="font-size: 18px;font-weight: bold;"><span id='trans_label_111'>Sube o cambia tu firma</span></div>
+                              <div class='col-xs-1'></div>
                           </div>
                           <br>
                           <div class="row">
-  					        <div class='col-xs-3'></div>
-                              <div class='col-xs-6' style="font-size: 18px;font-weight: bold;">
+  					        <div class='col-xs-1'></div>
+                              <div class='col-xs-10' style="font-size: 18px;font-weight: bold;">
                                 <table style="width: 100%;">
                                   <tr>
                                     <td style="width: 85%;"><input type='text' id='firmaFac' class='inputs form-control firmaFac' placeholder='Firma' readonly="readonly"/></td>
@@ -1195,43 +1193,42 @@
                                   </tr>
                                 </table>
                               </div>
-                              <div class='col-xs-3'></div>
+                              <div class='col-xs-1'></div>
                           </div>
                           <br>
                           <div class="row">
-  					        <div class='col-xs-3'></div>
-                              <div class='col-xs-6'>
+  					        <div class='col-xs-1'></div>
+                              <div class='col-xs-10'>
                                 <button type="button" class="btn btn-success trans_back" id='grabaFacp5' onclick='continuarpasos(4,2)'>Regresar</button>
                                 <button type="button" class="btn btn-success trans_continue" id='grabaFacp5' onclick='continuarpasos(5,1)'>Continuar</button>
                               </div>
-                              <div class='col-xs-3'></div>
+                              <div class='col-xs-1'></div>
                           </div>
                         </div>
                         <div id="paso5" style="display: none;">
                           <div class="row">
-  					        <div class='col-xs-3'></div>
-                              <div class='col-xs-6' style="font-size: 18px;font-weight: bold;"><span id='trans_label_110'>Ambiente Producción</span></div>
-                              <div class='col-xs-3'></div>
+  					        <div class='col-xs-1'></div>
+                              <div class='col-xs-10' style="font-size: 18px;font-weight: bold;"><span id='trans_label_110'>Ambiente Producción</span></div>
+                              <div class='col-xs-1'></div>
                           </div>
                           <br>
                           <div class="row">
-  					        <div class='col-xs-3'></div>
-                              <div class='col-xs-6' style="font-size: 18px;font-weight: bold;">
+  					        <div class='col-xs-1'></div>
+                              <div class='col-xs-10' style="font-size: 18px;font-weight: bold;">
                                 <input type='checkbox' id='produccion' readonly="readonly"/>
                               </div>
-                              <div class='col-xs-3'></div>
+                              <div class='col-xs-1'></div>
                           </div>
                           <br>
                           <div class="row">
-  					        <div class='col-xs-3'></div>
-                              <div class='col-xs-6'>
+  					        <div class='col-xs-1'></div>
+                              <div class='col-xs-10'>
                                 <button type="button" class="btn btn-success trans_back" id='grabaFacp6' onclick='continuarpasos(5,2)'>Regresar</button>
                               </div>
-                              <div class='col-xs-3'></div>
+                              <div class='col-xs-1'></div>
                           </div>
                         </div>
 					</div>
-					<div class='col-xs-1'></div>
 				</div>
 			</div>
 		</div>
@@ -1512,9 +1509,10 @@ $(document).ready(function(){
 		$('#fadeRow,#contentStepSincro,#cuentaactiva,#mensajeperso,#demoGratis,#escojeIdioma').css("display","none");
 		if(localStorage.getItem("idbarra")==null){
 			//$('#demoGratis').fadeIn();
-            $('#escojeIdioma').fadeIn();
+            //$('#escojeIdioma').fadeIn();
 			$('.navbar,#barraalternamovil').slideUp();
 			$('#finalizado,#cuentaactiva,#mensajeperso').css('display','none');
+			activaidioma(1);
 		}else{
 			$('#finalizado,#cuentaactiva,#mensajeperso').fadeIn();
 			if(localStorage.getItem('id_version_nube')!=null&&localStorage.getItem('id_version_nube')!='0'&&localStorage.getItem('telefono_inte')!=null&&localStorage.getItem('telefono_inte')!=''&&localStorage.getItem('terminos')!=null&&localStorage.getItem('terminos')!='false'&&localStorage.getItem('id_locales')!=null&&localStorage.getItem('id_locales')!='0'){

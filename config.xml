@@ -1,21 +1,20 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.practisis.practipos" version="1.0.33" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>AvaPOS</name>
+<widget id="com.practisis.fe" version="1.0.01" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Facturación Electrónica</name>
     <description>
-        App de Facturacion para Tablets
+        App de Facturacion Simple para Tablets
     </description>
     <author email="info@practisis.com" href="http://www.practipos.com">
         Practisis S.A.
     </author>
-    <content src="main.html"/>
+    <content src="main.html" />
     <preference name="permissions" value="none" />
-    <preference name="orientation" value="landscape" />
     <preference name="target-device" value="universal" />
     <preference name="fullscreen" value="true" />
     <preference name="webviewbounce" value="true" />
     <preference name="prerendered-icon" value="true" />
     <preference name="stay-in-webview" value="false" />
-    <preference name="ios-statusbarstyle" value="black-opaque" />
+    <preference name="ios-statusbarstyle" value="black-opaque"/>
     <preference name="detect-data-types" value="true" />
     <preference name="exit-on-suspend" value="false" />
     <preference name="show-splash-screen-spinner" value="true" />
@@ -23,8 +22,8 @@
     <preference name="disable-cursor" value="false" />
     <preference name="android-minSdkVersion" value="14" />
     <preference name="android-installLocation" value="auto" />
-	<preference name="android-windowSoftInputMode" value="stateVisible"/>
-	<preference name="AndroidPersistentFileLocation" value="Compatibility"/>
+    <preference name="android-windowSoftInputMode" value="stateVisible" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <gap:plugin name="org.apache.cordova.battery-status" />
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.media-capture" />
@@ -43,12 +42,12 @@
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" />
-    <icon src="icon.png"/>
-	<icon platform="android" density="ldpi" src="www/res/icon/android/icon-36.png" />
-    <icon platform="android" density="mdpi" src="www/res/icon/android/icon-48.png" />
-    <icon platform="android" density="hdpi" src="www/res/icon/android/icon-72-hdpi.png" />
-    <icon platform="android" density="xhdpi" src="www/res/icon/android/icon-96.png" />
-    <icon platform="android" density="xxhdpi" src="www/res/icon/android/icon-128.png" />
+    <icon src="icon.png" />
+    <icon density="ldpi" platform="android" src="www/res/icon/android/icon-36.png" />
+    <icon density="mdpi" platform="android" src="www/res/icon/android/icon-48.png" />
+    <icon density="hdpi" platform="android" src="www/res/icon/android/icon-72-hdpi.png" />
+    <icon density="xhdpi" platform="android" src="www/res/icon/android/icon-96.png" />
+    <icon density="xxhdpi" platform="android" src="www/res/icon/android/icon-128.png" />
     <icon gap:platform="blackberry" src="www/res/icon/blackberry/icon-80.png" />
     <icon gap:platform="blackberry" gap:state="hover" src="www/res/icon/blackberry/icon-80.png" />
     <icon gap:platform="ios" height="57" src="www/res/icon/ios/icon-57.png" width="57" />
@@ -70,9 +69,9 @@
     <gap:splash gap:platform="ios" height="768" src="www/res/screen/ios/screen-ipad-landscape.png" width="1024" />
     <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />
     <access origin="*" />
-	<access origin="www/lang/es.xml"/>
-	<access origin="www/lang/en.xml"/>
-	<feature name="Device">
+    <access origin="www/lang/es.xml" />
+    <access origin="www/lang/en.xml" />
+    <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
     <plugin name="cordova-plugin-whitelist" version="1" />

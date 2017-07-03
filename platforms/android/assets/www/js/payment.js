@@ -757,7 +757,7 @@ function cancelPayment(){
 	$('#propinaFactura').val("0");
 	$('#valorpropina').val("0");
 	$('#invoiceprop').html("0.00");
-	$('#busquedacliente').html('9999999999999');
+	$('#busquedacliente').html($('#cedulaP').val());
 	pagonormal=true;
 	ResetPagos(1);
 	ResetPagos(2);
@@ -787,12 +787,13 @@ function BuscarCliente(e){
 	
 	var valor=$('#cedulaP').val();
 	$('#descripcionD input').each(function(){
-		if($(this).attr('id')!='cedulaP')
+		if($(this).attr('id')!='cedulaP'&&$(this).attr('id')!='invoiceNr'&&$(this).attr('id')!='invoiceNrComplete')
 			$(this).val('');
 	});
 
 	if(e==13){
-    mostrarClientes();
+	//comentado para fe
+    //mostrarClientes();
 
     if(localStorage.getItem("con_localhost") == 'true'){
          var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
@@ -884,7 +885,7 @@ function BuscarCliente(e){
 		
 		$('#descripcionD input').each(function(){
 			if(valor=='9999999999999'){
-				if($(this).attr('id')!='cedulaP')
+				if($(this).attr('id')!='cedulaP'&&$(this).attr('id')!='invoiceNr'&&$(this).attr('id')!='invoiceNrComplete')
 					$(this).prop('readonly','true');
 			}else{
 					$(this).removeProp('readonly');
@@ -931,7 +932,12 @@ function jsonNuevoCliente(){
 
 	// alert("Ana"+nombreP+'-'+cedula);
 
-	if( !nombreP) return; if( !cedula) return;
+	//aqui cambio para fe
+	//if(!nombreP) return; if( !cedula) return;
+	if(!(nombreP&&cedula)){
+		noCliente();
+		return;
+	}
 	//console.log(email);
 
     if(localStorage.getItem("con_localhost") == 'true'){
@@ -999,7 +1005,11 @@ function jsonNuevoCliente(){
 					$("#clientefind").html(nombreP);
 					$("#busquedacliente").html(cedula);
 					//$("#newCliente,#opaco").fadeOut();
-					$("#clientever").fadeOut("fast",function(){});
+					$("#popupclientefe").fadeOut("fast",function(){
+						if(localStorage.getItem('con_profesionales')=='true'){
+							$('#menuSubNew1,#menuSubNew2').fadeIn();
+						}
+					});
 					$('#easypay').fadeIn();
 				});	
 			}else{
@@ -1010,7 +1020,11 @@ function jsonNuevoCliente(){
 					$("#clientefind").html(nombreP);
 					$("#busquedacliente").html(cedula);
 					//$("#newCliente,#opaco").fadeOut();
-					$("#clientever").fadeOut("fast",function(){});
+					$("#popupclientefe").fadeOut("fast",function(){
+						if(localStorage.getItem('con_profesionales')=='true'){
+							$('#menuSubNew1,#menuSubNew2').fadeIn();
+						}
+					});
 					$('#easypay').fadeIn();
 				});	
 			}
@@ -1048,7 +1062,7 @@ function noCliente(){
 		$('#cedulaP').val('9999999999999');
 		BuscarCliente(13);
 	}
-	$("#clientever").fadeOut("fast",function(){});
+	//$("#popupclientefe").fadeOut("fast",function(){});
 	$('#easypay').fadeIn();
 }
 
@@ -1263,12 +1277,6 @@ function noCliente(){
 			$('#busquedacliente').val('9999999999999');
 			$('#clientefind').val('Consumidor Final');
 			BuscarCliente(13);
-		}else{
-			/*$('#cuadroClientes input').each(function(){
-				if($(this).attr('id')!='cedulaP')
-					$(this).val('')
-				}
-			);*/
 		}
 	});
 	}
@@ -1774,5 +1782,14 @@ function PagoSimple(){
 		if(localStorage.getItem("idioma")==2)
 			$('#invoiceDebt').html("CHANGE");
 		$('#changeFromPurchase').html(Math.abs(mitot).toFixed(2));
+	}
+}
+
+function FacturarFe(){
+	var tot=$('#total').html();
+	if(parseFloat(tot.substr(1))>0){
+		$('#paymentCxC').val($('#total').html());
+		$('#paymentCxC').change();
+		performPurchase('table');
 	}
 }

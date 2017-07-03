@@ -318,13 +318,13 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				  </button>
-				  <a class="navbar-brand" href="#"><img src="img/logo1.png" width='110px'/></a>
+				  <a class="navbar-brand" href="#"><img src="img/logo1.png" width='50px'/></a>
 				</div>
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav" id='listademenus'>
 					    <li onclick="envia('puntodeventa')"><a id='menu_1'  href="javascript:void(0);"><span style='display:inline;' class='fa fa-shopping-cart'></span>&nbsp;<label id='lab_menu_1'>Facturar</label><span class="sr-only">(current)</span></a></li>
-						<li onclick="VerificarPermiso('historial');" role="presentation"><a id='menu_2' href="javascript:void(0);"><span style='display:inline;' class='fa fa-money'></span>&nbsp;<label id='lab_menu_2'>Historial</label></a></li>
-						<li onclick="VerificarPermiso('productos');" id='productosIndex'><a id='menu_3' href="javascript:void(0);"><span style='display:inline;' class='fa fa-list-alt'></span>&nbsp;<label id='lab_menu_3'>Productos</label></a></li>
+						<li onclick="VerificarPermiso('historial');" role="presentation"><a id='menu_2' href="javascript:void(0);"><span style='display:inline;' class='fa fa-list-alt'></span>&nbsp;<label id='lab_menu_2'>Historial</label></a></li>
+						<li onclick="VerificarPermiso('productos');" id='productosIndex'><a id='menu_3' href="javascript:void(0);"><span style='display:inline;' class='fa fa-tags'></span>&nbsp;<label id='lab_menu_3'>Productos</label></a></li>
 						<li onclick="envia('dashboard')"><a id='menu_4' href="javascript:void(0);"><span style='display:inline;' class='fa fa-line-chart'></span>&nbsp;<label id='lab_menu_4'>Resultados</label></a></li>
 						<li onclick="VerificarPermiso('configuracion');"><a id='menu_5' href="javascript:void(0);"><span style='display:inline;' class='fa fa-cog'></span>&nbsp;<label id='lab_menu_5'>Configuración</label></a></li>
 					</ul>
@@ -359,10 +359,10 @@
 				</div>
 				<div class="row">
 					<div class="col-xs-6 itemafacactivo" id="menuSubNew1" onclick="clickSubMenu(1);">
-						Productos
+						Agregar Productos
 					</div>
 					<div class="col-xs-6 itemafac" id="menuSubNew2" onclick="clickSubMenu(2);">
-						Total
+						Ver Total
 					</div>
 				</div>
 			</div>
@@ -438,7 +438,7 @@
 					<td valign="center" align="center" >
 						<div id="contentCenterFadeArea">
 							<img src="" id="logo" style="display:none;"><br/>
-							<img src='images/loader.gif' width='30px'/>
+							<img src='images/loader.gif' width='30px' style='margin-top:10px;'/>
 							<br/><label style="color:white;" id="putText">Loading..</label>
 						</div>
 					</td>
@@ -935,6 +935,11 @@
 			});
 			startAnimation();
 			//fin idioma
+	});
+	
+	$(window).resize(function(){
+		var h=$(window).height();
+		$('#main').height(h-parseFloat($('.navbar').css('height')));
 	});
 			
 	function ClickNumeroP(numc){

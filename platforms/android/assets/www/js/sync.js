@@ -1342,7 +1342,6 @@ function DatosRecurrentes(cual){
                       }
 
                       tx.executeSql('UPDATE CONFIG SET nombre="'+item.nombreempresa+'",razon = "'+item.razon+'" , ruc2="'+item.ruc+'",telefono ="'+item.telefono+'",direccion="'+item.direccion+'",serie="'+item.serie+'",establecimiento="'+item.establecimiento+'",nombreterminal="'+item.nombreterminal+'",pais="'+item.pais+'",id_idioma = "'+item.idioma+'",sin_documento="'+item.documento+'",con_nombre_orden="'+item.orden+'",con_propina="'+item.propina+'",con_tarjeta="'+item.tarjeta+'",con_shop="'+item.shop+'",con_notasorden="'+item.notas+'",con_comanderas="'+item.comanderas+'",con_localhost="'+item.localhost+'",ip_servidor="'+item.ipservidor+'",con_mesas="'+item.mesas+'",logo="'+item.logo+'",id_version_nube="'+item.id_version_nube+'",pide_telefono="'+item.pide_telefono+'",telefono_inte="'+item.telefono_inte+'",mensajefinal="'+item.mensajefinal+'",terminos_condiciones="'+item.terminos+'",id_locales="'+item.id_locales+'",email_fact="'+item.email_fact+'",key="'+item.key+'",numero_contribuyente="'+item.numero_contribuyente+'",obligado_contabilidad="'+item.obligado_contabilidad+'",prueba_produccion="'+item.prueba_produccion+'",tiene_factura_electronica="'+item.tiene_factura_electronica+'",mensaje_factura="'+item.msj_factura_electronica+'",respaldar="'+item.respaldar+'",pagarconcredito="'+item.pagarconcredito+'",impuestos_personalizados="'+item.impuestos_personalizados+'" WHERE id=1',[],function(tx,results){
-
 						console.log("actualizada empresa");
 						if(item.logo!=''&&item.logo!=null){
 							var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
@@ -2098,7 +2097,7 @@ function StartQuemado(){
 	var quemados=localStorage.getItem("datosquemados");
 	var squem=quemados.split("|");
 	
-	JSONextraNube='{ "extras" : [ {"num_factura":"000000001","contrasenia":"false","dias":"1826","msj":"","disenomenu":"1","pais":"'+squem['2']+'","idioma":"'+squem[3]+'","documento":"false","orden":"false","propina":"false","tarjeta":"false","shop":"false","notas":"true","comanderas":"true","localhost":"false","ipservidor":"0.0.0.0","mesas":"false","logo":"","imprlogo":"false","id_version_nube":"2","pide_telefono":"true","telefono_inte":"undefined","mensajefinal":"****POWERED BY AVAPOS.COM****","plan":"22","terminos":"true","id_locales":"2","id_pais":"'+squem[1]+'","email_fact":"","key":"","numero_contribuyente":"0","obligado_contabilidad":"false","prueba_produccion":"true","tiene_factura_electronica":"false","msj_factura_electronica":"****POWERED BY AVAPOS.COM****","respaldar":"false"}]}';
+	JSONextraNube='{ "extras" : [ {"num_factura":"000000001","contrasenia":"false","dias":"1826","msj":"","disenomenu":"1","pais":"'+squem['2']+'","idioma":"'+squem[3]+'","documento":"false","orden":"false","propina":"false","tarjeta":"false","shop":"false","notas":"true","comanderas":"true","localhost":"false","ipservidor":"0.0.0.0","mesas":"false","logo":"","imprlogo":"false","id_version_nube":"4","pide_telefono":"true","telefono_inte":"undefined","mensajefinal":"****POWERED BY AVAPOS.COM****","plan":"22","terminos":"true","id_locales":"2","id_pais":"'+squem[1]+'","email_fact":"","key":"","numero_contribuyente":"0","obligado_contabilidad":"false","prueba_produccion":"true","tiene_factura_electronica":"false","msj_factura_electronica":"****POWERED BY AVAPOS.COM****","respaldar":"false","con_profesionales":"true"}]}';
 	if(squem[1]==1){
 		JSONimpuestosNube='{"impuestos":[{"id":"1","nombre":"IVA","porcentaje":"14","activo":"true","timespan":"0"}]}';
 	}else if(squem[1]==18||squem[1]==36){
@@ -2162,7 +2161,7 @@ function StartQuemado(){
 	$('#JSONTipoMesasNube').html(JSONTipoMesasNube);
 	$('#JSONMesasNube').html(JSONMesasNube);
 	$('#JSONLocales').html(JSONLocales);
-
+	
 	ExtraeDatosApi(1);
 }
 

@@ -28,13 +28,12 @@ document.addEventListener("deviceready", function() {
 	
 	/*Search the availables printers*/
 	window.StarIOAdapter.searchall=function(port_search, success_callback, error_callback)){
-		alert("todas buscar");
+		//alert("todas buscar");
 		if(error_callback == null) {
 			error_callback = handle_error_callback;
 		}
 		return cordova.exec(success_callback, error_callback, "StarIOAdapter", "searchall", [port_search]);
 	};
-
 
 }, false);
 

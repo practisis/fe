@@ -442,7 +442,7 @@ public class PrinterFunctionsEpson{
 				
 				if(preimpresas.equals(0)){
 					if(!logo.equals("")){
-						Bitmap logoData =BitmapFactory.decodeFile("/data/data/com.practisis.practipos/files//"+logo);
+						Bitmap logoData =BitmapFactory.decodeFile("/data/data/com.practisis.fe/files//"+logo);
 						// Add top logo to command buffer 
 						builder.addImage(logoData, 0, 0,
 								 logoData.getWidth(),

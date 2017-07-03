@@ -2018,29 +2018,30 @@ function formarCategorias(){
 				for(m=0;m<res.rows.length;m++){
 					selected = 'categoria';
 					var row=res.rows.item(m);
-					if(m==0){
+					/*if(m==0){
 						selected = 'categoriaActiva';
 						categoriaSelected = row.timespan;
 					}
-					console.log("idc:"+row.timespan);
+					console.log("idc:"+row.timespan);*/
 
                     if(row.timespan != -14){
 					    $('#listacat').append('<li id="categoria_'+ row.timespan +'" class="esCategoria '+ selected +'" onclick="ActivarCategoria(this,'+"'"+ row.timespan +"'"+');" ontap="ActivarCategoria(this,'+"'"+ row.timespan +"'"+');" ><a>'+ (row.categoria).substring(0,20) +'</a></li>');
                     }
-
 				}
 
                     if(localStorage.getItem("con_profesionales")=='true'){
+						//alert(localStorage.getItem("con_profesionales"));
                       if(localStorage.getItem("idioma")==2){
-                        $('#listacat').append('<li id="profes" class="categoriaActiva esCategoria" onclick="ActivarCategoria(this,-14);" ontap="ActivarCategoria(this,-14);" style="width: 248.364px; height: 44px;"><a style="height: 44px;">Custom</a></li>');
+                        $('#listacat').prepend('<li id="profes" class="categoriaActiva esCategoria" onclick="ActivarCategoria(this,-14);" ontap="ActivarCategoria(this,-14);" style="width: 248.364px; height: 44px;"><a style="height: 44px;">Custom</a></li>');
                       }else{
-                        $('#listacat').append('<li id="profes" class="categoriaActiva esCategoria" onclick="ActivarCategoria(this,-14);" ontap="ActivarCategoria(this,-14);" style="width: 248.364px; height: 44px;"><a style="height: 44px;">Personalizado</a></li>');
+                        $('#listacat').prepend('<li id="profes" class="categoriaActiva esCategoria" onclick="ActivarCategoria(this,-14);" ontap="ActivarCategoria(this,-14);" style="width: 248.364px; height: 44px;"><a style="height: 44px;">Personalizado</a></li>');
                       }
                     }
 
-				objcategoria=$('#categoria_'+categoriaSelected)[0];
+				/*objcategoria=$('#');
 				console.log(objcategoria);
-				ActivarCategoria(objcategoria,categoriaSelected);
+				ActivarCategoria(objcategoria,categoriaSelected);*/
+				$('#profes').click();
 			}else{
 				$('#menuSubNew1,#menuSubNew2').css('display','none');
                 $('#listaProductos').hide();
@@ -2628,7 +2629,7 @@ function borrarCompra(item){
 		$('#sinservicio').prop('disabled',true);
 	
 
-	$('#menuSubNew2').html("Total - Ver "+sumcantidadComandada+" pedidos");
+	$('#menuSubNew2').html("Ver Total - "+sumcantidadComandada+" pedidos");
 
 	/*$('#itemsVendidos').css('display','block');
 	$('#itemsVendidos').css('background-color','red');*/
@@ -2823,10 +2824,10 @@ function AntesDePagar(){
 		//$('#paymentEfectivo').val(parseFloat($('#justo').attr('data-value'))*-1);
 		//$('#paymentCategory-1').click();
 
-		$('#cedulaP').val('9999999999999');
+		//$('#cedulaP').val('9999999999999');
 		BuscarCliente(13);
 		//$("#cuadroClientes").css('display','none');
-		$("#clientever").css("display","none");
+		//$("#clientever").css("display","none");
 		$("#easypay").fadeIn();
 		pagar();
 		if(!$('#idCliente').val!=''){
@@ -3063,7 +3064,7 @@ function Init3(){
 		var w=$(window).width();
 		$('.producto,.categoriaActiva,.categoria').each(function(){
 		//console.log($(this));
-		$(this).css('width',(w/3.7)+'px');
+		$(this).css('width',(w/3.9)+'px');
 		if ($(this).height()>mialtoboton){
 			mialtoboton=$(this).height();
 		}
@@ -3072,7 +3073,7 @@ function Init3(){
 	//pongo alto uniforme al mas grande.
 	$('.producto').each(function(){
 		$(this).css('height',mialtoboton+'px');
-		$(this).css('line-height','16px');
+		$(this).css('line-height','14px');
 	});
 
 
@@ -3103,6 +3104,11 @@ function Init3(){
 	$('.direccionales').css('width','100%');
 
 	$('#avisadorpeque').show();
+	
+	if($('#barraalternamovil').css('display')!='none'){
+		if($('#popupclientefe').css('display')=='none')
+			$('#menuSubNew1,#menuSubNew2').fadeIn();
+	}
 
 }
 
@@ -3213,6 +3219,23 @@ $(document).ready(function(){
 });
 
 $(window).resize(function(){
+	$('#main').css('height',$(window).height);
+	if(parseFloat($(window).width())<=900){
+		$('#barraalternamovil').fadeIn('',function(){
+			if(localStorage.getItem('con_profesionales')=='true'){
+				if($('#popupclientefe').css('display')!='none')
+					$('#menuSubNew1,#menuSubNew2').css('display','none');
+			}
+		});
+		$('.navbar').css('display','none');
+		$('#lapartedepagos').fadeOut();
+		Init3();
+	}else{
+		$('.navbar').fadeIn();
+		$('#barraalternamovil').css('display','none');
+		$('#lapartedepagos').fadeIn();
+		Init31();
+	}
     botonesCalculadora();
 });
 
@@ -3592,9 +3615,10 @@ function Ready(){
    $('body').css('min-height',$(window).height());
    localStorage.setItem("noservicio",'false');
 
-  $('#menuSubNew2').html("Total");
-  if($(window).width()<=900){
-	  $('#barraalternamovil').slideDown();
+  $('#menuSubNew2').html(" Ver Total");
+	if($(window).width()<=900){
+		$('#barraalternamovil').slideDown();
+		
 	  $('#divmesas').css('min-height',$('body').height()-$('#barraalternamovil').height());
 	  $("#lapartedepagos").css("display","none");
 	  $('.navbar').css('display','none');
@@ -5035,8 +5059,8 @@ function VerPropinas(){
 			db.transaction(function (tx){
 			var mesaactiva=sessionStorage.getItem("mesa_activa");
 			//var idfact=results.insertId;
-			var idcli="9999999999999";
-			var nombrecli="";
+			var idcli=$('#cedulaP').val();
+			var nombrecli=$('#nombreP').val();
 			var mitimespan=0;
 			var now=new Date().getTime();
 

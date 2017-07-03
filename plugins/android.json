@@ -7,32 +7,32 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.practisis.cloudprint2"
+        "com.ionic.keyboard": {
+            "PACKAGE_NAME": "com.practisis.fe"
         },
         "com.uforge.plugins.StarIOAdapter": {
-            "PACKAGE_NAME": "com.practisis.cloudprint2"
-        },
-        "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.practisis.cloudprint2"
-        },
-        "com.ionic.keyboard": {
-            "PACKAGE_NAME": "com.practisis.practipos"
-        },
-        "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.practisis.practipos"
+            "PACKAGE_NAME": "com.practisis.fe"
         },
         "cordova-plugin-app-version": {
-            "PACKAGE_NAME": "com.practisis.practipos"
+            "PACKAGE_NAME": "com.practisis.fe"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.practisis.fe"
         },
         "cordova-plugin-file": {
-            "PACKAGE_NAME": "com.practisis.practipos"
+            "PACKAGE_NAME": "com.practisis.fe"
         },
         "cordova-plugin-file-transfer": {
-            "PACKAGE_NAME": "com.practisis.practipos"
+            "PACKAGE_NAME": "com.practisis.fe"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.practisis.fe"
         },
         "cordova-plugin-network-information": {
-            "PACKAGE_NAME": "com.practisis.practipos"
+            "PACKAGE_NAME": "com.practisis.fe"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.practisis.fe"
         }
     },
     "dependent_plugins": {}

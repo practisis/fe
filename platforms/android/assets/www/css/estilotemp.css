@@ -272,6 +272,7 @@
 	width:100%;
 	overflow-x:hidden;
 	overflow-y:auto;
+	min-height:150px;
 }
 .lineadetalle{
 	width:33%;

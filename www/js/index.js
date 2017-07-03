@@ -83,25 +83,43 @@ function envia(donde){
 			//if(loopSicnronizador) clearInterval(loopSicnronizador);
             //clearInterval(intervalProcesoRepetir);
 					var lugar='';
+					$('#menuNew1,#menuNew2,#menuNew3').attr('class','col-xs-3 itemsmenu');
+					$('#menuNew4,#menuNew5').attr('class','col-xs-1 itemsmenu');
 					$('#cargandoTabs').css('display','block');
-					if(donde=='dashboard')
-					lugar="views/dashboard/dashboard.html";
-					if(donde=='puntodeventa')
-					lugar="views/nubepos/nubepos.html";
-					if(donde=='listaproductos')
-					lugar="views/productos/listaproductos.html";
-					if(donde=='nuevoproducto')
-					lugar="views/productos/nuevoproducto.html";
+					if(donde=='dashboard'){
+						lugar="views/dashboard/dashboard.html";
+						$('#menuNew4').attr('class','col-xs-1 itemsmenuactive');
+					}
+					if(donde=='puntodeventa'){
+						//lugar="views/nubepos/nubepos.html";
+						$('#menuNew1').attr('class','col-xs-3 itemsmenuactive');
+						if(localStorage.getItem('con_profesionales')=='true')
+							lugar="views/nubepos/fe.html";
+						else
+							lugar="views/nubepos/nubepos.html";
+					}
+					if(donde=='listaproductos'){
+						lugar="views/productos/listaproductos.html";
+						$('#menuNew3').attr('class','col-xs-3 itemsmenuactive');
+					}
+					if(donde=='nuevoproducto'){
+						lugar="views/productos/nuevoproducto.html";
+						$('#menuNew3').attr('class','col-xs-3 itemsmenuactive');
+					}
                     if(donde=='inventario')
 					lugar="views/productos/inventarioproductos.html";
 					if(donde=='listadeclientes'){
 						lugar="views/clientes/listaclientes.html"; 
 					}if(donde=='nuevocliente')
 					lugar="views/clientes/nuevocliente.html";
-					if(donde=='historial')
-					lugar="views/facturacion/historial.html";
-                    if(donde=='historialst')
-					lugar="views/facturacion/historialst.html";
+					if(donde=='historial'){
+						lugar="views/facturacion/historial.html";
+						$('#menuNew2').attr('class','col-xs-3 itemsmenuactive');
+					}
+                    if(donde=='historialst'){
+						lugar="views/facturacion/historialst.html";
+						$('#menuNew2').attr('class','col-xs-3 itemsmenuactive');
+					}
 					if(donde=='cloud')
 					lugar="views/cloud/indexCloud.html";
                     if(donde=='imprimeotro')
@@ -113,8 +131,10 @@ function envia(donde){
 					lugar="views/configuracion/impresoras.html";
 					if(donde=='log')
 					lugar="views/configuracion/log.html";
-					if(donde=='config')
-					lugar="views/configuracion/configuracion.html";
+					if(donde=='config'){
+						lugar="views/configuracion/configuracion.html";
+						$('#menuNew5').attr('class','col-xs-1 itemsmenuactive');
+					}
 					if(donde=='modif')
 					lugar="views/productos/modificadores.html";
 					if(!lugar) lugar="404.html";
@@ -228,9 +248,9 @@ var app = {
             if (targetPosition >= keyboardHeight) {
                 //padding *=5;
 				if(inp.attr('id')=='search-renderitem')
-                $('#mybodycontent').css("top",-(targetPosition-keyboardHeight+padding+20)+"px");
+                $('.subekey').css("top",-(targetPosition-keyboardHeight+padding+20)+"px");
 				else
-                $('#mybodycontent').css("top",-(targetPosition-keyboardHeight+padding)+"px");
+                $('.subekey').css("top",-(targetPosition-keyboardHeight+padding)+"px");
             }
 		}
 
@@ -239,7 +259,7 @@ var app = {
 
 		function keyboardHideHandler(e){
 			//alert("hide");
-			$('#mybodycontent').css("top","0px");
+			$('.subekey').css("top","0px");
 		}
 		
 		window.StarIOAdapter = {};

@@ -267,6 +267,16 @@ var startForma=0;
 ListarCategorias();
 getSearch();
 
+$(window).resize(function(){
+	var suma=parseFloat($('.navbar').css('height'))+85;
+	$('.sumarow').each(function(){
+		suma+=parseFloat($(this).css('height'));
+	});
+	console.log(suma);
+
+	$('#recibeTodosLosProductos').css("height",parseFloat($(window).height())-suma);
+});
+
 $(document).ready(function(){
 	//idioma
 		var linklang="es";

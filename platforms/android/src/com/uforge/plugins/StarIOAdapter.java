@@ -48,7 +48,7 @@ import com.epson.eposprint.Builder;
 import com.epson.eposprint.EposException;
 
 import org.apache.cordova.*;
-import com.practisis.practipos.MainActivity;
+import com.practisis.fe.MainActivity;
 
 /**
  * @author Luca Del Bianco
@@ -764,7 +764,7 @@ public class StarIOAdapter extends CordovaPlugin {
 					
 					//Bitmap bm = BitmapFactory.decodeResource(res, source);
 					
-					Bitmap bm =BitmapFactory.decodeFile("/data/data/com.practisis.practipos/files//"+logo);
+					Bitmap bm =BitmapFactory.decodeFile("/data/data/com.practisis.fe/files//"+logo);
 					
 					StarBitmap starbitmap = new StarBitmap(bm, false, maxWidth);
 
@@ -1976,7 +1976,7 @@ public class StarIOAdapter extends CordovaPlugin {
 					
 					//Bitmap bm = BitmapFactory.decodeResource(res, source);
 					
-					Bitmap bm =BitmapFactory.decodeFile("/data/data/com.practisis.practipos/files//"+logo);
+					Bitmap bm =BitmapFactory.decodeFile("/data/data/com.practisis.fe/files//"+logo);
 					
 					StarBitmap starbitmap = new StarBitmap(bm, false, maxWidth);
 

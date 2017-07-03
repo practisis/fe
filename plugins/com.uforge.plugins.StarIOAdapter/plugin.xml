@@ -32,7 +32,6 @@
             <source-file src="src/android/StarIOAdapter.java" target-dir="src/com/uforge/plugins/" />
             <source-file src="src/android/PrinterFunctions.java" target-dir="src/com/uforge/plugins/" />
             <source-file src="src/android/RasterDocument.java" target-dir="src/com/uforge/plugins/" />
-            <source-file src="src/android/StarBitmap.java" target-dir="src/com/uforge/plugins/" />
             <source-file src="libs/ePOS-Print.jar" target-dir="libs" />
             <lib-file src="src/android/libeposprint.so" arch="device" />
         </platform>
