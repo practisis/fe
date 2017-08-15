@@ -239,7 +239,7 @@ var app = {
 		function keyboardShowHandler(e){
 			//alert("show");
 			var inp=$(":focus");
-			var padding = 15;
+			var padding = 30;
             var targetPosition = parseInt($(inp).offset().top + padding);
             var keyboardHeight = parseInt($(window).height())-parseInt(e.keyboardHeight);//get keyboard height   
 

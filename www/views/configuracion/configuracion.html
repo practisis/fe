@@ -31,7 +31,7 @@
 			  <input type="password" id="pass2" name="mipass" value="" class="form-control input-lg trans_pass" placeholder="Password" required="" tabindex='2' autocomplete="off" aria-required="true">
 			</div>
 			<div class="form-group">
-				<a id='trans_label_83' data-toggle="modal" onclick="quitarSignIn();" href="">¿No tienes una cuenta en AvaPOS? Créala aquí.</a><br/>
+				<a id='trans_label_83' data-toggle="modal" onclick="quitarSignIn();" href="">¿No tienes una cuenta en FE? Créala aquí.</a><br/>
 			</div>
 		   <button class="btn btn-lg btn-success" tabindex='3'  id="btnvalida2" type="button" onclick="UserLogin();">Login</button>
 		  </form>
@@ -109,11 +109,14 @@
 					<div class="col-md-2"></div>
 					<div class="col-md-8" style="position:relative;min-height: 300px;overflow:hidden;">
 						 <div id="divdatoslogin" style="overflow:auto;">
-						  <h4 style="text-align:left; margin-top:40px; margin-bottom:30px;" id='trans_label_38'>Regístrate! Ingresa tus datos y crea tu cuenta AvaPOS.</h4>
+						  <h4 style="text-align:left; margin-top:40px; margin-bottom:30px;" id='trans_label_38'>Regístrate! Ingresa tus datos y crea tu cuenta FE.</h4>
 						<div class="form-group">
 						  <input onkeydown="isalphanumeric(event);" type="form-control input-lg" name="empresa"  class="form-control input-lg trans_companyname" id="newEmpresa" placeholder="Nombre de tu Negocio" tabindex="1" required="" autocomplete="off">
 						</div>
 						<div class="form-group">
+						  <input type="form-control input-lg" name="ruc" class="form-control input-lg" id="newRuc" placeholder="RUC" tabindex="2" required="" autocomplete="off">
+						</div>
+						<div style='display:none;' class="form-group">
 						  <select class="form-control input-lg" id="newPais" name="pais" size="1" required="" placeholder="País">
 							  <option id="trans_label_82" value="0" style="color: #E0DEDE">País</option>
 							  <option value="3">Antigua y Barbuda</option>
@@ -129,7 +132,7 @@
 							  <option value="13">Costa Rica</option>
 							  <option value="14">Cuba</option>
 							  <option value="15">Dominica</option>
-							  <option value="1">Ecuador</option>
+							  <option value="1" selected >Ecuador</option>
 							  <option value="16">El Salvador</option>
 							  <option value="2">Estados Unidos</option>
 							  <option value="17">Granada</option>
@@ -170,7 +173,7 @@
 						</div>
 
 						<div class="form-group">
-								<a id='trans_label_39' data-toggle="modal" data-target="#recuperarPass" onclick="mostrarSignIn();" href="">¿Ya tienes cuenta AvaPOS haz click aquí?</a><br/>
+								<a id='trans_label_39' data-toggle="modal" data-target="#recuperarPass" onclick="mostrarSignIn();" href="">¿Ya tienes cuenta FE haz click aquí?</a><br/>
 						</div>
 
 
@@ -231,7 +234,7 @@
     		</div>
             <br>
 			<div class='row' style='margin-bottom:30px;'>
-    			<center><button type="button" class="btn btn-lg btn-success trans_active_ava" onclick='guardatelefono()' style="font-size: 20px;">Start AvaPOS</button></center>
+    			<center><button type="button" class="btn btn-lg btn-success trans_active_ava" onclick='guardatelefono()' style="font-size: 20px;">Start FE</button></center>
 				<!--<button class='btn btn-default btn-lg' id='trans_label_81' onclick='omitirtelefono();'>Omitir</button>&nbsp;-->
 			</div>
             <div class='row'>
@@ -365,8 +368,8 @@
 				</div>
 				<div class="col-xs-8" style="text-align: justify;">
 					<span id='trans_label_99' style="font-size: 18px;">
-						Los términos y condiciones del servicio de AvaPOS han sido actualizados para mejorar nuestro servicio y
-						trabajo con la comunidad de usuarios de AvaPOS. Para ver la los nuevos términos y condiciones del servicio AvaPOS,
+						Los términos y condiciones del servicio de FE han sido actualizados para mejorar nuestro servicio y
+						trabajo con la comunidad de usuarios de FE. Para ver la los nuevos términos y condiciones del servicio FE,
 						por favor, de click <a href='javascript:void(0);' onclick='IrTerminos();'>aquí</a>.
 					</span>
 				</div>
@@ -507,7 +510,7 @@
                     </div>
 					<div style='margin-bottom:40px;'>
 						<h1>Guía de precios</h1>
-						<p>AvaPOS es gratis por el tiempo que quieras.  Pásate a un plan pagado cuando lo necesites.</p>
+						<p>FE es gratis por el tiempo que quieras.  Pásate a un plan pagado cuando lo necesites.</p>
 					</div>
 					<div class='row' style='text-align:center;'>
 					<div class='col-lg-4 col-md-4 col-xs-6'>
@@ -567,7 +570,7 @@
                     </div>
 					<div style='margin-bottom:40px;'>
 						<h1>Pricing Guide</h1>
-						<p>AvaPOS is free to use for as long as you want.  Upgrade when you like.</p>
+						<p>FE is free to use for as long as you want.  Upgrade when you like.</p>
 					</div>
 					<div class='col-lg-4 col-md-4 col-xs-6'>
 					 <div class="jumbotron" id='jumbo0en'>
@@ -3364,4 +3367,124 @@ function obtenerfirma(){
   var url = 'http://www.administracionpublica.gob.ec/como-obtener-la-firma-electronica/';
   window.open(url);
 }
+
+function validarRucFE(numero){
+	var suma = 0;
+	var residuo = 0;
+	var pri = false;
+	var pub = false;
+	var nat = false;
+	var numeroProvincias = 24;
+	var modulo = 11;
+
+	/* Verifico que el campo no contenga letras */
+	var ok=1;
+	/* Aqui almacenamos los digitos de la cedula en variables. */
+	d1 = numero.substr(0,1);
+	d2 = numero.substr(1,1);
+	d3 = numero.substr(2,1);
+	d4 = numero.substr(3,1);
+	d5 = numero.substr(4,1);
+	d6 = numero.substr(5,1);
+	d7 = numero.substr(6,1);
+	d8 = numero.substr(7,1);
+	d9 = numero.substr(8,1);
+	d10 = numero.substr(9,1);
+
+	/* El tercer digito es: */
+	/* 9 para sociedades privadas y extranjeros */
+	/* 6 para sociedades publicas */
+	/* menor que 6 (0,1,2,3,4,5) para personas naturales */
+
+	if (d3==7 || d3==8){
+	console.log('El tercer dígito ingresado es inválido');
+	return false;
+	}
+
+	/* Solo para personas naturales (modulo 10) */
+	if (d3 < 6){
+	nat = true;
+	p1 = d1 * 2; if (p1 >= 10) p1 -= 9;
+	p2 = d2 * 1; if (p2 >= 10) p2 -= 9;
+	p3 = d3 * 2; if (p3 >= 10) p3 -= 9;
+	p4 = d4 * 1; if (p4 >= 10) p4 -= 9;
+	p5 = d5 * 2; if (p5 >= 10) p5 -= 9;
+	p6 = d6 * 1; if (p6 >= 10) p6 -= 9;
+	p7 = d7 * 2; if (p7 >= 10) p7 -= 9;
+	p8 = d8 * 1; if (p8 >= 10) p8 -= 9;
+	p9 = d9 * 2; if (p9 >= 10) p9 -= 9;
+	modulo = 10;
+	}
+
+	/* Solo para sociedades publicas (modulo 11) */
+	/* Aqui el digito verficador esta en la posicion 9, en las otras 2 en la pos. 10 */
+	else if(d3 == 6){
+	pub = true;
+	p1 = d1 * 3;
+	p2 = d2 * 2;
+	p3 = d3 * 7;
+	p4 = d4 * 6;
+	p5 = d5 * 5;
+	p6 = d6 * 4;
+	p7 = d7 * 3;
+	p8 = d8 * 2;
+	p9 = 0;
+	}
+
+	/* Solo para entidades privadas (modulo 11) */
+	else if(d3 == 9) {
+	pri = true;
+	p1 = d1 * 4;
+	p2 = d2 * 3;
+	p3 = d3 * 2;
+	p4 = d4 * 7;
+	p5 = d5 * 6;
+	p6 = d6 * 5;
+	p7 = d7 * 4;
+	p8 = d8 * 3;
+	p9 = d9 * 2;
+	}
+
+	suma = p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9;
+	residuo = suma % modulo;
+
+	/* Si residuo=0, dig.ver.=0, caso contrario 10 - residuo*/
+	digitoVerificador = residuo==0 ? 0: modulo - residuo;
+
+	/* ahora comparamos el elemento de la posicion 10 con el dig. ver.*/
+	if (pub==true){
+	if (digitoVerificador != d9){
+	console.log('El ruc de la empresa del sector público es incorrecto.');
+	return false;
+	}
+	/* El ruc de las empresas del sector publico terminan con 0001*/
+	if ( numero.substr(9,4) != '0001' ){
+	console.log('El ruc de la empresa del sector público debe terminar con 0001');
+	return false;
+	}
+	}
+	else if(pri == true){
+	if (digitoVerificador != d10){
+	console.log('El ruc de la empresa del sector privado es incorrecto.');
+	return false;
+	}
+	if ( numero.substr(10,3) != '001' ){
+	console.log('El ruc de la empresa del sector privado debe terminar con 001');
+	return false;
+	}
+	}
+
+	else if(nat == true){
+	if (digitoVerificador != d10){
+	console.log('El n?mero de cédula de la persona natural es incorrecto.');
+	return false;
+	}
+	if (numero.length >10 && numero.substr(10,3) != '001' ){
+	console.log('El ruc de la persona natural debe terminar con 001');
+	return false;
+	}
+	}
+	return true;
+}
+
 </script>

@@ -1163,7 +1163,8 @@
 <div id="factura" style='display:none;'>
 		<input type="hidden" id="subtotalSinIva" value="0"/>
 		<input type="hidden" id="subtotalIva" value="0"/>
-		<input type="text" id="descuentoFactura" value="0"/>
+		<input type="hidden" id="descuentoFactura" value="0"/>
+    <input type="hidden" id="descuentoFacturatrue" value="0"/>
 		<input type="hidden" id="totalmiFactura" value="0"/>
 		<input type="hidden" id="timespanFactura" value="0"/>
 		<input type="hidden" id="propinaFactura" value="0"/>
@@ -1558,6 +1559,7 @@ function agregarCompraProf(){
     }else{
 	var i = 1;
 	$('#descuentoFactura').val(0);
+  $('#descuentoFacturatrue').val(0);
 	$('#resultBuscador').fadeOut('slow');
 	//variables facturacion
 	var subtotalSinIva = $('#subtotalSinIva').val();
@@ -1598,18 +1600,20 @@ function agregarCompraProf(){
               subtotalIvaCompra = (parseFloat(productoCantidad) * (parseFloat(productoPrecio)));
 
                 productoImpuestosaux=$('#'+$(this).attr("id")).val();
+                var miid=$(this).attr("id");
+				var valid=miid.split("-");
             	var porcentajes = productoImpuestosaux.split('|');
                 if(porcentajes[2]!=null&&porcentajes[2]!=""&&porcentajes[2]!='undefined'){
                   productoImpuestos += porcentajes[2]+'@';
                     productoimpuesto += parseFloat(porcentajes[2]);
-                    if($('#impuestoFactura-'+ porcentajes[0]).length == 0){
+                    if($('#impuestoFactura-'+ valid[1]).length == 0){
                         var currentimp=(parseFloat(productoCantidad) *( parseFloat(productoPrecio)+sumaagregados) * parseFloat(porcentajes[2]));
-                        $('#factura').append('<input type="hidden" id="impuestoFactura-'+ porcentajes[0] +'" class="esImpuesto" data-id="'+ porcentajes[0] +'" data-nombre="'+ porcentajes[1] +'" data-valor="'+ porcentajes[2] +'" value="'+ currentimp +'"/>');
+                        $('#factura').append('<input type="hidden" id="impuestoFactura-'+ valid[1] +'" class="esImpuesto" data-id="'+ porcentajes[0] +'" data-nombre="'+ porcentajes[1] +'" data-valor="'+ porcentajes[2] +'" value="'+ currentimp +'"/>');
                     }else{
     					//var impuestoDetalles = $('#impuesto-'+ value).val().split('|');
-    					var currentTax = $('#impuestoFactura-'+ porcentajes[0]).val();
+    					var currentTax = $('#impuestoFactura-'+ valid[1]).val();
     					var calcimp=((parseFloat(productoCantidad) * (parseFloat(productoPrecio)+sumaagregados)) * parseFloat(porcentajes[2]));
-    					$('#impuestoFactura-'+ porcentajes[0]).val(parseFloat(currentTax) + parseFloat(calcimp));
+    					$('#impuestoFactura-'+ valid[1]).val(parseFloat(currentTax) + parseFloat(calcimp));
 					}
                 }
             });

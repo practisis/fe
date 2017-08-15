@@ -400,7 +400,8 @@ function performPurchase(restaurant){
 			var servicio=0;
 			if($('#impuestoFactura-2').length&&$('#impuestoFactura-2').val()!='') servicio=$('#impuestoFactura-2').val();
 			
-			var descuento=$('#descuentoFactura').val();
+			//var descuento=$('#descuentoFactura').val();
+            var descuento=$('#descuentoFacturatrue').val();
 			
 			/*cadenaimpuestos*/
 			var c=0;
@@ -686,6 +687,7 @@ function impresionMovil(mijson){
 		
 	localStorage.setItem("nameorder","");
 	$('#popupsavefactura').modal('show');
+  localStorage.setItem("noservicio",'false');
 	$('#popupsavefactura').on('hidden.bs.modal', function () {
 		$('#menuSubNew2').html("Total");
 		  if($(window).width()<=900){

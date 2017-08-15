@@ -151,14 +151,14 @@
                           </div>
                           <div class="row">
                               <div class="col-xs-1"></div>
-                              <div class="col-xs-10"><input type='text' id='productoprof' name='productoprof' class='form-control input-lg trans_descripcion' placeholder="Descripción" style="height: 45px;font-size: 16px;background-color: #F0F0F0;"/></div>
+                              <div class="col-xs-10"><input type='text' id='productoprof' name='productoprof' class='form-control input-lg trans_descripcion tabprof' placeholder="Descripción" style="height: 45px;font-size: 16px;background-color: #F0F0F0;" tabindex='1' /></div>
                               <div class="col-xs-1"></div>
                           </div>
                           <div class="row" style="text-align: left;margin-top: 10px;">
                               <div class="col-xs-1"></div>
-                              <div class="col-xs-4"><b><span class="trans_sinimp">Precio Sin Imp.</span></b></div>
-                              <div class="col-xs-4"><b><span class="trans_precio">Precio Con Imp.</span></b></div>
-                              <div class="col-xs-2"><b><span class="trans_imp">Aplica Imp.</span></b></div>
+                              <div class="col-xs-4"><b><span class="trans_sinimpfe tabprof" tabindex='2'>Precio Sin Imp.</span></b></div>
+                              <div class="col-xs-4"><b><span class="trans_preciofe tabprof" tabindex='3'>Precio Con Imp.</span></b></div>
+                              <div class="col-xs-2"><b><span class="trans_imp tabprof" tabindex='4'>Aplica Imp.</span></b></div>
                               <div class="col-xs-1"></div>
                           </div>
                           <div class="row">
@@ -172,15 +172,15 @@
                           </div>
                       <br><br><br>
                       <div class='row'>
-                        <div class='col-xs-2'>
+                        <div class='col-lg-2 col-md-2 col-sm-0 col-xs-0'>
                         </div>
-                        <div class='col-xs-8'>
+                        <div class='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
                           <input id="queprecioaux" name="queprecioaux" type="hidden" value="0">
                           <button type="button" onclick="agregarCompraProf();" class="btn btn-primary btn-block btn-lg" style="margin-bottom:5px; margin-right:5px; text-transform:uppercase;height: 80px;font-size: 30px;font-weight: bold;" onclick="AgregarProdPref(); return false;">
                               <span class="trans_agregar">Agregar a Factura>></span>
                           </button>
                         </div>
-                        <div class='col-xs-2'>
+                        <div class='col-lg-2 col-md-2 col-sm-0 col-xs-0'>
                         </div>
                       </div>
 
@@ -1163,7 +1163,8 @@
 <div id="factura" style='display:none;'>
 		<input type="hidden" id="subtotalSinIva" value="0"/>
 		<input type="hidden" id="subtotalIva" value="0"/>
-		<input type="text" id="descuentoFactura" value="0"/>
+		<input type="hidden" id="descuentoFactura" value="0"/>
+<input type="hidden" id="descuentoFacturatrue" value="0"/>
 		<input type="hidden" id="totalmiFactura" value="0"/>
 		<input type="hidden" id="timespanFactura" value="0"/>
 		<input type="hidden" id="propinaFactura" value="0"/>
@@ -1262,27 +1263,28 @@
 		</div>
       <div class="panel-body">
 		<div style='padding:0px 20px 0px 20px;' id='antescliente'>
+			<h3>Elige el tipo de cliente para tu factura.</h3><br/>
 			<div class='row'>
-			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-2'></div>
-			<div class='col-lg-4 col-md-4 col-sm-8 col-xs-8'><button class='btn btn-block btn-primary btn-lg' onclick='ConsumidorFinal();'>CONSUMIDOR FINAL</button></div>
-			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-2'></div>
+			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-0'></div>
+			<div class='col-lg-4 col-md-4 col-sm-8 col-xs-12'><button class='btn btn-block btn-primary btn-lg' onclick='ConsumidorFinal();'>CONSUMIDOR FINAL</button></div>
+			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-0'></div>
 			</div>
 			<div class='row'>
-			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-2'></div>
-			<div class='col-lg-4 col-md-4 col-sm-8 col-xs-8'><button class='btn btn-block btn-primary btn-lg' style='margin-top:20px;' onclick="$('#antescliente').css('display','none'); $('#divdatosclientefiferente').fadeIn(); $('#divdatosclientefiferente').fadeIn();">CLIENTE CON DATOS</button></div>
-			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-2'></div>
+			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-0'></div>
+			<div class='col-lg-4 col-md-4 col-sm-8 col-xs-12'><button class='btn btn-block btn-primary btn-lg' style='margin-top:20px;' onclick="$('#antescliente').css('display','none'); $('#divdatosclientefiferente').fadeIn(); $('#divdatosclientefiferente').fadeIn();">CLIENTE CON DATOS</button></div>
+			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-0'></div>
 			</div>
 		</div>
 		<div style='padding:0px 20px 0px 20px; display:none;' id='divdatosclientefiferente'>
 			<div class='container-fluid' id='descripcionD'>
 				<div class='row'>
-					<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+					<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12' style='text-align:left;'>
 						<input type="hidden" style='display:none;' id="idCliente" value="1"/>
 						<div class="input-group input-group-lg" style='margin-top:5px;'>
 						  <span class="input-group-addon" id="sizing-addon1"><span class='glyphicon glyphicon-credit-card'></span></span>
 						  <input type="number" class="form-control" id='cedulaP' value='9999999999999' placeholder="No. Identificación" aria-describedby="sizing-addon1" onclick='this.select();' tabindex="1">
 						</div>
-						<!---<span><input type='checkbox' name='espasa' id='espasa' onclick='ColocarP();'/><label for='espasa'>Pasaporte</label></span>--->
+						<span style='text-align;left;'><input type='checkbox' name='espasa' id='espasa' onclick='ColocarP();'/>&nbsp;<label for='espasa'>Pasaporte</label></span>
 					</div>
 					<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
 						<div class="input-group input-group-lg"  style='margin-top:5px;'>
@@ -1625,6 +1627,7 @@ function agregarCompraProf(){
     }else{
 	var i = 1;
 	$('#descuentoFactura').val(0);
+  $('#descuentoFacturatrue').val(0);
 	$('#resultBuscador').fadeOut('slow');
 	//variables facturacion
 	var subtotalSinIva = $('#subtotalSinIva').val();
@@ -1665,18 +1668,20 @@ function agregarCompraProf(){
               subtotalIvaCompra = (parseFloat(productoCantidad) * (parseFloat(productoPrecio)));
 
                 productoImpuestosaux=$('#'+$(this).attr("id")).val();
+				var miid=$(this).attr("id");
+				var valid=miid.split("-");
             	var porcentajes = productoImpuestosaux.split('|');
                 if(porcentajes[2]!=null&&porcentajes[2]!=""&&porcentajes[2]!='undefined'){
                   productoImpuestos += porcentajes[2]+'@';
                     productoimpuesto += parseFloat(porcentajes[2]);
-                    if($('#impuestoFactura-'+ porcentajes[0]).length == 0){
+                    if($('#impuestoFactura-'+ valid[1]).length == 0){
                         var currentimp=(parseFloat(productoCantidad) *( parseFloat(productoPrecio)+sumaagregados) * parseFloat(porcentajes[2]));
-                        $('#factura').append('<input type="hidden" id="impuestoFactura-'+ porcentajes[0] +'" class="esImpuesto" data-id="'+ porcentajes[0] +'" data-nombre="'+ porcentajes[1] +'" data-valor="'+ porcentajes[2] +'" value="'+ currentimp +'"/>');
+                        $('#factura').append('<input type="hidden" id="impuestoFactura-'+ valid[1] +'" class="esImpuesto" data-id="'+ porcentajes[0] +'" data-nombre="'+ porcentajes[1] +'" data-valor="'+ porcentajes[2] +'" value="'+ currentimp +'"/>');
                     }else{
     					//var impuestoDetalles = $('#impuesto-'+ value).val().split('|');
-    					var currentTax = $('#impuestoFactura-'+ porcentajes[0]).val();
+    					var currentTax = $('#impuestoFactura-'+ valid[1]).val();
     					var calcimp=((parseFloat(productoCantidad) * (parseFloat(productoPrecio)+sumaagregados)) * parseFloat(porcentajes[2]));
-    					$('#impuestoFactura-'+ porcentajes[0]).val(parseFloat(currentTax) + parseFloat(calcimp));
+    					$('#impuestoFactura-'+ valid[1]).val(parseFloat(currentTax) + parseFloat(calcimp));
 					}
                 }
             });
@@ -1871,15 +1876,24 @@ $(document).ready(function(){
 	
 	
 	$('#descripcionD input').each(function(){
-		$(this).on('keydown', function(e){
-			if(e.which === 9) {
+		$(this).keyup(function(e){
+			//console.log(e.keyCode);
+			if(e.keyCode == 13) {
 				var mitab=$(this).attr('tabindex');
+				console.log(mitab);
 				if(parseInt(mitab)<6){
-					var mitabnow=mitab+1;
-					$('#descripcionD').find('input [tabindex='+mitabnow+']')
+					var mitabnow=parseInt(mitab)+1;
+					$('#descripcionD').find('input[tabindex='+mitabnow+']').focus();
 				}
 			}
 		});
+	});
+	
+	$('#productoprof').keyup(function(e){
+		if(e.keyCode == 13) {
+			$('#precioprof').focus();
+			$('#precioprof').click();
+		}
 	});
 	
 	$('#cedulaP').change(function(){
@@ -1898,6 +1912,10 @@ $(document).ready(function(){
 			$('#cedulaP').val('9999999999999');
 			BuscarCliente(13);
 			$('#cedulaP').focus();
+		}
+		
+		if($('#cedulaP').val()!=''&&$('#cedulaP').val()!='9999999999'&&$('#cedulaP').val()!='9999999999999'){
+			$('#espasa').attr('disabled',false);
 		}
 	});
 
@@ -1995,21 +2013,24 @@ $(document).ready(function(){
 });
 
 function ColocarP(){
-	if($('#cedulaP').val()!='9999999999999'&&$('#cedulaP').val()!='9999999999'){
+	//if($('#cedulaP').val()!='9999999999999'&&$('#cedulaP').val()!='9999999999'){
 		if($('#espasa').is(':checked')){
-			var miced=$('#cedulaP').val();
+			$('#cedulaP').prop('type','text');
+			/*var miced=$('#cedulaP').val();
 			if(miced.substring(0,1)!='P'||miced.substring(0,1)!='p'){
 				$('#cedulaP').val('P'+miced);
-			}
+			}*/
 		}else{
-			var miced=$('#cedulaP').val();
+			/*var miced=$('#cedulaP').val();
 			if(miced.substring(0,1)=='P'||miced.substring(0,1)=='p'){
 				$('#cedulaP').val(miced.substring(1));
-			}
+			}*/
+			$('#cedulaP').prop('type','number');
 		}
-	}else{
+		console.log('pasaporte');
+	/*}else{
 		$('#espasa').prop('checked',false);
-	}
+	}*/
 }
 
 function ConsumidorFinal(){

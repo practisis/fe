@@ -529,6 +529,7 @@ function registrarUser(){
 		newPass=$("#newPass").val();
 		newConfirm=$("#newConfirm").val();
 		newIdioma = $("#id_idioma").val();
+		newRuc= $("#newRuc").val();
 		var newTerminos = document.getElementById('terminos').checked;
 		var expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 		if(newEmpresa==''){
@@ -562,6 +563,11 @@ function registrarUser(){
 				showalertred('Debe aceptar los términos y condiciones.');
 			else if(localStorage.getItem("idioma")==2)
 				 showalertred('You must accept the terms and conditions.');
+		}else if(newRuc == ''||newRuc == null || !validarRucFE(newRuc)){
+			if(localStorage.getItem("idioma")==1)
+				showalertred('Debe ingresar un número de RUC válido para su negocio.');
+			else if(localStorage.getItem("idioma")==2)
+				 showalertred('You must input a valid RUC number.');
 		}else{
 			$("#cargandoTabs").modal('show');
 			var nombre=newEmpresa;
@@ -575,6 +581,7 @@ function registrarUser(){
 			var sistema=0;
 			var franquicia=0;
 			var pais=newPais;
+			var ruc=newRuc;
 			var versiones=7;
 			var plan=0;
 			var id_idioma = 1;
@@ -586,12 +593,12 @@ function registrarUser(){
 			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 			db.transaction(function(tx){tx.executeSql('insert into LOGACTIONS (time,descripcion) values (?,?)',[new Date().getTime(),"Ready to send the new register post"]);});
 			
-			$.post("https://practisis.net/registro/testnubepos.php", {
+			$.post("https://practisis.net/registro/registroFEmovil.php", {
 				nombre : nombre,
 				celular : celular,
 				email :newEmail,
 				pass : newPass,
-				rpass : newConfirm,
+				repass : newConfirm,
 				empresa : empresa,
 				planPrecio : planPrecio,
 				nTerminales : nTerminales,
@@ -601,16 +608,18 @@ function registrarUser(){
 				versiones : versiones,
 				id_idioma : newIdioma,
 				terminos : newTerminos,
+				ruc : newRuc,
 				deviceid:iddevice
 			}).done(function(data){
 				//alert(data);
 				if(data=='existe'){
 						$("#cargandoTabs").modal('hide');
 						if(localStorage.getItem("idioma")==1)
-						showalertred('El correo ingresado ya existe en el sistema, vuelva a ingresar otro correo.');
+						showalertred('El correo o ruc ingresado ya existe en el sistema, vuelva a ingresarlos por favor.');
 						else if(localStorage.getItem("idioma")==1)
-						showalertred('The mail entered already exists in the system, please enter another.');
+						showalertred('The mail or ruc entered already exists in the system, please enter another.');
 						$("#newEmail").val('');
+						$("#newRuc").val('');
 				}else{
 						$("#cargandoTabs").modal('hide');
 						var datosback=data.split("||");
@@ -669,7 +678,7 @@ function SetDataEmpresa(nombre,celular,email,deviceid,id_barra_arriba,ruc,direcc
 	var db2 = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 	db2.transaction(
 		function (tx){
-			tx.executeSql('INSERT INTO CONFIG (nombre,razon,telefono,email,ruc2,direccion,nombreterminal) VALUES(?,?,?,?,?,?,?)',[nombre,nombre,celular,email,ruc,direccion,tablet],function(tx,res){
+			tx.executeSql('INSERT INTO CONFIG (nombre,razon,telefono,email,ruc2,direccion,nombreterminal,terminos_condiciones,pide_telefono,telefono_inte) VALUES(?,?,?,?,?,?,?,?,?,?)',[nombre,nombre,celular,email,ruc,direccion,tablet,'true','true','222222'],function(tx,res){
 				$('#msjOk').html('Informacion Ingresada con Éxito');
 				$('#msjOk').fadeIn('slow');
 				$('#campos').css('display','none');
@@ -2086,7 +2095,7 @@ function IrTerminos(){
 
 function StartQuemado(){
 	console.log(">>>>Iniciar quemado>>>");
-	JSONproductosNube='{"Productos":[]}';
+	JSONproductosNube='{"Productos":[{"formulado_id":2,"formulado_tipo":"-15","formulado_nombre":"Servicios Varios 1US$","formulado_codigo":"1","formulado_precio":"0.892857142857143","color":"rgb(20, 158, 204)","formulado_impuestos":"","formulado_tax_id":"","formulado_matprima":"0" , "formulado_productofinal":"1" , "formulado_timespan" : "1" , "categoria_id" : "-15" , "categoria_nombre" : "Categoría 1" , "cargaiva" : "1" , "categoria_timespan" : "1" , "carga_servicio" : "1", "activo" : "1","tieneimpuestos":"true"},{"formulado_id":3,"formulado_tipo":"-15","formulado_nombre":"Servicios Varios 2US$","formulado_codigo":"2","formulado_precio":"1.78571428571429","color":"rgb(20, 158, 204)","formulado_impuestos":"","formulado_tax_id":"","formulado_matprima":"0" , "formulado_productofinal":"1" , "formulado_timespan" : "2" , "categoria_id" : "-15" , "categoria_nombre" : "Categoría 1" , "cargaiva" : "1" , "categoria_timespan" : "1" , "carga_servicio" : "1", "activo" : "1","tieneimpuestos":"true"},{"formulado_id":4,"formulado_tipo":"-15","formulado_nombre":"Servicios Varios 5US$","formulado_codigo":"3","formulado_precio":"4.46428571428571","color":"rgb(20, 158, 204)","formulado_impuestos":"","formulado_tax_id":"","formulado_matprima":"0" , "formulado_productofinal":"1" , "formulado_timespan" : "3" , "categoria_id" : "-15" , "categoria_nombre" : "Categoría 1" , "cargaiva" : "1" , "categoria_timespan" : "1" , "carga_servicio" : "1", "activo" : "1","tieneimpuestos":"true"},{"formulado_id":5,"formulado_tipo":"-15","formulado_nombre":"Servicios Varios 10US$","formulado_codigo":"4","formulado_precio":"8.92857142857143","color":"rgb(20, 158, 204)","formulado_impuestos":"","formulado_tax_id":"","formulado_matprima":"0" , "formulado_productofinal":"1" , "formulado_timespan" : "4" , "categoria_id" : "-15" , "categoria_nombre" : "Categoría 1" , "cargaiva" : "1" , "categoria_timespan" : "1" , "carga_servicio" : "1", "activo" : "1","tieneimpuestos":"true"},{"formulado_id":6,"formulado_tipo":"-15","formulado_nombre":"Servicios Varios 25US$","formulado_codigo":"5","formulado_precio":"22.3214285714286","color":"rgb(20, 158, 204)","formulado_impuestos":"","formulado_tax_id":"","formulado_matprima":"0" , "formulado_productofinal":"1" , "formulado_timespan" : "5" , "categoria_id" : "-15" , "categoria_nombre" : "Categoría 1" , "cargaiva" : "1" , "categoria_timespan" : "1" , "carga_servicio" : "1", "activo" : "1","tieneimpuestos":"true"},{"formulado_id":7,"formulado_tipo":"-15","formulado_nombre":"Servicios Varios 50US$","formulado_codigo":"6","formulado_precio":"44.6428571428571","color":"rgb(20, 158, 204)","formulado_impuestos":"","formulado_tax_id":"","formulado_matprima":"0" , "formulado_productofinal":"1" , "formulado_timespan" : "6" , "categoria_id" : "-15" , "categoria_nombre" : "Categoría 1" , "cargaiva" : "1" , "categoria_timespan" : "1" , "carga_servicio" : "1", "activo" : "1","tieneimpuestos":"true"},{"formulado_id":7,"formulado_tipo":"-15","formulado_nombre":"Servicios Varios 50US$","formulado_codigo":"6","formulado_precio":"44.6428571428571","color":"rgb(20, 158, 204)","formulado_impuestos":"","formulado_tax_id":"","formulado_matprima":"0" , "formulado_productofinal":"1" , "formulado_timespan" : "6" , "categoria_id" : "-15" , "categoria_nombre" : "Categoría 1" , "cargaiva" : "1" , "categoria_timespan" : "1" , "carga_servicio" : "1", "activo" : "1","tieneimpuestos":"true"},{"formulado_id":8,"formulado_tipo":"-15","formulado_nombre":"Productos Varios 1US$","formulado_codigo":"7","formulado_precio":"0.892857142857143","color":"rgb(21, 204, 64)","formulado_impuestos":"","formulado_tax_id":"","formulado_matprima":"0" , "formulado_productofinal":"1" , "formulado_timespan" : "7" , "categoria_id" : "-15" , "categoria_nombre" : "Categoría 1" , "cargaiva" : "1" , "categoria_timespan" : "1" , "carga_servicio" : "1", "activo" : "1","tieneimpuestos":"true"},{"formulado_id":9,"formulado_tipo":"-15","formulado_nombre":"Productos Varios 2US$","formulado_codigo":"8","formulado_precio":"1.78571428571429","color":"rgb(21, 204, 64)","formulado_impuestos":"","formulado_tax_id":"","formulado_matprima":"0" , "formulado_productofinal":"1" , "formulado_timespan" : "8" , "categoria_id" : "-15" , "categoria_nombre" : "Categoría 1" , "cargaiva" : "1" , "categoria_timespan" : "1" , "carga_servicio" : "1", "activo" : "1","tieneimpuestos":"true"},{"formulado_id":10,"formulado_tipo":"-15","formulado_nombre":"Productos Varios 5US$","formulado_codigo":"9","formulado_precio":"4.46428571428571","color":"rgb(21, 204, 64)","formulado_impuestos":"","formulado_tax_id":"","formulado_matprima":"0" , "formulado_productofinal":"1" , "formulado_timespan" : "9" , "categoria_id" : "-15" , "categoria_nombre" : "Categoría 1" , "cargaiva" : "1" , "categoria_timespan" : "1" , "carga_servicio" : "1", "activo" : "1","tieneimpuestos":"true"},{"formulado_id":11,"formulado_tipo":"-15","formulado_nombre":"Productos Varios 10US$","formulado_codigo":"10","formulado_precio":"8.92857142857143","color":"rgb(21, 204, 64)","formulado_impuestos":"","formulado_tax_id":"","formulado_matprima":"0" , "formulado_productofinal":"1" , "formulado_timespan" : "10" , "categoria_id" : "-15" , "categoria_nombre" : "Categoría 1" , "cargaiva" : "1" , "categoria_timespan" : "1" , "carga_servicio" : "1", "activo" : "1","tieneimpuestos":"true"},{"formulado_id":12,"formulado_tipo":"-15","formulado_nombre":"Productos Varios 25US$","formulado_codigo":"11","formulado_precio":"22.3214285714286","color":"rgb(21, 204, 64)","formulado_impuestos":"","formulado_tax_id":"","formulado_matprima":"0" , "formulado_productofinal":"1" , "formulado_timespan" : "11" , "categoria_id" : "-15" , "categoria_nombre" : "Categoría 1" , "cargaiva" : "1" , "categoria_timespan" : "1" , "carga_servicio" : "1", "activo" : "1","tieneimpuestos":"true"},{"formulado_id":14,"formulado_tipo":"1001","formulado_nombre":"Personalizado","formulado_codigo":"1414","formulado_precio":"0","color":"","formulado_impuestos":"","formulado_tax_id":"","formulado_matprima":"0" , "formulado_productofinal":"1" , "formulado_timespan" : "-14" , "categoria_id" : "1001" , "categoria_nombre" : "Personalizada" , "cargaiva" : "0" , "categoria_timespan" : "-14" , "carga_servicio" : "0", "activo" : "1","tieneimpuestos":"true"}]}';
 	JSONcategoriasNube='{"Categorias":[ {"categoria_id":"1","categoria_nombre":"PRODUCTOS" , "categoria_timespan" : "0"},{"categoria_id":"2","categoria_nombre":"CATEGORíA 1" , "categoria_timespan" : "1"},{"categoria_id":"3","categoria_nombre":"CATEGORíA 2" , "categoria_timespan" : "2"},{"categoria_id":"4","categoria_nombre":"CATEGORíA 3" , "categoria_timespan" : "3"}]}';
 	JSONclientesNube='{"Clientes":[{"id":"1","nombre":" Consumidor Final","cedula":"9999999999999","telefono":"","direccion":"","email":"","timespan" : "0"}]}';
 	JSONpresupuestoNube='{"presupuesto":[]}';
@@ -2097,9 +2106,9 @@ function StartQuemado(){
 	var quemados=localStorage.getItem("datosquemados");
 	var squem=quemados.split("|");
 	
-	JSONextraNube='{ "extras" : [ {"num_factura":"000000001","contrasenia":"false","dias":"1826","msj":"","disenomenu":"1","pais":"'+squem['2']+'","idioma":"'+squem[3]+'","documento":"false","orden":"false","propina":"false","tarjeta":"false","shop":"false","notas":"true","comanderas":"true","localhost":"false","ipservidor":"0.0.0.0","mesas":"false","logo":"","imprlogo":"false","id_version_nube":"4","pide_telefono":"true","telefono_inte":"undefined","mensajefinal":"****POWERED BY AVAPOS.COM****","plan":"22","terminos":"true","id_locales":"2","id_pais":"'+squem[1]+'","email_fact":"","key":"","numero_contribuyente":"0","obligado_contabilidad":"false","prueba_produccion":"true","tiene_factura_electronica":"false","msj_factura_electronica":"****POWERED BY AVAPOS.COM****","respaldar":"false","con_profesionales":"true"}]}';
+	JSONextraNube='{ "extras" : [ {"num_factura":"000000001","contrasenia":"false","dias":"1826","msj":"","disenomenu":"1","pais":"'+squem['2']+'","idioma":"'+squem[3]+'","documento":"false","orden":"false","propina":"false","tarjeta":"false","shop":"false","notas":"true","comanderas":"true","localhost":"false","ipservidor":"0.0.0.0","mesas":"false","logo":"","imprlogo":"false","id_version_nube":"4","pide_telefono":"true","telefono_inte":"222222","mensajefinal":"****POWERED BY AVAPOS.COM****","plan":"44","terminos":"true","id_locales":"2","id_pais":"'+squem[1]+'","email_fact":"","key":"","numero_contribuyente":"0","obligado_contabilidad":"false","prueba_produccion":"true","tiene_factura_electronica":"false","msj_factura_electronica":"****POWERED BY AVAPOS.COM****","respaldar":"false","con_profesionales":"true"}]}';
 	if(squem[1]==1){
-		JSONimpuestosNube='{"impuestos":[{"id":"1","nombre":"IVA","porcentaje":"14","activo":"true","timespan":"0"}]}';
+		JSONimpuestosNube='{"impuestos":[{"id":"1","nombre":"IVA","porcentaje":"12","activo":"true","timespan":"0"}]}';
 	}else if(squem[1]==18||squem[1]==36){
 		JSONimpuestosNube='{"impuestos":[{"id":"1","nombre":"IVA","porcentaje":"12","activo":"true","timespan":"0"}]}';
 	}else if(squem[1]==35){
@@ -2161,7 +2170,9 @@ function StartQuemado(){
 	$('#JSONTipoMesasNube').html(JSONTipoMesasNube);
 	$('#JSONMesasNube').html(JSONMesasNube);
 	$('#JSONLocales').html(JSONLocales);
-	
+	localStorage.setItem('terminos','true');
+	localStorage.setItem('telefono_inte','222222');
+	localStorage.setItem('pide_telefono','true');
 	ExtraeDatosApi(1);
 }
 

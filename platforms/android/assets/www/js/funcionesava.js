@@ -2363,7 +2363,7 @@ function pagar(){
 		json += '"impuestos" : "'+ idimpuestos +'",';
 		json += '"iva" : "'+ ivavalor +'",';
 		json += '"servicio" : "'+ servalor +'",';
-		json += '"descuento" : "'+ descuento +'",';
+		json += '"descuento" : "'+ $('#descuentoFacturatrue').val() +'",';
 		json += '"total" : "'+ (total-descuento+propina) +'",';
 		json += '"numerofact" : "'+ nofactura +'",';
 		json += '"encabezado" : "'+ localStorage.getItem("encabezado") +'",';
@@ -2524,6 +2524,7 @@ function addDiscount(){
 
 			$('#msjDescuentoError').html('');
 			$('#btn_descuento').effect('highlight',{},'normal');
+			 SubtotalesDescuento();
 		}else{
 			$('#msjDescuentoError').html('El descuento no puede ser mayor a '+ totalmiFactura.toFixed(2));
 			$('#addDiscount').html('0');
@@ -6213,7 +6214,7 @@ function  ImprimirPrecuenta(){
 			json += '"impuestos" : "'+ idimpuestos +'",';
 			json += '"iva" : "'+ ivavalor +'",';
 			json += '"servicio" : "'+ servalor +'",';
-			json += '"descuento" : "'+ descuento +'",';
+			json += '"descuento" : "'+ $('descuentoFacturatrue').val() +'",';
 			json += '"total" : "'+ (total-descuento+propina) +'",';
 			json += '"encabezado" : "'+ localStorage.getItem("encabezado") +'",';
 			json += '"largo" : "'+ localStorage.getItem("largo") +'",';
@@ -6580,4 +6581,30 @@ function UsarBwise(){
 		}
 	},
 	function(error){alert(error);});
+}
+
+function SubtotalesDescuento(){
+	var descuentoconimp=parseFloat($('#descuentoFactura').val());
+	var subconiva=parseFloat($('#subtotalIva').val());
+	var subsiniva=parseFloat($('#subtotalSinIva').val());
+	var total=parseFloat($('#totalmiFactura').val());
+	var restanewconiva=subconiva/total*descuentoconimp;
+	var restanewsiniva=subsiniva/total*descuentoconimp;
+	//var restadescuento=descuentoconimp/total*descuentoconimp;
+	var restadescuento=1;
+	$('#subtotalIva').val(subconiva-restanewconiva);
+	$('#subtotalSinIva').val(subsiniva-restanewsiniva);
+	//$('#descuentoFacturatrue').val(descuentoconimp-restadescuento);
+	console.log('subconiva:'+(subconiva-restanewconiva));
+	console.log('subsiniva:'+(subsiniva-restanewsiniva));
+	//console.log('descuento:'+(descuentoconimp-restadescuento));
+	$('.esImpuesto').each(function(){
+		var valorimp=parseFloat($(this).val());
+		var resta_imp=valorimp/total*descuentoconimp;
+		$(this).val(valorimp-resta_imp);
+		console.log('imp:'+(valorimp-resta_imp));
+		restadescuento+=parseFloat($(this).attr('data-valor'));
+	});
+	var newdesc=descuentoconimp/restadescuento;
+	$('#descuentoFacturatrue').val(newdesc.toFixed(3));
 }
