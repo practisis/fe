@@ -1862,7 +1862,7 @@ $(document).ready(function(){
 					$('#encabezado').val(res.rows.item(0).encabezado);
 					$('#largo').val(res.rows.item(0).largo);
 					var factpreimp=false;
-					if(idprinter.preimpresas=='true'){
+					if(res.rows.item(0).preimpresas=='true'){
 						factpreimp=true;
 					}
 					$('#preimpresas').attr('checked',factpreimp);
@@ -1950,7 +1950,7 @@ $(document).ready(function(){
 			if(marca==2){
 				var $btn = $('#btnbuscarimp').button('loading');
 				StarIOAdapter.searchall("",function(dataprint){
-					//alert(dataprint);
+					alert(dataprint);
 					//alert(res);
 					var todasimp=dataprint.split('||');
 					if(todasimp.length>0) $('#btnsetear,#btnprobar,#btnsetearc').css("display","");
@@ -1982,7 +1982,7 @@ $(document).ready(function(){
 					//$('#printc_'+$.trim(localStorage.getItem("printc"))).attr('checked',true);
 					$btn.button('reset');					
 				}, function(error){
-					//alert(error);
+					alert(error);
 					$btn.button('reset');
 					if(localStorage.getItem("idioma")==1)
 						//showalert("Ocurrió un problema con la impresora, vaya a configuracion: " + error);
@@ -1997,7 +1997,7 @@ $(document).ready(function(){
 				//buscar epson
 				var mitipo=$('#tipo').val();
 				StarIOAdapter.searchEpson(mitipo,function(dataprinte){
-					//alert(dataprint);
+					alert(dataprinte);
 					//alert(res);
 					var todasimp=dataprinte.split('||');
 					if(todasimp.length>0) $('#btnsetear,#btnprobar,#btnsetearc').css("display","");
@@ -2017,7 +2017,7 @@ $(document).ready(function(){
 					$('#printc_'+localStorage.getItem("printc")).attr('checked',true);
 					$btn.button('reset');
 				}, function(error){
-					//alert(error);
+					alert(error);
 					$btn.button('reset');
 					if(localStorage.getItem("idioma")==1)
 						//showalert("Ocurrió un problema con la impresora, vaya a configuracion: " + error);

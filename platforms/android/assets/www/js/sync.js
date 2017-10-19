@@ -589,11 +589,11 @@ function registrarUser(){
 			localStorage.setItem('datosquemados',empresa+'|'+pais+'|'+nombrePais+'|'+id_idioma);
 			//alert(iddevice+'/'+nombre+'/'+id_idioma+'/'+nombre);
 			//$("#btnNewEmp").html('<img src="images/loader.gif"  width="50%" />');
-			//$.post("https://practisis.net/registro/registroNubePOS.php", {
+			//$.post("https://www.practisis.net/registro/registroNubePOS.php", {
 			var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 			db.transaction(function(tx){tx.executeSql('insert into LOGACTIONS (time,descripcion) values (?,?)',[new Date().getTime(),"Ready to send the new register post"]);});
 			
-			$.post("https://practisis.net/registro/registroFEmovil.php", {
+			$.post("https://www.practisis.net/registro/registroFEmovil.php", {
 				nombre : nombre,
 				celular : celular,
 				email :newEmail,
@@ -765,7 +765,7 @@ function UserLogin(){
 		auxuser = quien;
 		auxpass = pass;
 		$('#btnvalida2').html("<img src='images/loader.gif' width='20px'/>");
-		var apiURL='https://practisis.net/connectnubepos/api2.php';
+		var apiURL='https://www.practisis.net/connectnubepos/api2.php';
 		
 		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 		db.transaction(function(tx){tx.executeSql('insert into LOGACTIONS (time,descripcion) values (?,?)',[new Date().getTime(),"Ready to send the login post"]);});
@@ -839,7 +839,7 @@ function UserLogin(){
 
 function DatosIniciales(cual){
 	if(VerificarConexion()){
-		var apiURL='https://practisis.net/connectnubepos/api2.php';
+		var apiURL='https://www.practisis.net/connectnubepos/api2.php';
 		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 		db.transaction(function(tx){tx.executeSql('insert into LOGACTIONS (time,descripcion) values (?,?)',[new Date().getTime(),"Ready to send the initial data post"]);});
 		
@@ -932,7 +932,7 @@ function DatosRecurrentes(cual){
    var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
   }else{
     //alert('no'+'**'+cual);
-   var apiURL='https://practisis.net/connectnubepos/api2.php';
+   var apiURL='https://www.practisis.net/connectnubepos/api2.php';
   }
 	if(cual==0){
 		$.post(apiURL,{
@@ -1044,7 +1044,7 @@ function DatosRecurrentes(cual){
                     if(localStorage.getItem("con_localhost") == 'true'){
                      var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
                     }else{
-                     var apiURL='https://practisis.net/connectnubepos/api2.php';
+                     var apiURL='https://www.practisis.net/connectnubepos/api2.php';
                     }
 					
 					$.post(apiURL,{
@@ -1135,7 +1135,7 @@ function DatosRecurrentes(cual){
                     if(localStorage.getItem("con_localhost") == 'true'){
                      var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
                     }else{
-                     var apiURL='https://practisis.net/connectnubepos/api2.php';
+                     var apiURL='https://www.practisis.net/connectnubepos/api2.php';
                     }
 					$.post(apiURL,{
 							id_emp: localStorage.getItem("empresa"),
@@ -1205,7 +1205,7 @@ function DatosRecurrentes(cual){
                     if(localStorage.getItem("con_localhost") == 'true'){
                      var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
                     }else{
-                     var apiURL='https://practisis.net/connectnubepos/api2.php';
+                     var apiURL='https://www.practisis.net/connectnubepos/api2.php';
                     }
 					$.post(apiURL,{
 							id_emp: localStorage.getItem("empresa"),
@@ -1254,7 +1254,7 @@ function DatosRecurrentes(cual){
                     if(localStorage.getItem("con_localhost") == 'true'){
                      var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
                     }else{
-                     var apiURL='https://practisis.net/connectnubepos/api2.php';
+                     var apiURL='https://www.practisis.net/connectnubepos/api2.php';
                     }
 					$.post(apiURL,{
 							id_emp: localStorage.getItem("empresa"),
@@ -1373,7 +1373,7 @@ function DatosRecurrentes(cual){
                     if(localStorage.getItem("con_localhost") == 'true'){
                      var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
                     }else{
-                     var apiURL='https://practisis.net/connectnubepos/api2.php';
+                     var apiURL='https://www.practisis.net/connectnubepos/api2.php';
                     }
 					$.post(apiURL,{
 							id_emp: localStorage.getItem("empresa"),
@@ -1423,7 +1423,7 @@ function DatosRecurrentes(cual){
                     if(localStorage.getItem("con_localhost") == 'true'){
                      var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
                     }else{
-                     var apiURL='https://practisis.net/connectnubepos/api2.php';
+                     var apiURL='https://www.practisis.net/connectnubepos/api2.php';
                     }
 					$.post(apiURL,{
 							id_emp: localStorage.getItem("empresa"),
@@ -1477,7 +1477,7 @@ function DatosRecurrentes(cual){
                     if(localStorage.getItem("con_localhost") == 'true'){
                      var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
                     }else{
-                     var apiURL='https://practisis.net/connectnubepos/api2.php';
+                     var apiURL='https://www.practisis.net/connectnubepos/api2.php';
                     }
 					$.post(apiURL,{
 							id_emp: localStorage.getItem("empresa"),
@@ -1611,7 +1611,7 @@ function DatosRecurrentes(cual){
                     if(localStorage.getItem("con_localhost") == 'true'){
                      var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
                     }else{
-                     var apiURL='https://practisis.net/connectnubepos/api2.php';
+                     var apiURL='https://www.practisis.net/connectnubepos/api2.php';
                     }
 					$.post(apiURL,{
 							id_emp: localStorage.getItem("empresa"),
@@ -1920,7 +1920,7 @@ function PostaLaNube(arraydatos,cual,accion,t){
 	if(localStorage.getItem("con_localhost") == 'true'){
      var apiURL='http://'+localStorage.getItem("ip_servidor")+'/connectnubepos/api2.php';
     }else{
-     var apiURL='https://practisis.net/connectnubepos/api2.php';
+     var apiURL='https://www.practisis.net/connectnubepos/api2.php';
     }
 	$.post(apiURL,{
 		id_emp: localStorage.getItem("empresa"),
@@ -2021,7 +2021,7 @@ function desactivarterminal(){
   }
   if (r == true) {
 
-    var apiURL='https://practisis.net/connectnubepos/api2.php';
+    var apiURL='https://www.practisis.net/connectnubepos/api2.php';
 	$.post(apiURL,{
 		id_emp: localStorage.getItem("empresa"),
 		action: 'DesactivaTerminal',

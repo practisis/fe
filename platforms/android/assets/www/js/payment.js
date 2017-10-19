@@ -1657,80 +1657,93 @@ function validarpago(){
 
 function VerificarComandas(){
 	//$('#cargandoTabs').modal('show');
-	if(localStorage.getItem("con_mesas")=="true"){
-		 /*imprimir comandas*/
-		var json = '{"ComandasMesas": [{';
-			json += '"producto": [';
-		var cuan=0;
-		$('.productDetails').each(function(){
-			if(!$(this).parent().parent().hasClass("printed")){
-				var splitDetails = $(this).val().split('|');
-				var detalleagregados="";
-				var detallenotas="";
-				if($(this).attr("data-detagregados")!=''&&$(this).attr("data-detagregados")!=null&&$(this).attr("data-detagregados")!='undefined')
-				   detalleagregados=$(this).attr("data-detagregados");
-			   
-			   if($(this).attr("data-notes")!=''&&$(this).attr("data-notes")!=null&&$(this).attr("data-notes")!='undefined')
-				   detallenotas=$(this).attr("data-notes");
-			   
-			   if(cuan>0){
-				   json+=",";
-			   }
-			   
-				json += '{';
-					json += '"id_producto" : "'+ splitDetails[0] +'",';
-					json += '"timespanproducto" : "'+ splitDetails[0] +'",';
-					json += '"timespanconsumo" : "'+getTimeSpan()+'",';
-					json += '"nombre_producto" : "'+ splitDetails[1] +'",';
-					json += '"cant_prod" : "'+ splitDetails[2] +'",';
-					json += '"precio_orig" : "'+ splitDetails[3] +'",';
-					json += '"precio_prod" : "'+ splitDetails[4] +'",';
-					json += '"impuesto_prod" : "'+ splitDetails[7] +'",';
-					json += '"precio_total" : "'+ splitDetails[6] +'",';
-					json += '"precio_descuento_justificacion" : "",';
-					json += '"agregados" : "'+splitDetails[8]+'",';
-					json += '"detalle_agregados" : "'+detalleagregados+'",';
-					json += '"detalle_notas" : "'+detallenotas+'"';
-				json += '}';
-				
-				cuan++;
-			}
-		});
-				
-		//json = json.substring(0,json.length -1);	
-		json += '],"mesa":"'+sessionStorage.getItem("mesa_name")+'",';
-		json += '"lang":"'+localStorage.getItem("idioma")+'"';
-		json += '}]}';
-			
-		
-		console.log(json);
-
-		/*if(localStorage.getItem("lang")==1)
-			showalert("Pedido Guardado con éxito");
-		else
-			showalert("Order Saved Successfully");*/
-		
-		if(cuan>0){
-			//comanderas
-			if(localStorage.getItem("printc")!=null&&localStorage.getItem("printc")!=""){
-				if(localStorage.getItem("printtradec")==2){
-					StarIOAdapter.rawprint(json,localStorage.getItem("printc"), function(){});
-				}else if(localStorage.getItem("printtradec")==1){
-					$('#cargandoTabs').modal("show");
-					StarIOAdapter.printepson(json,localStorage.getItem("commodel"),localStorage.getItem("comaddress"),localStorage.getItem("comtype"), function() {$('#cargandoTabs').modal("hide");});
-				}
-			}else{
-				/*if(localStorage.getItem("idioma")==1)
-					showalert("No se ha configurado una impresora para comandas.");
-				else if(localStorage.getItem("idioma")==2)
-					showalert("There is no configured a command printer.");*/
-			}
-			//fin comanderas
+	var pasa=true;
+	if(parseFloat($('#invoicePaid').html())>200&&localStorage.getItem('pais')=='Ecuador'){
+		if($('#idCliente').val()>1){
+			pasa=true;
+		}else{
+			pasa=false;
 		}
-		antesperformPurchase('table');
-		
+	}
+	
+	if(pasa===true){
+		if(localStorage.getItem("con_mesas")=="true"){
+			 /*imprimir comandas*/
+			var json = '{"ComandasMesas": [{';
+				json += '"producto": [';
+			var cuan=0;
+			$('.productDetails').each(function(){
+				if(!$(this).parent().parent().hasClass("printed")){
+					var splitDetails = $(this).val().split('|');
+					var detalleagregados="";
+					var detallenotas="";
+					if($(this).attr("data-detagregados")!=''&&$(this).attr("data-detagregados")!=null&&$(this).attr("data-detagregados")!='undefined')
+					   detalleagregados=$(this).attr("data-detagregados");
+				   
+				   if($(this).attr("data-notes")!=''&&$(this).attr("data-notes")!=null&&$(this).attr("data-notes")!='undefined')
+					   detallenotas=$(this).attr("data-notes");
+				   
+				   if(cuan>0){
+					   json+=",";
+				   }
+				   
+					json += '{';
+						json += '"id_producto" : "'+ splitDetails[0] +'",';
+						json += '"timespanproducto" : "'+ splitDetails[0] +'",';
+						json += '"timespanconsumo" : "'+getTimeSpan()+'",';
+						json += '"nombre_producto" : "'+ splitDetails[1] +'",';
+						json += '"cant_prod" : "'+ splitDetails[2] +'",';
+						json += '"precio_orig" : "'+ splitDetails[3] +'",';
+						json += '"precio_prod" : "'+ splitDetails[4] +'",';
+						json += '"impuesto_prod" : "'+ splitDetails[7] +'",';
+						json += '"precio_total" : "'+ splitDetails[6] +'",';
+						json += '"precio_descuento_justificacion" : "",';
+						json += '"agregados" : "'+splitDetails[8]+'",';
+						json += '"detalle_agregados" : "'+detalleagregados+'",';
+						json += '"detalle_notas" : "'+detallenotas+'"';
+					json += '}';
+					
+					cuan++;
+				}
+			});
+					
+			//json = json.substring(0,json.length -1);	
+			json += '],"mesa":"'+sessionStorage.getItem("mesa_name")+'",';
+			json += '"lang":"'+localStorage.getItem("idioma")+'"';
+			json += '}]}';
+				
+			
+			console.log(json);
+
+			/*if(localStorage.getItem("lang")==1)
+				showalert("Pedido Guardado con éxito");
+			else
+				showalert("Order Saved Successfully");*/
+			
+			if(cuan>0){
+				//comanderas
+				if(localStorage.getItem("printc")!=null&&localStorage.getItem("printc")!=""){
+					if(localStorage.getItem("printtradec")==2){
+						StarIOAdapter.rawprint(json,localStorage.getItem("printc"), function(){});
+					}else if(localStorage.getItem("printtradec")==1){
+						$('#cargandoTabs').modal("show");
+						StarIOAdapter.printepson(json,localStorage.getItem("commodel"),localStorage.getItem("comaddress"),localStorage.getItem("comtype"), function() {$('#cargandoTabs').modal("hide");});
+					}
+				}else{
+					/*if(localStorage.getItem("idioma")==1)
+						showalert("No se ha configurado una impresora para comandas.");
+					else if(localStorage.getItem("idioma")==2)
+						showalert("There is no configured a command printer.");*/
+				}
+				//fin comanderas
+			}
+			antesperformPurchase('table');
+			
+		}else{
+			antesperformPurchase('table');
+		}
 	}else{
-		antesperformPurchase('table');
+		alert('Para ventas mayores a USD 200, debe ingresar un cliente diferente a Consumidor Final.');
 	}
 	/*imprimir comandas no comandadas*/
 }
