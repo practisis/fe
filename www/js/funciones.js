@@ -2038,7 +2038,7 @@ function formarCategorias(){
                       if(localStorage.getItem("idioma")==2){
                         $('#listacat').prepend('<li id="profes" class="categoriaActiva esCategoria" onclick="ActivarCategoria(this,-14);" ontap="ActivarCategoria(this,-14);" style="width: 248.364px; height: 44px;"><a style="height: 44px;">Custom</a></li>');
                       }else{
-                        $('#listacat').prepend('<li id="profes" class="categoriaActiva esCategoria" onclick="ActivarCategoria(this,-14);" ontap="ActivarCategoria(this,-14);" style="width: 248.364px; height: 44px;"><a style="height: 44px;">Personalizado</a></li>');
+                        $('#listacat').prepend('<li id="profes" class="categoriaActiva esCategoria" onclick="ActivarCategoria(this,-14);" ontap="ActivarCategoria(this,-14);" style="width: 248.364px; height: 44px;"><a style="height: 44px;">Varios</a></li>');
                       }
                     }
 
@@ -2053,7 +2053,7 @@ function formarCategorias(){
 				if(localStorage.getItem("idioma")==1){
 				  if(localStorage.getItem("con_profesionales")=='true'){
 				    $('#menuSubNew1,#menuSubNew2').fadeIn();
-					$("#menuproductosaux").html('<br><ul role="tablist" id="listacat" class="nav nav-tabs" style="width: 350px;"><li id="categoria_1" class="categoriaActiva esCategoria active" onclick="ActivarCategoriasp(this,1);" ontap="ActivarCategoriasp(this,1);" style="width: 150px; height: 44px;"><a style="height: 44px;">Categoría 1</a></li><li id="profes" class="categoriaActiva esCategoria" onclick="ActivarCategoriasp(this,-14);" ontap="ActivarCategoriasp(this,-14);" style="width: 150px; height: 44px;"><a style="height: 44px;">Personalizado</a></li></ul><div class="jumbotron"><h1>No hay productos</h1><p>Por favor, ingresa todos tus productos para empezar a facturar.</p><p><button class="btn btn-primary btn-lg" type="button" onclick="editarProductoID=0; envia('+"'nuevoproducto'"+')">Ingresar Productos</button></p></div>');
+					$("#menuproductosaux").html('<br><ul role="tablist" id="listacat" class="nav nav-tabs" style="width: 350px;"><li id="categoria_1" class="categoriaActiva esCategoria active" onclick="ActivarCategoriasp(this,1);" ontap="ActivarCategoriasp(this,1);" style="width: 150px; height: 44px;"><a style="height: 44px;">Categoría 1</a></li><li id="profes" class="categoriaActiva esCategoria" onclick="ActivarCategoriasp(this,-14);" ontap="ActivarCategoriasp(this,-14);" style="width: 150px; height: 44px;"><a style="height: 44px;">Varios</a></li></ul><div class="jumbotron"><h1>No hay productos</h1><p>Por favor, ingresa todos tus productos para empezar a facturar.</p><p><button class="btn btn-primary btn-lg" type="button" onclick="editarProductoID=0; envia('+"'nuevoproducto'"+')">Ingresar Productos</button></p></div>');
                   }else{
                     $("#menuproductosaux").html('<div class="jumbotron"><h1>No hay productos</h1><p>Por favor, ingresa todos tus productos para empezar a facturar.</p><p><button class="btn btn-primary btn-lg" type="button" onclick="editarProductoID=0; envia('+"'nuevoproducto'"+')">Ingresar Productos</button></p></div>');
                   }
@@ -3092,23 +3092,27 @@ function Init3(){
 	});
 	var anchodireccionales=parseInt($('.direccionales').css('width'));
 	$('#nav_izq,#nav_der').css('width',anchodireccionales);
-	var wp=parseInt($('.productos').css('width'))-40;
+		var wp=parseInt($('.productos').css('width'))-40;
 
-	if(anchoCategorias<wp)
-		$('#contenidoCategorias').css('width','100%');
-	else
-		$('#contenidoCategorias').css('width',(anchoCategorias+cuantas));
+		if(anchoCategorias<wp)
+			$('#contenidoCategorias').css('width','100%');
+		else
+			$('#contenidoCategorias').css('width',(anchoCategorias+cuantas));
 
-	if(anchoCategorias<wp){
-		$('.direccionales').css('display','none');
-		$('#listaCategorias').css('width','100%');
+		if(anchoCategorias<wp){
+			$('.direccionales').css('display','none');
+			$('#listaCategorias').css('width','100%');
+		}else{
+			$('.direccionales').css('display','block');
+			if(wp>0)
+				$('#listaCategorias').css('width',((wp)-(2*anchodireccionales)-10)+'px');
 		}
-	else{
-		$('.direccionales').css('display','block');
-		$('#listaCategorias').css('width',((wp)-(2*anchodireccionales)-10)+'px');
-		}
-	$('.direccionales').css('height',(parseInt($('#listaCategorias').css('height')))+'px');
-	$('.direccionales').css('width','100%');
+		$('.direccionales').css('height',(parseInt($('#listaCategorias').css('height')))+'px');
+		$('.direccionales').css('width','100%');
+	
+	
+	$('#divdatosclientefiferente').css('height',$('#popupclientefe').height());
+	$('#divdatosclientefiferente').css('width',$('#popupclientefe').width());
 
 	$('#avisadorpeque').show();
 	
@@ -3201,23 +3205,28 @@ function Init31(){
 	//$('#listaCategorias').css('width',(w-(2*anchodireccionales)-30)+'px');
 	//$('#listaCategorias').css('height',$('.producto').css('height'));
 	//$('#contenidoCategorias').css('width',anchoCategorias+20);
-	var wp=parseInt($('.productos').css('width'))-40;
-	//alert(anchoCategorias+'/'+wp);
+		var wp=parseInt($('.productos').css('width'))-40;
+		//alert(anchoCategorias+'/'+wp);
 
-	if(anchoCategorias<wp)
-		$('#contenidoCategorias').css('width','100%');
-	else
-		$('#contenidoCategorias').css('width',(anchoCategorias+cuantas));
+		if(anchoCategorias<wp)
+			$('#contenidoCategorias').css('width','100%');
+		else
+			$('#contenidoCategorias').css('width',(anchoCategorias+cuantas));
 
-	if(anchoCategorias<wp){
-		$('.direccionales').css('display','none');
-		//$('#listaCategorias').css('width',wp);
-		$('#listaCategorias').css('width','100%');
-		}
-	else{
-		$('.direccionales').css('display','block');
-		$('#listaCategorias').css('width',((wp)-(2*anchodireccionales)-10)+'px');
-		}
+		if(anchoCategorias<wp){
+			$('.direccionales').css('display','none');
+			//$('#listaCategorias').css('width',wp);
+			$('#listaCategorias').css('width','100%');
+			}
+		else{
+			$('.direccionales').css('display','block');
+			if(wp>0)
+				$('#listaCategorias').css('width',((wp)-(2*anchodireccionales)-10)+'px');
+			}
+	
+	$('#divdatosclientefiferente').css('height',$('#popupclientefe').height());
+	$('#divdatosclientefiferente').css('width',$('#popupclientefe').width());
+	
 	//alert('init');
 }
 

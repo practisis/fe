@@ -910,7 +910,7 @@
 							</div>--->
 							<div class='row'>
 							<div class='col-lg-12' style='text-align:right;'>
-								<button id='btnsetear' class='btn btn-success trans_choose' style='margin-right:5px;' onclick='SetearImpresoraC();'>Elegir</button>
+								<button id='btnsetear' class='btn btn-success trans_choose' style='margin-right:5px; display:none;' onclick='SetearImpresoraC();'>Elegir</button>
 							</div>
 							</div>
 							<div class='row'>
@@ -1588,10 +1588,14 @@ $(document).ready(function(){
 				
 		});
 		
-		if(localStorage.getItem("con_comandas")=="true")
-			$('#divcomandas').fadeIn();
-		else
-			$('#divcomandas').css("display","none");
+		if(localStorage.getItem("con_comandas")=="true"){
+			$('#divcomandas,#btnsetear').fadeIn();
+		}
+			
+		else{
+			$('#divcomandas,#btnsetear').css("display","none");
+		}
+			
 		
 		//si ya existe impresora determinada
 		var extrade=localStorage.getItem("printtrade");
@@ -1950,10 +1954,13 @@ $(document).ready(function(){
 			if(marca==2){
 				var $btn = $('#btnbuscarimp').button('loading');
 				StarIOAdapter.searchall("",function(dataprint){
-					alert(dataprint);
+					//alert(dataprint);
 					//alert(res);
 					var todasimp=dataprint.split('||');
-					if(todasimp.length>0) $('#btnsetear,#btnprobar,#btnsetearc').css("display","");
+					if(todasimp.length>0) $('#btnsetearc,#btnprobar').css("display","");
+					if(localStorage.getItem('con_comandas')=='true'){
+						$('#btnsetear').css("display","");
+					}
 					for(var m=0;m<todasimp.length;m++){
 						var res=todasimp[m].split('@');
 						var micheck='';
@@ -1982,7 +1989,7 @@ $(document).ready(function(){
 					//$('#printc_'+$.trim(localStorage.getItem("printc"))).attr('checked',true);
 					$btn.button('reset');					
 				}, function(error){
-					alert(error);
+					//alert(error);
 					$btn.button('reset');
 					if(localStorage.getItem("idioma")==1)
 						//showalert("Ocurrió un problema con la impresora, vaya a configuracion: " + error);
@@ -1997,10 +2004,13 @@ $(document).ready(function(){
 				//buscar epson
 				var mitipo=$('#tipo').val();
 				StarIOAdapter.searchEpson(mitipo,function(dataprinte){
-					alert(dataprinte);
+					//alert(dataprinte);
 					//alert(res);
 					var todasimp=dataprinte.split('||');
-					if(todasimp.length>0) $('#btnsetear,#btnprobar,#btnsetearc').css("display","");
+					if(todasimp.length>0) $('#btnprobar,#btnsetearc').css("display","");
+					if(localStorage.getItem('con_comandas')=='true'){
+						$('#btnsetear').css("display","");
+					}
 					for(var m=0;m<todasimp.length;m++){
 						var res=todasimp[m].split('@');
 						//alert(res[0]+''+res[1]);
@@ -2017,7 +2027,7 @@ $(document).ready(function(){
 					$('#printc_'+localStorage.getItem("printc")).attr('checked',true);
 					$btn.button('reset');
 				}, function(error){
-					alert(error);
+					//alert(error);
 					$btn.button('reset');
 					if(localStorage.getItem("idioma")==1)
 						//showalert("Ocurrió un problema con la impresora, vaya a configuracion: " + error);

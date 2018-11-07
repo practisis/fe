@@ -49,6 +49,9 @@ public class PrinterFunctionsEpson{
 	
 	public boolean SecuenciaPrint(CallbackContext callbackContext,String portName,String message,String direction,String type,Context context)
 	{
+			/*portName="TM-P20";
+			direction="00:01:90:B9:27:21";
+			type="BT";*/
 			System.out.println("datosimp:"+direction+"/"+portName+"/"+type);
 			this.openDeviceName=direction;
 			this.printerName=portName;
@@ -115,8 +118,10 @@ public class PrinterFunctionsEpson{
 		String direccionCliente="";
 		String telefonoCliente="";
 		String nombreEmpresa="";
+		String razonEmpresa="";
 		String direccionEmpresa="";
 		String telefonoEmpresa="";
+		String rucEmpresa="";
 		JSONArray expprod=new JSONArray();
 		JSONArray expago=new JSONArray();
 		String subconiva="0.00";
@@ -152,6 +157,8 @@ public class PrinterFunctionsEpson{
 		Integer lang=1;
 		String codigoprint="";
 		Integer preimpresas=0;
+		Integer fullp=0;
+		String clave="";
 		JSONArray cierreImpuestos= new JSONArray();
 		long lineastotales=36; //18cm-36lineas
 		long lineasencabezado=6; //3cm-7lineas
@@ -173,6 +180,19 @@ public class PrinterFunctionsEpson{
 			JSONObject objempresa=expjson.getJSONObject("empresa");
 			expago=expjson.getJSONArray("pagos");
 			expprod=expjson.getJSONArray("producto");
+			if(expjson.has("full")){
+				if(!expjson.getString("full").equals(JSONObject.NULL)){
+					if(expjson.getString("full").equals("true")){
+						fullp=1;
+					}
+				}
+			}
+			
+			if(expjson.has("clave")){
+				if(!expjson.getString("clave").equals(JSONObject.NULL)){
+						clave=expjson.getString("clave");
+				}
+			}
 			//expprod=objproducto.getJSONArray("0");
 			
 			cedulaCliente=objcliente.getString("cedula");
@@ -194,19 +214,52 @@ public class PrinterFunctionsEpson{
 					factelectronica=objcliente.getString("linkelectronica");
 			}
 			
-			subconiva=DoubleFormat(objfactura.getDouble("subtotal_iva"));
+			if(!objfactura.isNull("subtotal_iva")){
+				subconiva=DoubleFormat(objfactura.getDouble("subtotal_iva"));
+			}
 			//iva=DoubleFormat(objfactura.getDouble("subtotal_iva")*0.12);
-			iva=DoubleFormat(objfactura.getDouble("iva"));
-			servicio=DoubleFormat(objfactura.getDouble("servicio"));
-			subsiniva=DoubleFormat(Double.parseDouble(objfactura.getString("subtotal_sin_iva").replace(",",".")));
-			subtotal=DoubleFormat(Double.parseDouble(objfactura.getString("subtotal_sin_iva").replace(",","."))+Double.parseDouble(objfactura.getString("subtotal_iva").replace(",",".")));
-			descuento=DoubleFormat(Double.parseDouble(objfactura.getString("descuento").replace(",",".")));
-			totalfact=DoubleFormat(Double.parseDouble(objfactura.getString("total").replace(",",".")));
-			totalfactd=objfactura.getDouble("total");
+			if(!objfactura.isNull("iva")){
+				iva=DoubleFormat(objfactura.getDouble("iva"));
+			}
+			
+			if(!objfactura.isNull("servicio")){
+				servicio=DoubleFormat(objfactura.getDouble("servicio"));
+			}
+			
+			if(!objfactura.isNull("subtotal_sin_iva")){
+				subsiniva=DoubleFormat(Double.parseDouble(objfactura.getString("subtotal_sin_iva").replace(",",".")));
+			}
+			
+			if(!(objfactura.isNull("subtotal_sin_iva")||objfactura.isNull("subtotal_sin_iva"))){
+				subtotal=DoubleFormat(Double.parseDouble(objfactura.getString("subtotal_sin_iva").replace(",","."))+Double.parseDouble(objfactura.getString("subtotal_iva").replace(",",".")));
+			}
+			
+			if(!objfactura.isNull("descuento")){
+				descuento=DoubleFormat(Double.parseDouble(objfactura.getString("descuento").replace(",",".")));
+			}
+			
+			if(!objfactura.isNull("total")){
+				totalfact=DoubleFormat(Double.parseDouble(objfactura.getString("total").replace(",",".")));
+				totalfactd=objfactura.getDouble("total");
+			}
+			
 			nofact=objfactura.getString("numerofact");
 			nombreEmpresa=objempresa.getString("nombre");
 			direccionEmpresa=objempresa.getString("direccion");
-			fechanumber=(long)objfactura.getDouble("fecha");
+			
+			if(!objfactura.isNull("fecha")){
+				fechanumber=(long)objfactura.getDouble("fecha");
+			}
+			
+			if(!objempresa.isNull("razon")){
+				razonEmpresa=objempresa.getString("razon");
+			}
+			
+			
+			if(!objempresa.isNull("ruc")){
+				rucEmpresa=objempresa.getString("ruc");
+			}
+			
 			lineastotales=Math.round(2.25*(objfactura.getInt("largo")-2));
 			lineasencabezado=Math.round(2*objfactura.getInt("encabezado"));
 			
@@ -444,22 +497,32 @@ public class PrinterFunctionsEpson{
 					if(!logo.equals("")){
 						Bitmap logoData =BitmapFactory.decodeFile("/data/data/com.practisis.fe/files//"+logo);
 						// Add top logo to command buffer 
-						builder.addImage(logoData, 0, 0,
-								 logoData.getWidth(),
-								 logoData.getHeight(),
-								 Builder.COLOR_1,
-								 Builder.MODE_MONO,
-								 Builder.HALFTONE_DITHER,
-								 Builder.PARAM_DEFAULT,
-								 getCompress(this.connectionType));
-						
-						builder.addFeedLine(1);
+						if(logoData!=null){
+							builder.addImage(logoData, 0, 0,
+									 logoData.getWidth(),
+									 logoData.getHeight(),
+									 Builder.COLOR_1,
+									 Builder.MODE_MONO,
+									 Builder.HALFTONE_DITHER,
+									 Builder.PARAM_DEFAULT,
+									 getCompress(this.connectionType));
+							
+							builder.addFeedLine(1);
+						}
 					}
 					
 					builder.addTextDouble(Builder.TRUE, Builder.TRUE);
 					builder.addText(nombreEmpresa+"\n");
-					builder.addTextDouble(Builder.FALSE, Builder.FALSE);
 					builder.addFeedLine(1);
+					if(fullp==1){
+						builder.addTextDouble(Builder.TRUE, Builder.TRUE);
+						builder.addText(razonEmpresa+"\n");
+						builder.addTextDouble(Builder.FALSE, Builder.FALSE);
+						builder.addFeedLine(1);
+						textData.append(rucEmpresa+"\n");
+					}
+					builder.addFeedLine(1);
+					builder.addTextDouble(Builder.FALSE, Builder.FALSE);
 					textData.append(direccionEmpresa+"-"+telefonoEmpresa+"\n");
 				}
 				
@@ -796,6 +859,13 @@ public class PrinterFunctionsEpson{
 					lineasescritas=lineasescritas+1;
 					
 					if(!factelectronica.equals("")){
+						
+						if(fullp==1){
+							builder.addFeedLine(1);
+							textData.append("Este documento no tiene ninguna validez tributaria\n");
+							lineasescritas=lineasescritas+1;
+						}
+						
 						if(lang.equals(1)){
 							textData.append("Revisa tu Factura Electrónica en:\n");
 						}else{
@@ -808,6 +878,20 @@ public class PrinterFunctionsEpson{
 							textData.append(vectordata[1]+" -"+vectordata[2]+"\n");
 						}
 						lineasescritas=lineasescritas+2;
+						
+						//clave acceso
+						if(fullp==1){
+							if(!clave.equals(JSONObject.NULL)){
+								if(!clave.equals("")){
+									builder.addFeedLine(1);
+									textData.append("CLAVE ACCESO SRI:\n");
+									textData.append(clave+":\n");
+									textData.append("AUTORIZACION SRI:\n");
+									textData.append(clave+":\n");
+									lineasescritas=lineasescritas+4;
+								}
+							}
+						}
 					}
 						
 				}

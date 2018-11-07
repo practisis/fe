@@ -84,7 +84,8 @@ public class StarIOAdapter extends CordovaPlugin {
         final StarIOAdapter currentPluginInstance = this;
         final JSONArray Arguments = args;
         final CallbackContext currentCallbackContext = callbackContext;
-		final Context micontext=this.cordova.getActivity().getApplicationContext();
+		//final Context micontext=this.cordova.getActivity().getApplicationContext();
+		final Context micontext=this.cordova.getActivity().getBaseContext();
 	
         if (action.equals("check")) {
             cordova.getThreadPool().execute(new Runnable() {
@@ -191,7 +192,8 @@ public class StarIOAdapter extends CordovaPlugin {
             });
             return true;
         }else if (action.equals("searchEpson")) {
-			cordova.getThreadPool().execute(new Runnable() {
+			//cordova.getThreadPool().execute(new Runnable() {
+			cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
 						String mitipo="";
 						Integer tipoprint=DevType.BLUETOOTH;
@@ -210,6 +212,7 @@ public class StarIOAdapter extends CordovaPlugin {
 						}
 						
 					try {
+							System.out.println(iniciadaepson);
 							if(!iniciadaepson){
 								Finder.start(micontext,tipoprint,null);
 								tipoactual=tipoprint;
@@ -238,7 +241,7 @@ public class StarIOAdapter extends CordovaPlugin {
 							Thread t= new Thread(){
 								public void run(){
 									try{
-										Thread.sleep(2000);
+										Thread.sleep(5000);
 									}catch(InterruptedException e){
 										e.printStackTrace();
 									}
@@ -249,16 +252,19 @@ public class StarIOAdapter extends CordovaPlugin {
 					}catch (EpsonIoException e) {
 						//errStatus = e.getStatus();
 						System.out.println("status: "+e.getStatus());
+						String errorstatus="";
 						if(e.getStatus()==IoStatus.ERR_PARAM)
-							System.out.println("error: Parametro invalido");
+							errorstatus="error: Parametro invalido";
 						if(e.getStatus()==IoStatus.ERR_ILLEGAL)
-							System.out.println("error: El API se ha llamado cuando una busqueda ya estaba en progreso");
+							errorstatus="error: El API se ha llamado cuando una busqueda ya estaba en progreso";
 						if(e.getStatus()==IoStatus.ERR_PROCESSING)
-							System.out.println("error: No se puede ejecutar el proceso");
+							errorstatus="error: No se puede ejecutar el proceso";
 						if(e.getStatus()==IoStatus.ERR_MEMORY)
-							System.out.println("error: No se puede guardar en la memoria");
+							errorstatus="error: No se puede guardar en la memoria";
 						if(e.getStatus()==IoStatus.ERR_FAILURE)
-							System.out.println("error: Ocurrió un error inesperado");
+							errorstatus="error: Ocurrió un error inesperado";
+						System.out.println(errorstatus);
+						currentCallbackContext.error(errorstatus);
 						//future = scheduler.scheduleWithFixedDelay(this, 0, DISCOVERY_INTERVAL, TimeUnit.MILLISECONDS);
 						return;
 					}
@@ -267,8 +273,10 @@ public class StarIOAdapter extends CordovaPlugin {
 				final Runnable ejecutarAccion= new Runnable(){
 					public synchronized void run(){
 						try{
-							DeviceInfo[] deviceList = Finder.getDeviceInfoList(FilterOption.PARAM_DEFAULT);
+							//DeviceInfo[] deviceList = Finder.getDeviceInfoList(FilterOption.PARAM_DEFAULT);
+							DeviceInfo[] deviceList = Finder.getDeviceInfoList(FilterOption.FILTER_NONE);
 							if(deviceList!=null){
+								System.out.println("Hay:"+deviceList.length);
 								if (deviceList.length > 0) {
 									String epsonprinters="";
 									int cont=0;
@@ -318,8 +326,20 @@ public class StarIOAdapter extends CordovaPlugin {
 								currentCallbackContext.error("No se encontraron impresoras");
 							}
 						}catch(EpsonIoException e){
-							System.out.println("Error lista status: "+e.getStatus());
-							currentCallbackContext.error(e.getStatus());
+							System.out.println("Error2 lista status: "+e.getStatus());
+							String errorstatus="";
+							if(e.getStatus()==IoStatus.ERR_PARAM)
+								errorstatus="error2: Parametro invalido";
+							if(e.getStatus()==IoStatus.ERR_ILLEGAL)
+								errorstatus="error2: El API se ha llamado cuando una busqueda ya estaba en progreso";
+							if(e.getStatus()==IoStatus.ERR_PROCESSING)
+								errorstatus="error2: No se puede ejecutar el proceso";
+							if(e.getStatus()==IoStatus.ERR_MEMORY)
+								errorstatus="error2: No se puede guardar en la memoria";
+							if(e.getStatus()==IoStatus.ERR_FAILURE)
+								errorstatus="error2: Ocurrió un error inesperado";
+							System.out.println(errorstatus);
+							currentCallbackContext.error(errorstatus);
 						}
 						
 						// stop old finder
@@ -767,15 +787,16 @@ public class StarIOAdapter extends CordovaPlugin {
 					Bitmap bm =BitmapFactory.decodeFile("/data/data/com.practisis.fe/files//"+logo);
 					
 					StarBitmap starbitmap = new StarBitmap(bm, false, maxWidth);
-
-					if (rasterType == RasterCommand.Standard) {
-						list.add(rasterDoc.BeginDocumentCommandData());
-						list.add(starbitmap.getImageRasterDataForPrinting_Standard(compressionEnable));
-						list.add(rasterDoc.EndDocumentCommandData());
-						
-					} else {
-						list.add(starbitmap.getImageRasterDataForPrinting_graphic(compressionEnable));
-						//list.add(new byte[] { 0x1b, 0x64, 0x02 }); // Feed to cutter position
+					if(starbitmap!=null){
+						if (rasterType == RasterCommand.Standard) {
+							list.add(rasterDoc.BeginDocumentCommandData());
+							list.add(starbitmap.getImageRasterDataForPrinting_Standard(compressionEnable));
+							list.add(rasterDoc.EndDocumentCommandData());
+							
+						} else {
+							list.add(starbitmap.getImageRasterDataForPrinting_graphic(compressionEnable));
+							//list.add(new byte[] { 0x1b, 0x64, 0x02 }); // Feed to cutter position
+						}
 					}
 				}
 				
@@ -3360,6 +3381,7 @@ public class StarIOAdapter extends CordovaPlugin {
                 }
             }
         }
+		Runtime.getRuntime().gc();  
     }
 	
 private void runPrintSequence(CallbackContext callbackContext,String message,String portName,String direction,String type){

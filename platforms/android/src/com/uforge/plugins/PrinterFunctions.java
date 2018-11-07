@@ -26,7 +26,7 @@ public class PrinterFunctions
 			String needle="BT:";
 			if(portName.toLowerCase().contains(needle.toLowerCase()))
 			   //portSettings  = "portable;escpos;l";
-			    portSettings  = "portable;l";
+			    portSettings  = "portable;u;l";
 				 //port = StarIOPort.getPort(portName, portSettings, 10000);
 				
 			port = StarIOPort.getPort(portName, portSettings, 10000, context);

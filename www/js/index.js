@@ -83,7 +83,8 @@ function envia(donde){
 			//if(loopSicnronizador) clearInterval(loopSicnronizador);
             //clearInterval(intervalProcesoRepetir);
 					var lugar='';
-					$('#menuNew1,#menuNew2,#menuNew3').attr('class','col-xs-3 itemsmenu');
+					$('#menuNew1,#menuNew2').attr('class','col-xs-3 itemsmenu');
+					$('#menuNew3').attr('class','col-xs-2 itemsmenu');
 					$('#menuNew4,#menuNew5').attr('class','col-xs-1 itemsmenu');
 					$('#cargandoTabs').css('display','block');
 					if(donde=='dashboard'){

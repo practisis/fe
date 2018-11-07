@@ -314,20 +314,25 @@ function ExtraeDatosApi(donde){
 			}
 
             if(ext[0].id_version_nube == 4){
-              localStorage.setItem("con_profesionales","true");
+				localStorage.setItem("con_profesionales","true");
+				if(ext[0].docdisponibles!=null){
+					localStorage.setItem('docdisponibles',ext[0].docdisponibles);
+					$('#cuantosdisponibles').html(ext[0].docdisponibles);
+				}
+					
+				
+				var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+				db.transaction(function(tx){
 
-            var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
-          	db.transaction(function(tx){
+					tx.executeSql("INSERT OR IGNORE INTO CATEGORIAS(categoria,activo,existe,timespan,sincronizar)values('Personalizada','1','1','-14','true');",[],function(tx,results){
+						console.log("insertada categ:"+results.insertId);
+					});
 
-                tx.executeSql("INSERT OR IGNORE INTO CATEGORIAS(categoria,activo,existe,timespan,sincronizar)values('Personalizada','1','1','-14','true');",[],function(tx,results){
-                	console.log("insertada categ:"+results.insertId);
-                });
-
-                tx.executeSql('INSERT OR IGNORE INTO PRODUCTOS(formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,servicio,sincronizar,color,estado,tieneimpuestos) VALUES("Personalizado", "1414" ,0,-14,0,1,0,"-14",0,"true","",1,"true");',[],function(tx,results){
-                  console.log("insertado producto personalizado"+results.insertId);
-                });
-              },errorCB,function(){
-          	});
+					tx.executeSql('INSERT OR IGNORE INTO PRODUCTOS(formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,servicio,sincronizar,color,estado,tieneimpuestos) VALUES("Personalizado", "1414" ,0,-14,0,1,0,"-14",0,"true","",1,"true");',[],function(tx,results){
+					  console.log("insertado producto personalizado"+results.insertId);
+					});
+				  },errorCB,function(){
+				});
 
             }else{
               localStorage.setItem("con_profesionales","false");
@@ -979,6 +984,8 @@ function DatosRecurrentes(cual){
 				localStorage.setItem("msj",jsonSync.BigJson[7].Extra[0].msj);
 				//localStorage.setItem("permisos",jsonSync.BigJson[5].Extra[0].constrasenia);
 				localStorage.setItem("permisos",jsonSync.BigJson[7].Extra[0].contrasenia);
+				localStorage.setItem("docdisponibles",jsonSync.BigJson[7].Extra[0].docdisponibles);
+				$('#cuantosdisponibles').html(jsonSync.BigJson[7].Extra[0].docdisponibles);
 				//localStorage.setItem("claveuser","");
 				//localStorage.setItem("msj",jsonSync.BigJson[5].Extra[0].diseno);
 				//localStorage.setItem("diseno",1);
@@ -1333,6 +1340,11 @@ function DatosRecurrentes(cual){
 
                       if(item.id_version_nube == 4){
                         localStorage.setItem("con_profesionales","true");
+						if(item.docdisponibles!=null){
+							localStorage.setItem('docdisponibles',item.docdisponibles);
+						}
+							
+						
 
                         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
                     	db.transaction(function(tx){
