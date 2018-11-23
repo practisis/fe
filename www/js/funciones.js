@@ -2328,6 +2328,7 @@ function pagar(){
 			json += '"precio_orig" : "'+ splitDetails[3] +'",';
 			json += '"precio_prod" : "'+ splitDetails[4] +'",';
 			json += '"impuesto_prod" : "'+ splitDetails[7] +'",';
+			json += '"impuesto_prod_porcen" : "'+ splitDetails[5] +'",';
 			json += '"precio_total" : "'+ splitDetails[6] +'",';
 			json += '"precio_descuento_justificacion" : "",';
 			json += '"agregados" : "'+splitDetails[8]+'",';
@@ -2356,6 +2357,7 @@ function pagar(){
 
 	//alert(device+'/'+device.model + '/' +'Device Cordova: '  + device.cordova  + '/' +'Device Platform: ' + device.platform + '/' +'Device UUID: '     + device.uuid     + '/' +'Device Version: '  + device.version);
 	//alert(preimpresas);
+	var fechtime=new Date();
 	json = json.substring(0,json.length -1);
 	json += '],'
 	json += '"factura" : {';
@@ -2363,7 +2365,7 @@ function pagar(){
 		json += '"subtotal_sin_iva" : "'+ subtotalSinIva +'",';
 		json += '"timespanfactura" : "'+ timefactura +'",';
 		json += '"idbarrascajas" : "'+midevice+'",';
-		json += '"fecha" : "'+ new Date().getTime() +'",';
+		json += '"fecha" : "'+ fechtime.getTime() +'",';
 		json += '"anulada" : "false",';
 		json += '"subtotal_iva" : "'+ subtotalIva +'",';
 		json += '"impuestos" : "'+ idimpuestos +'",';
@@ -2462,8 +2464,28 @@ function pagar(){
 				json+=',';
 			json+='{"forma":"consumointerno","valor":"'+$('#valorConsumoI').val()+'","tipotarjeta":"","lote":"","numerocheque":"","banco":""}';
 		}
-		json+=']}]}';
-
+		
+		var clave='';
+		if(localStorage.getItem('generarclave')=='true'){
+			var aniofull=fechtime.getFullYear();
+			var mesfull=(fechtime.getMonth()+1).toString();
+			var diafull=fechtime.getDate().toString();
+			if(mesfull.length<2)
+				mesfull='0'+mesfull;
+			if(diafull.length<2)
+				diafull='0'+diafull;
+			var fec=aniofull+'-'+mesfull+'-'+diafull;
+			//alert(fec);
+			var numf=nofactura.replace(/-/g ,"");
+			clave=GenerarClaveAcceso(fec,numf);
+		}
+		
+		//alert(clave)
+		var fullv=localStorage.getItem('full');
+		if(fullv==null)
+			fullv='false';
+		
+		json+='],"full":"'+fullv+'","clave":"'+clave+'"}]}';
 		$('#json').html(json);
 		//alert("Ana");
 		receiveJson();
@@ -6089,6 +6111,7 @@ function SaveMesa(){
 				json += '"precio_orig" : "'+ splitDetails[3] +'",';
 				json += '"precio_prod" : "'+ splitDetails[4] +'",';
 				json += '"impuesto_prod" : "'+ splitDetails[7] +'",';
+				json += '"impuesto_prod_porcen" : "'+ splitDetails[5] +'",';
 				json += '"precio_total" : "'+ splitDetails[6] +'",';
 				json += '"precio_descuento_justificacion" : "",';
 				json += '"agregados" : "'+splitDetails[8]+'",';
@@ -6192,6 +6215,7 @@ function  ImprimirPrecuenta(){
 				json += '"precio_orig" : "'+ splitDetails[3] +'",';
 				json += '"precio_prod" : "'+ splitDetails[4] +'",';
 				json += '"impuesto_prod" : "'+ splitDetails[7] +'",';
+				json += '"impuesto_prod_porcen" : "'+ splitDetails[5] +'",';
 				json += '"precio_total" : "'+ splitDetails[6] +'",';
 				json += '"precio_descuento_justificacion" : "",';
 				json += '"agregados" : "'+splitDetails[8]+'",';
@@ -6430,6 +6454,7 @@ function SaveMesaLocal(){
 				json += '"precio_orig" : "'+ splitDetails[3] +'",';
 				json += '"precio_prod" : "'+ splitDetails[4] +'",';
 				json += '"impuesto_prod" : "'+ splitDetails[7] +'",';
+				json += '"impuesto_prod_porcen" : "'+ splitDetails[5] +'",';
 				json += '"precio_total" : "'+ splitDetails[6] +'",';
 				json += '"precio_descuento_justificacion" : "",';
 				json += '"agregados" : "'+splitDetails[8]+'",';
@@ -6647,4 +6672,79 @@ function SubtotalesDescuento(){
 	});
 	var newdesc=descuentoconimp/restadescuento;
 	$('#descuentoFacturatrue').val(newdesc.toFixed(3));
+}
+
+
+function GenerarClaveAcceso(fecha,num){
+	var claveacceso='';
+	var ambiente=2;
+	if(localStorage.getItem('ambiente')!=null&&localStorage.getItem('ambiente')>0){
+		ambiente=parseInt(localStorage.getItem('ambiente'));
+	}
+	
+	var ruc='';
+	if(localStorage.getItem('ruc')!=null&&localStorage.getItem('ruc')!=''){
+		ruc=parseInt(localStorage.getItem('ruc'));
+	}
+	
+	var splitfec=fecha.split('-');
+	var dia=splitfec[2];
+	var mes=splitfec[1];
+	var anio=splitfec[0];
+	var tipodoc='01';
+	/*if(nc>0)
+		tipodoc='04';*/
+		
+		var numerico8='412'+pad(localStorage.getItem('empresa'),5);
+		//1 Emisión Normal
+		//2 Emisión por Indisponibilidad del Sistema
+		var tipoemision=1;
+		claveacceso+=dia+mes+anio+tipodoc+ruc+ambiente+num+numerico8+tipoemision;
+		
+		var digitoverificador=0;
+		/*algoritmo modulo 11*/
+		var cadenar=invertir(claveacceso);
+		var ponderado=2;
+		var suma=0;
+		for(var i=0;i<cadenar.length;i++){
+			if(ponderado>7)
+				ponderado=2;
+			//echo $ponderado."<br/>";
+			var numn=parseInt(cadenar[i])*ponderado;
+			suma+=numn;
+			ponderado=ponderado+1;
+		}
+		
+		//echo $suma."<br/>";
+		
+		var resto=suma%11;
+		var monce=11-resto;
+		if(monce<10)
+			digitoverificador=monce;
+		else if(monce==11)
+			digitoverificador=0;
+		else if(monce==10)
+			digitoverificador=1;
+		
+		/*algoritmo modulo 11*/
+		claveacceso+=digitoverificador;
+	
+	return claveacceso;
+}
+
+function pad(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
+
+function invertir(cadena) {
+  var x = cadena.length;
+  var cadenaInvertida = "";
+ 
+  while (x>=0) {
+    cadenaInvertida = cadenaInvertida + cadena.charAt(x);
+    x--;
+  }
+  return cadenaInvertida;
 }

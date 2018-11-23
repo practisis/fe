@@ -203,13 +203,13 @@
 		});
 		
 		//lee los modificadores del producto
-		tx.executeSql("SELECT * FROM modificadores WHERE id_formulado=? order by no_modificador",[editarProductoID.toString()],function(tx,results3){
-			if(results3.rows.length>0){
+		tx.executeSql("SELECT * FROM modificadores WHERE id_formulado=? order by no_modificador",[editarProductoID.toString()],function(tx,results5){
+			if(results5.rows.length>0){
 				
 				var mihtml='';
 				var iter=0;
-				for (var i=0; i < results3.rows.length; i++){
-					var item=results3.rows.item(i);
+				for (var i=0; i < results5.rows.length; i++){
+					var item=results5.rows.item(i);
 					var elmodif=item.no_modificador;
 					//$('#tablemodif'+elmodif+' tbody').html('');
 					var laclass='';
@@ -224,10 +224,12 @@
 					if(item.activo=='true')
 						esactivo=" checked";
 						
-					mihtml+="<tr class='"+laclass+"'><td style=''><input type='text' class='form-control' id='nombremod_"+elmodif+"_"+i+"' value='"+item.nombre+"'  onchange='EditarLinea(this);'/></td><td style=''><input type='text' class='form-control precios precioeditable' id='preciomod_"+elmodif+"_"+i+"' value='"+item.valor+"' style='text-align:right;' readonly onchange='EditarLinea(this)' /><input type='hidden' id='idmod_"+elmodif+"_"+i+"' value='"+item.timespan+"'/></td><td style='text-align:center;'><input type='checkbox' id='activomod_"+elmodif+"_"+i+"' class='checkactivomod' data-size='mini' "+esactivo+" /></td><td style='text-align:right; '><button id='btnsave_"+elmodif+"_"+i+"' style='display:none; margin-right:2px;' onclick='GuardarLinea(this);' type='button' class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span></button><button id='btncancel_"+elmodif+"_"+i+"' style='display:none;' onclick='CancelarLinea(this);' type='button' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button><button style='display:none;' id='btnedit_"+elmodif+"_"+i+"' onclick='EditarLinea(this);' type='button' class='btn btn-primary'>Edit</button></td></tr>";
+					mihtml="<tr class='"+laclass+"'><td style=''><input type='text' class='form-control' id='nombremod_"+elmodif+"_"+i+"' value='"+item.nombre+"'  onchange='EditarLinea(this);'/></td><td style=''><input type='text' class='form-control precios precioeditable' id='preciomod_"+elmodif+"_"+i+"' value='"+item.valor+"' style='text-align:right;' readonly onchange='EditarLinea(this)' /><input type='hidden' id='idmod_"+elmodif+"_"+i+"' value='"+item.timespan+"'/></td><td style='text-align:center;'><input type='checkbox' id='activomod_"+elmodif+"_"+i+"' class='checkactivomod' data-size='mini' "+esactivo+" /></td><td style='text-align:right; '><button id='btnsave_"+elmodif+"_"+i+"' style='display:none; margin-right:2px;' onclick='GuardarLinea(this);' type='button' class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span></button><button id='btncancel_"+elmodif+"_"+i+"' style='display:none;' onclick='CancelarLinea(this);' type='button' class='btn btn-danger'><span class='glyphicon glyphicon-remove'></span></button><button style='display:none;' id='btnedit_"+elmodif+"_"+i+"' onclick='EditarLinea(this);' type='button' class='btn btn-primary'>Edit</button></td></tr>";
+					
+					$('#tablemodif'+elmodif+' tbody').append(mihtml);
 					
 				}
-				$('#tablemodif'+elmodif+' tbody').append(mihtml);
+				
 				
 				$('.precios').on("click",function(){
 				if($(this).hasClass("precioeditable")){

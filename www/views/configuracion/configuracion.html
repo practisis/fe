@@ -713,6 +713,10 @@
             <td  style='text-align:right;'>LocalHost</td>
             <td align='left'><input id='con_localhost' class='form-control' readonly /></td>
 		</tr>
+    <tr>
+            <td  style='text-align:right;'>Generar Clave Acceso/Autorización</td>
+            <td align='left'><input data-size='small' type='checkbox' id='generarclave' class='switch'/></td>
+		</tr>
 		</table>
 		<div class='row'>
 			<div class='col-lg-12' style='margin-bottom:35px;'>
@@ -924,6 +928,9 @@
 								<div>
 									 <div  class='col-lg-6 col-md-6 col-sm-6 col-xs-6' style='padding-top:20px; padding-bottom:20px;'>
 										<input type='checkbox' name='preimpresas' id='preimpresas'/><label id='labpreimpresas' name='labpreimpresas' for='preimpresas'>&nbsp;Facturas Preimpresas</label>
+									 </div>
+									 <div  class='col-lg-4 col-md-4 col-sm-4 col-xs-4' style='padding-top:20px; padding-bottom:20px;'>
+										<input type='checkbox' name='full' id='full'/><label id='labfull' name='labfull' for='full'>&nbsp;Impresión Full</label>
 									 </div>
 									<table class='table table-border'>
 										<tr>
@@ -1274,7 +1281,7 @@ $(document).ready(function(){
 	//alert("Ana");
 		var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 		db.transaction(function(tx){
-				tx.executeSql("SELECT printer,printercom,encabezado,largo,preimpresas FROM CONFIG where id=1",[],function(tx,results){
+				tx.executeSql("SELECT printer,printercom,encabezado,largo,preimpresas,full FROM CONFIG where id=1",[],function(tx,results){
 				console.log(results);
 				if(results.rows.length>0){
 					//alert(results.rows.item(0).printer);
@@ -1295,6 +1302,12 @@ $(document).ready(function(){
 						factpreimp=true;
 					}
 					$('#preimpresas').attr('checked',factpreimp);
+					
+					var imprfull=false;
+					if(idprinter.full=='true'){
+						imprfull=true;
+					}
+					$('#full').attr('checked',imprfull);
 				}
 			});
 		},errorCB,successCB);
@@ -1759,11 +1772,25 @@ $(document).ready(function(){
         $('#con_pagarconcredito').bootstrapSwitch();
         $('#con_imppersonalizados').bootstrapSwitch();
 		$('#backupinf').bootstrapSwitch();
+		$('#sonido').bootstrapSwitch();
+		$('#generarclave').bootstrapSwitch();
 		$('#printlogo').bootstrapSwitch();
         $('#multitablet').bootstrapSwitch();
         $('#obligado').bootstrapSwitch();
         $('#produccion').bootstrapSwitch();
         $('#activafacturacionelectronica').bootstrapSwitch();
+		
+		if(localStorage.getItem('sonido')=='true'){
+			$('#sonido').bootstrapSwitch('state', true, true);
+		}else{
+			$('#sonido').bootstrapSwitch('state', false, true);
+		}
+		
+		if(localStorage.getItem('generarclave')=='true'){
+			$('#generarclave').bootstrapSwitch('state', true, true);
+		}else{
+			$('#generarclave').bootstrapSwitch('state', false, true);
+		}
 
 		if(localStorage.getItem("diseno")==1){
 			$('#tablet_menu').bootstrapSwitch('state', true, true);
@@ -1776,6 +1803,23 @@ $(document).ready(function(){
 			localStorage.setItem("diseno",1);
 		  }else{
 			localStorage.setItem("diseno",0);
+		  }
+		});
+		
+		
+		$('#sonido').on('switchChange.bootstrapSwitch', function(event, state) {
+		  if(state){
+			localStorage.setItem("sonido",true);
+		  }else{
+			localStorage.setItem("sonido",false);
+		  }
+		});
+		
+		$('#generarclave').on('switchChange.bootstrapSwitch', function(event, state) {
+		  if(state){
+			localStorage.setItem("generarclave",true);
+		  }else{
+			localStorage.setItem("generarclave",false);
 		  }
 		});
 		
@@ -2269,12 +2313,18 @@ $(document).ready(function(){
 			if($('#preimpresas').is(':checked')==true){
 				preimpresas='true';
 			}
+			
+			var full='false';
+			if($('#full').is(':checked')==true){
+				full='true';
+			}
 				
-			tx.executeSql('UPDATE CONFIG set encabezado=?,largo=?,preimpresas=? WHERE id=1;',[encab,largo,preimpresas],
+			tx.executeSql('UPDATE CONFIG set encabezado=?,largo=?,preimpresas=?,full=? WHERE id=1;',[encab,largo,preimpresas,full],
 			function(tx,res){
 				localStorage.setItem("encabezado",encab);
 				localStorage.setItem("largo",largo);
 				localStorage.setItem("preimpresas",preimpresas);
+				localStorage.setItem("full",full);
 				if(localStorage.getItem("idioma")==1)
 						showalert("Datos Actualizados con éxito.");
 					else if(localStorage.getItem("idioma")==2)
@@ -2315,12 +2365,13 @@ $(document).ready(function(){
                 localStorage.setItem('con_mesas',con_mesas);
                 localStorage.setItem('pagarconcredito',con_pagarconcredito);
                 localStorage.setItem('impuestos_personalizados',con_imppersonalizados);
-                var con_backup = $('#backupinf').bootstrapSwitch('state');
+				var con_backup = $('#backupinf').bootstrapSwitch('state');
+				var generarclave=$('#generarclave').is(':checked');
 
 				if(tabname=='')
 					tabname="Tablet "+$('#devicemodel').html();
 					
-				tx1.executeSql("UPDATE CONFIG SET nombreterminal=?,sincronizar=?,id_idioma=?,sin_documento=?,con_nombre_orden=?,con_propina=?,con_tarjeta=?,con_shop=?,con_notasorden=?,con_comanderas=?,con_mesas=?,id_version_nube=?,respaldar=?,pagarconcredito=?,impuestos_personalizados=? where id=1",[tabname,true,idioma,sin_documento,con_orden,con_propina,con_tarjeta,con_shop,con_notas,con_comanderas,con_mesas,version_nub,con_backup,con_pagarconcredito,con_imppersonalizados],
+				tx1.executeSql("UPDATE CONFIG SET nombreterminal=?,sincronizar=?,id_idioma=?,sin_documento=?,con_nombre_orden=?,con_propina=?,con_tarjeta=?,con_shop=?,con_notasorden=?,con_comanderas=?,con_mesas=?,id_version_nube=?,respaldar=?,pagarconcredito=?,impuestos_personalizados=?,generarclave=? where id=1",[tabname,true,idioma,sin_documento,con_orden,con_propina,con_tarjeta,con_shop,con_notas,con_comanderas,con_mesas,version_nub,con_backup,con_pagarconcredito,con_imppersonalizados,generarclave],
 				function(tx1,results1){
 					
 					var linklang="es";
@@ -2746,7 +2797,7 @@ function actualizar(){
 				setTimeout(function() {
 					$('#msjOk').fadeOut('slow');
 				}, 3000);
-			},errorCB,function(){$('#JSONempresaLocal').html('"empresa":{'+'"nombre":"'+nombreEsta+'","direccion":"'+dir+'"},');});
+			},errorCB,function(){$('#JSONempresaLocal').html('"empresa":{'+'"nombre":"'+nombreEsta+'","direccion":"'+dir+'","razon":"'+razon+'","ruc":"'+ruc+'"},');});
 		}
 		
 	}

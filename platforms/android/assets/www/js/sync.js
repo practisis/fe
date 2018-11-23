@@ -54,9 +54,9 @@ function SyncStart(){
 				}
 			});
 
-			tx.executeSql('SELECT nombre,direccion,telefono from config WHERE id=1',[],function(tx,results){
+			tx.executeSql('SELECT nombre,direccion,telefono,razon,ruc2 from config WHERE id=1',[],function(tx,results){
 				var dataemp=results.rows.item(0);
-				$('#JSONempresaLocal').html('"empresa":{'+'"nombre":"'+dataemp.nombre+'","direccion":"'+dataemp.direccion+"-"+dataemp.telefono+'"},');
+				$('#JSONempresaLocal').html('"empresa":{'+'"nombre":"'+dataemp.nombre+'","direccion":"'+dataemp.direccion+"-"+dataemp.telefono+'","razon":"'+dataemp.razon+'","ruc":"'+dataemp.ruc2+'"},');
 			});
 		});
 		setTimeout(function(){SincronizadorNormal();},120000);
@@ -306,6 +306,8 @@ function ExtraeDatosApi(donde){
             localStorage.setItem("terminos",ext[0].terminos);
             localStorage.setItem("id_locales",ext[0].id_locales);
             localStorage.setItem("id_pais",ext[0].id_pais);
+           /* localStorage.setItem("ambiente",ext[0].ambiente);
+            localStorage.setItem("generarclave",ext[0].generarclave);*/
             localStorage.setItem("pagarconcredito",ext[0].pagarconcredito);      
 			if(ext[0].aceptanc!=null){
 				localStorage.setItem("feaceptanc",ext[0].aceptanc);
@@ -314,20 +316,25 @@ function ExtraeDatosApi(donde){
 			}
 
             if(ext[0].id_version_nube == 4){
-              localStorage.setItem("con_profesionales","true");
+				localStorage.setItem("con_profesionales","true");
+				if(ext[0].docdisponibles!=null){
+					localStorage.setItem('docdisponibles',ext[0].docdisponibles);
+					$('#cuantosdisponibles').html(ext[0].docdisponibles);
+				}
+					
+				
+				var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
+				db.transaction(function(tx){
 
-            var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
-          	db.transaction(function(tx){
+					tx.executeSql("INSERT OR IGNORE INTO CATEGORIAS(categoria,activo,existe,timespan,sincronizar)values('Personalizada','1','1','-14','true');",[],function(tx,results){
+						console.log("insertada categ:"+results.insertId);
+					});
 
-                tx.executeSql("INSERT OR IGNORE INTO CATEGORIAS(categoria,activo,existe,timespan,sincronizar)values('Personalizada','1','1','-14','true');",[],function(tx,results){
-                	console.log("insertada categ:"+results.insertId);
-                });
-
-                tx.executeSql('INSERT OR IGNORE INTO PRODUCTOS(formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,servicio,sincronizar,color,estado,tieneimpuestos) VALUES("Personalizado", "1414" ,0,-14,0,1,0,"-14",0,"true","",1,"true");',[],function(tx,results){
-                  console.log("insertado producto personalizado"+results.insertId);
-                });
-              },errorCB,function(){
-          	});
+					tx.executeSql('INSERT OR IGNORE INTO PRODUCTOS(formulado,codigo,precio,categoriaid,cargaiva,productofinal,materiaprima,timespan,servicio,sincronizar,color,estado,tieneimpuestos) VALUES("Personalizado", "1414" ,0,-14,0,1,0,"-14",0,"true","",1,"true");',[],function(tx,results){
+					  console.log("insertado producto personalizado"+results.insertId);
+					});
+				  },errorCB,function(){
+				});
 
             }else{
               localStorage.setItem("con_profesionales","false");
@@ -671,14 +678,14 @@ function LaunchBoarding(){
 	$('#myDash').modal('show');
 }
 
-function SetDataEmpresa(nombre,celular,email,deviceid,id_barra_arriba,ruc,direccion,tablet,desde_login, pais){
+function SetDataEmpresa(nombre,celular,email,deviceid,id_barra_arriba,ruc,direccion,tablet,desde_login, pais,nombresoc,nombrecom,generarclave){
 	if(tablet==''){
 		tablet='Tablet '+$('#devicemodel').html();
 	}
 	var db2 = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
 	db2.transaction(
 		function (tx){
-			tx.executeSql('INSERT INTO CONFIG (nombre,razon,telefono,email,ruc2,direccion,nombreterminal,terminos_condiciones,pide_telefono,telefono_inte) VALUES(?,?,?,?,?,?,?,?,?,?)',[nombre,nombre,celular,email,ruc,direccion,tablet,'true','true','222222'],function(tx,res){
+			tx.executeSql('INSERT INTO CONFIG (nombre,razon,telefono,email,ruc2,direccion,nombreterminal,terminos_condiciones,pide_telefono,telefono_inte,generarclave) VALUES(?,?,?,?,?,?,?,?,?,?,?)',[nombre,nombre,celular,email,ruc,direccion,tablet,'true','true','222222',generarclave],function(tx,res){
 				$('#msjOk').html('Informacion Ingresada con Éxito');
 				$('#msjOk').fadeIn('slow');
 				$('#campos').css('display','none');
@@ -687,7 +694,7 @@ function SetDataEmpresa(nombre,celular,email,deviceid,id_barra_arriba,ruc,direcc
 				}, 3000);
 			});
 				
-		},errorCB,function(){$('#JSONempresaLocal').html('"empresa":{'+'"nombre":"'+nombre+'","direccion":"'+direccion+"-"+celular+'"},');});
+		},errorCB,function(){$('#JSONempresaLocal').html('"empresa":{'+'"nombre":"'+nombrecom+'","direccion":"'+direccion+"-"+celular+'","razon":"'+nombresoc+'","ruc":"'+ruc+'"},');});
 		
 	
 	db2.transaction(
@@ -804,9 +811,12 @@ function UserLogin(){
 					localStorage.setItem("userPasswod", pass);
 					localStorage.setItem("empresa",datosaux[0]);
 					localStorage.setItem("idbarra",datosaux[2]);
+					localStorage.setItem("generarclave",datosaux[8]);
+					localStorage.setItem("ambiente",datosaux[9]);
+					localStorage.setItem("ruc",datosaux[4]);
 					
 					var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
-					db.transaction(iniciaDB,errorCB,function(){SetDataEmpresa(datosaux[1],datosaux[3],quien,iddevice,datosaux[2],datosaux[4],datosaux[5],'',true,'0')});
+					db.transaction(iniciaDB,errorCB,function(){SetDataEmpresa(datosaux[1],datosaux[3],quien,iddevice,datosaux[2],datosaux[4],datosaux[5],'',true,'0',datosaux[6],datosaux[7],datosaux[8])});
 					
 					SyncStart();
 
@@ -979,6 +989,8 @@ function DatosRecurrentes(cual){
 				localStorage.setItem("msj",jsonSync.BigJson[7].Extra[0].msj);
 				//localStorage.setItem("permisos",jsonSync.BigJson[5].Extra[0].constrasenia);
 				localStorage.setItem("permisos",jsonSync.BigJson[7].Extra[0].contrasenia);
+				localStorage.setItem("docdisponibles",jsonSync.BigJson[7].Extra[0].docdisponibles);
+				$('#cuantosdisponibles').html(jsonSync.BigJson[7].Extra[0].docdisponibles);
 				//localStorage.setItem("claveuser","");
 				//localStorage.setItem("msj",jsonSync.BigJson[5].Extra[0].diseno);
 				//localStorage.setItem("diseno",1);
@@ -1323,6 +1335,9 @@ function DatosRecurrentes(cual){
                       localStorage.setItem("id_pais",item.id_pais);
                       localStorage.setItem("factelectronica",item.tiene_factura_electronica);
                       localStorage.setItem("impuestos_personalizados",item.impuestos_personalizados);
+                      localStorage.setItem("generarclave",item.generarclave);
+                      localStorage.setItem("ambiente",item.ambiente);
+                      localStorage.setItem("ruc",item.ruc);
 					  if(item.aceptanc!=null){
 						localStorage.setItem("feaceptanc",item.aceptanc);
 					  }else{
@@ -1333,6 +1348,11 @@ function DatosRecurrentes(cual){
 
                       if(item.id_version_nube == 4){
                         localStorage.setItem("con_profesionales","true");
+						if(item.docdisponibles!=null){
+							localStorage.setItem('docdisponibles',item.docdisponibles);
+						}
+							
+						
 
                         var db = window.openDatabase("Database", "1.0", "PractisisMobile", 200000);
                     	db.transaction(function(tx){
@@ -1349,8 +1369,7 @@ function DatosRecurrentes(cual){
                       }else{
                         localStorage.setItem("con_profesionales","false");
                       }
-
-                      tx.executeSql('UPDATE CONFIG SET nombre="'+item.nombreempresa+'",razon = "'+item.razon+'" , ruc2="'+item.ruc+'",telefono ="'+item.telefono+'",direccion="'+item.direccion+'",serie="'+item.serie+'",establecimiento="'+item.establecimiento+'",nombreterminal="'+item.nombreterminal+'",pais="'+item.pais+'",id_idioma = "'+item.idioma+'",sin_documento="'+item.documento+'",con_nombre_orden="'+item.orden+'",con_propina="'+item.propina+'",con_tarjeta="'+item.tarjeta+'",con_shop="'+item.shop+'",con_notasorden="'+item.notas+'",con_comanderas="'+item.comanderas+'",con_localhost="'+item.localhost+'",ip_servidor="'+item.ipservidor+'",con_mesas="'+item.mesas+'",logo="'+item.logo+'",id_version_nube="'+item.id_version_nube+'",pide_telefono="'+item.pide_telefono+'",telefono_inte="'+item.telefono_inte+'",mensajefinal="'+item.mensajefinal+'",terminos_condiciones="'+item.terminos+'",id_locales="'+item.id_locales+'",email_fact="'+item.email_fact+'",key="'+item.key+'",numero_contribuyente="'+item.numero_contribuyente+'",obligado_contabilidad="'+item.obligado_contabilidad+'",prueba_produccion="'+item.prueba_produccion+'",tiene_factura_electronica="'+item.tiene_factura_electronica+'",mensaje_factura="'+item.msj_factura_electronica+'",respaldar="'+item.respaldar+'",pagarconcredito="'+item.pagarconcredito+'",impuestos_personalizados="'+item.impuestos_personalizados+'" WHERE id=1',[],function(tx,results){
+                      tx.executeSql('UPDATE CONFIG SET nombre="'+item.nombreempresa+'",razon = "'+item.razon+'" , ruc2="'+item.ruc+'",telefono ="'+item.telefono+'",direccion="'+item.direccion+'",serie="'+item.serie+'",establecimiento="'+item.establecimiento+'",nombreterminal="'+item.nombreterminal+'",pais="'+item.pais+'",id_idioma = "'+item.idioma+'",sin_documento="'+item.documento+'",con_nombre_orden="'+item.orden+'",con_propina="'+item.propina+'",con_tarjeta="'+item.tarjeta+'",con_shop="'+item.shop+'",con_notasorden="'+item.notas+'",con_comanderas="'+item.comanderas+'",con_localhost="'+item.localhost+'",ip_servidor="'+item.ipservidor+'",con_mesas="'+item.mesas+'",logo="'+item.logo+'",id_version_nube="'+item.id_version_nube+'",pide_telefono="'+item.pide_telefono+'",telefono_inte="'+item.telefono_inte+'",mensajefinal="'+item.mensajefinal+'",terminos_condiciones="'+item.terminos+'",id_locales="'+item.id_locales+'",email_fact="'+item.email_fact+'",key="'+item.key+'",numero_contribuyente="'+item.numero_contribuyente+'",obligado_contabilidad="'+item.obligado_contabilidad+'",prueba_produccion="'+item.prueba_produccion+'",tiene_factura_electronica="'+item.tiene_factura_electronica+'",mensaje_factura="'+item.msj_factura_electronica+'",respaldar="'+item.respaldar+'",pagarconcredito="'+item.pagarconcredito+'",impuestos_personalizados="'+item.impuestos_personalizados+'",generarclave="'+item.generarclave+'",ambiente="'+item.ambiente+'" WHERE id=1',[],function(tx,results){
 						console.log("actualizada empresa");
 						if(item.logo!=''&&item.logo!=null){
 							var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
@@ -1907,7 +1926,7 @@ function PostaLaNube(arraydatos,cual,accion,t){
 		jsonc=item.fetchJson;
         //alert(jsonc);
 	}else if(accion=='Config'){
-		jsonc='{"nombreempresa":"'+item.nombre+'","razon":"'+item.razon+'","telefono":"'+item.telefono+'","ruc":"'+item.ruc2+'","direccion":"'+item.direccion+'","email":"'+item.email+'","serie":"'+item.serie+'","establecimiento":"'+item.establecimiento+'","nombreterminal":"'+item.nombreterminal+'","idioma":"'+item.id_idioma+'","documento":"'+item.sin_documento+'","orden":"'+item.con_nombre_orden+'","propina":"'+item.con_propina+'","tarjeta":"'+item.con_tarjeta+'","shop":"'+item.con_shop+'","mesas":"'+item.con_mesas+'","id_version_nube":"'+item.id_version_nube+'","pide_telefono":"'+item.pide_telefono+'","telefono_inte":"'+item.telefono_inte+'","mensajefinal":"'+item.mensajefinal+'","terminos":"'+item.terminos_condiciones+'","id_locales":"'+item.id_locales+'","email_fact":"'+item.email_fact+'","key":"'+item.key+'","numero_contribuyente":"'+item.numero_contribuyente+'","obligado_contabilidad":"'+item.obligado_contabilidad+'","prueba_produccion":"'+item.prueba_produccion+'","tiene_factura_electronica":"'+item.tiene_factura_electronica+'","msj_factura_electronica":"'+item.mensaje_factura+'","respaldar":"'+item.respaldar+'","con_comanderas":"'+item.con_comanderas+'","con_notas":"'+item.con_notasorden+'","pagarconcredito":"'+item.pagarconcredito+'","impuestos_personalizados":"'+item.impuestos_personalizados+'"}';
+		jsonc='{"nombreempresa":"'+item.nombre+'","razon":"'+item.razon+'","telefono":"'+item.telefono+'","ruc":"'+item.ruc2+'","direccion":"'+item.direccion+'","email":"'+item.email+'","serie":"'+item.serie+'","establecimiento":"'+item.establecimiento+'","nombreterminal":"'+item.nombreterminal+'","idioma":"'+item.id_idioma+'","documento":"'+item.sin_documento+'","orden":"'+item.con_nombre_orden+'","propina":"'+item.con_propina+'","tarjeta":"'+item.con_tarjeta+'","shop":"'+item.con_shop+'","mesas":"'+item.con_mesas+'","id_version_nube":"'+item.id_version_nube+'","pide_telefono":"'+item.pide_telefono+'","telefono_inte":"'+item.telefono_inte+'","mensajefinal":"'+item.mensajefinal+'","terminos":"'+item.terminos_condiciones+'","id_locales":"'+item.id_locales+'","email_fact":"'+item.email_fact+'","key":"'+item.key+'","numero_contribuyente":"'+item.numero_contribuyente+'","obligado_contabilidad":"'+item.obligado_contabilidad+'","prueba_produccion":"'+item.prueba_produccion+'","tiene_factura_electronica":"'+item.tiene_factura_electronica+'","msj_factura_electronica":"'+item.mensaje_factura+'","respaldar":"'+item.respaldar+'","con_comanderas":"'+item.con_comanderas+'","con_notas":"'+item.con_notasorden+'","pagarconcredito":"'+item.pagarconcredito+'","impuestos_personalizados":"'+item.impuestos_personalizados+'","full":"'+item.full+'","generarclave":"'+item.generarclave+'"}';		
 	}else if(accion=='MESAS_DATOS'){
 		jsonc='{"id_mesa":"'+item.id_mesa+'","cliente":"'+item.cliente+'","id_cliente":"'+item.id_cliente+'","activo":"'+item.activo+'","id_factura":"'+item.id_factura+'","hora_activacion":"'+item.hora_activacion+'","hora_desactivacion":"'+item.hora_desactivacion+'","pax":"'+item.pax+'","timespan":"'+item.timespan+'"}';
 	}else if(accion=='IMPUESTOS'){

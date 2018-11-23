@@ -1266,16 +1266,16 @@
 			<h3>Elige el tipo de cliente para tu factura.</h3><br/>
 			<div class='row'>
 			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-0'></div>
-			<div class='col-lg-4 col-md-4 col-sm-8 col-xs-12'><button class='btn btn-block btn-primary btn-lg' onclick='ConsumidorFinal();'>CONSUMIDOR FINAL</button></div>
+			<div class='col-lg-4 col-md-4 col-sm-8 col-xs-12'><button type='button' class='btn btn-block btn-primary btn-lg' onclick='ConsumidorFinal();'>CONSUMIDOR FINAL</button></div>
 			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-0'></div>
 			</div>
 			<div class='row'>
 			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-0'></div>
-			<div class='col-lg-4 col-md-4 col-sm-8 col-xs-12'><button class='btn btn-block btn-primary btn-lg' style='margin-top:20px;' onclick="$('#antescliente').css('display','none'); $('#divdatosclientefiferente').fadeIn(); $('#divdatosclientefiferente').fadeIn();">CLIENTE CON DATOS</button></div>
+			<div class='col-lg-4 col-md-4 col-sm-8 col-xs-12'><button type='button' class='btn btn-block btn-primary btn-lg' style='margin-top:20px;' onclick="ClientesDatos();">CLIENTE CON DATOS</button></div>
 			<div class='col-lg-4 col-md-4 col-sm-2 col-xs-0'></div>
 			</div>
 		</div>
-		<div style='padding:0px 20px 0px 20px; display:none;' id='divdatosclientefiferente'>
+		<div style='padding:0px 20px 0px 20px; display:none; left:0px; position:absolute; top:110px; min-width:400px; min-height:400px;' id='divdatosclientefiferente'>
 			<div class='container-fluid' id='descripcionD'>
 				<div class='row'>
 					<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12' style='text-align:left;'>
@@ -1322,7 +1322,6 @@
 						</div>
 					</div>
 				</div>
-			</div>
 	  <div class='row'>
 		<div class='container-fluid'>
 		<div style='text-align:right;' class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
@@ -1330,6 +1329,7 @@
 				<div style='height:370px;'></div>
 		</div>
 		</div>
+	  </div>
 	  </div>
 	   </div>
 	  </div>
@@ -1867,7 +1867,7 @@ $('#precioprof,#totalprof').on("click",function(){
   }
 }*/
 $(document).ready(function(){
-	$('#popupclientefe').show('',function(){
+	$('#popupclientefe').show('fast',function(){
 		if(localStorage.getItem('con_profesionales')=='true'){
 			$('#menuSubNew1,#menuSubNew2').css('display','none');
 		}
@@ -2037,5 +2037,27 @@ function ConsumidorFinal(){
 	$('#cedulaP').val('9999999999999');
 	//BuscarCliente(13);
 	jsonNuevoCliente()
+}
+
+function ClientesDatos(){
+	/*$('#antescliente').css('display','none'); 
+	$('#divdatosclientefiferente').fadeIn('fast',function(){
+		alert('hola'+$(window).height()+"/"+$(window).width());
+	});*/
+	$('#antescliente').css('display','none');
+	$('#divdatosclientefiferente').css('display','');
+	//$('#divdatosclientefiferente').css('height',screen.height);
+	$('#divdatosclientefiferente').height($('#popupclientefe').height());
+	//alert($('#divdatosclientefiferente').length+"/"+$('#divdatosclientefiferente').css('top')+"/"+$('#divdatosclientefiferente').css('left')+"/"+$('#divdatosclientefiferente').css('position'));
+	//$('#divdatosclientefiferente').css('width',screen.width);
+	//$('#divdatosclientefiferente').width(parseFloat($('#popupclientefe').width()));
+	//alert($('#popupclientefe').width()+"/"+$('#popupclientefe').height()+"/"+$('#divdatosclientefiferente').css('height')+'/'+$('#divdatosclientefiferente').css('width')+$('#divdatosclientefiferente').length);
+	/*document.getElementById("divdatosclientefiferente").style.height=screen.height+'px';
+	document.getElementById("divdatosclientefiferente").style.width=screen.width+'px';*/
+	//alert($('#divdatosclientefiferente').height()+"/"+$('#divdatosclientefiferente').width());
+	
+	//$('#antescliente').fadeOut('fast');
+	$('#antescliente').css('display','none');
+	//alert('hola'+$('#divdatosclientefiferente').height()+"/"+$('#divdatosclientefiferente').width()+"/"+$('#divdatosclientefiferente').length);
 }
 </script>
